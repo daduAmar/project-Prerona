@@ -21,7 +21,6 @@
       $class = $_POST["class"];
       $disability = $_POST["disabilityType"];
       $admissionDate = $_POST["admissionDate"];
-      $admissionFee = $_POST["admissionFee"];
       $hostel = $_POST["hostel"];
       $transpotation = $_POST["transpotation"];
       $incomeGroup = $_POST["incomeGroup"];
@@ -33,12 +32,12 @@
 
       //echo $stdAge;
       // Prepare an insert statement
-      $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, class, disabilityType, dateOfAdmission, admissionFee, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       
       if($stmt = mysqli_prepare($conn, $sql)){
          
           // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issssssisssssssssisssisssi", $schemeId, $name, $bDate, $bPlace, $fatherName, $motherName, $gender, $stdAge, $religion, $caste, $address, $state, $district, $zip, $class, $disability, $admissionDate, $admissionFee, $hostel, $transpotation, $incomeGroup, $bankAcNo, $bankIFSC, $bankBranch, $iCard, $aadharNo);
+          mysqli_stmt_bind_param($stmt, "issssssissssssssssssisssi", $schemeId, $name, $bDate, $bPlace, $fatherName, $motherName, $gender, $stdAge, $religion, $caste, $address, $state, $district, $zip, $class, $disability, $admissionDate, $hostel, $transpotation, $incomeGroup, $bankAcNo, $bankIFSC, $bankBranch, $iCard, $aadharNo);
         
           mysqli_stmt_execute($stmt);
 
@@ -51,7 +50,7 @@
           if($hostel == 'Yes'){
             header("Location: hostelAdmission.php");
           }else {
-            header("Location: Std_dtls.php");
+            header("Location: upload.php");
           }
           
       } else{

@@ -114,6 +114,16 @@ if(!isset($_SESSION['username'])){
     $totalRow = mysqli_num_rows($result);
 
   ?>
+  <?php
+
+    $sql = "SELECT * FROM students_Info";
+
+    $result = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+    $rowCount = mysqli_num_rows($result);
+
+  ?>
 
   <br>
   <section id="home_section">
@@ -124,9 +134,9 @@ if(!isset($_SESSION['username'])){
             <div class="card-body">
               <h3>Students</h3>  
               <h4 class="display-4">
-              <i class="fas fa-wheelchair"></i> 6
+              <i class="fas fa-wheelchair mr-3"></i><?php echo $rowCount; ?>
               </h4>
-              <a href="#" class="btn btn-outline-light btn-sm">View</a>
+              <a href="studentsView.php" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
         </div>
@@ -160,7 +170,6 @@ if(!isset($_SESSION['username'])){
   <?php require "includes/footer.php"; ?>
 
   <!-- bootstrap script -->
-  <!-- <script src="scripts/UnameEmail.js"></script> -->
   <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>

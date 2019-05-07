@@ -20,4 +20,5 @@ require_once "MyUtil.php";
 	//return json response back to client
 	echo json_encode(array(
 		'email-response' => $emailResponse
-  ));
+	));
+?>	

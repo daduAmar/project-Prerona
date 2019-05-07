@@ -7,6 +7,6 @@ body{
 }
 
 #main-header{
-  background-image: linear-gradient(to right, #4848e3, #4142e1, #3a3dde, #3237dc,
-   #2931d9, #1f35d8, #1339d8, #003cd7, #0047d6, #0051d5, #065ad2, #1c62cf);
+  background-image: linear-gradient(to right, #4848e3, #4142e1, #3a3dde, #3237dc, #2931d9, #1f35d8, #1339d8, #003cd7, #0047d6, #0051d5, #065ad2,
+    #1c62cf);
 }

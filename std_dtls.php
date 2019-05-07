@@ -77,40 +77,11 @@
   </header>
 
 
-  <!-- ACTIONS -->
-  <section id="actions" class="">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <!-- <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addPostModal">
-            <i class="fas fa-plus"></i> Add Student
-          </a> -->
-        </div>
-        <div class="col-md-3">
-          <!-- <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addCategoryModal">
-            <i class="fas fa-plus"></i> Add Hostel
-          </a> -->
-        </div>
-        <div class="col-md-3">
-          <!-- <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addUserModal">
-            <i class="fas fa-plus"></i> Add User
-          </a> -->
-        </div>
-        <div class="col-md-3">
-          <!-- <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#addUserModal">
-            <i class="fas fa-plus"></i> DDRC
-          </a> -->
-        </div>
-      </div>
-    </div>
-  </section>
-
-
   <!-- body SECTION -->
   <section id="body-section">
       <div class="container mt-4>
         <div class="row">
-          <div class="col-lg-6 offset-lg-3 border border-dark rounded pt-3 mt-5 bg-light">
+          <div class="col-lg-6 offset-lg-3 border border-dark rounded shadow-lg p-3 mb-5 bg-white rounded pt-3 mt-5 bg-light">
             <form method="post" action="Std_details_submit.php" id="form">
               <div class="mb-4">
                 <label for="scheme">Select Scheme</label>
@@ -239,10 +210,7 @@
                 <input type="date" class="form-control" name="admissionDate" id="admissionDate">
               </div>
 
-              <div class="form-group" >
-                <label for="admissionFee">Admission Fees</label>
-                <input type="text" class="form-control" name="admissionFee" id="admissionDate" placeholder="Enter admission fee">
-              </div>
+              
 
               <div class="row">  
                 <div class="mb-4 col">

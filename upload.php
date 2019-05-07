@@ -2,8 +2,8 @@
   session_start();
   include_once "includes/connect.php";
   global $std_Id;
-  // $std_Id = $_SESSION['std_id'];
-
+  $std_Id = $_SESSION['std_id'];
+  //  $std_Id = 27;
     if(isset($_POST['submit'])){
 
       //photo
@@ -73,15 +73,17 @@
 
         $photoDestination = checkFile($photoTmpName, $photoActualExt, $allowedType1, $photoError, $photoSize, 'JPG/JPEG', 'Photo');
         
-      }else {
+      } else {
+       $photoDestination = '';
        echo "Choose applicant's photo!<br>";
       }
 
       if(!empty($birthCertiName)){
 
         $birthDestination = checkFile($birthCertiTmpName, $birthCertiActualExt, $allowedType2, $birthCertiError, $birthCertiSize, 'JPG/JPEG/PDF/DOCX', 'Birth Certificate');
-        
-      }else {
+      
+      } else {
+        $birthDestination = '';
         echo "Choose applicant's Birth Certificate!<br>";
       }
 
@@ -98,6 +100,7 @@
         $disabilityDestination = checkFile($disabilityTmpName, $disabilityActualExt, $allowedType2, $disabilityError, $disabilitySize,  'JPG/JPEG/PDF/DOCX', 'Disability Certificate');
 
       }else {
+        $disabilityDestination = '';
         echo "Choose  applicant's Disability Certificate!<br>";
       }
 
@@ -106,6 +109,7 @@
         $incomeDestination = checkFile($incomeTmpName, $incomeActualExt, $allowedType2, $incomeError, $incomeSize, 'JPG/JPEG/PDF/DOCX', 'Income Certificate');
         
       }else {
+        $incomeDestination = '';
         echo "Choose  applicant's Parent Income Certificate!<br>";
       }
 
@@ -117,35 +121,72 @@
         $bplDestination = '';
       }
       
+      $is_Ok = false;
+
       if(!empty($photoDestination) && !empty($birthDestination) || !empty($casteDestination) && !empty($casteDestination) && !empty($incomeDestination) || !empty($bplDestination)){
 
-        //$std_Id = 1;
         if(empty($casteDestination) && empty($bplDestination)){
             
           insertFun_No_Caste_Bpl($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $incomeDestination);
+          $is_Ok = true;
 
         }elseif(!empty($casteDestination) && empty($bplDestination)){
           
           insertFun($conn, $std_Id, $photoDestination, $birthDestination,  $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
+          $is_Ok = true;
 
         }elseif (empty($casteDestination) && !empty($bplDestination)) {
 
           insertFun($conn, $std_Id, $photoDestination, $birthDestination, $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
+          $is_Ok = true;
 
         }else {
 
           insertFun($conn, $std_Id, $photoDestination, $birthDestination, $casteDestination,$disabilityDestination, $incomeDestination, $bplDestination);
+          $is_Ok = true;
 
         }
-      }     
+      }
+
+
+      //therapy insertion
+      if(!empty($_POST['check_list']) && $is_Ok === true){
+
+        $therapy_list = [];
+
+        foreach($_POST['check_list'] as $selected){
+          array_push($therapy_list, $selected);
+        }
+        
+        if(in_array(1, $therapy_list) && in_array(2, $therapy_list)){
+
+          $sql = "INSERT INTO therapyRecipient (std_Id, therapy_Id) VALUES
+                      ($std_Id, $therapy_list[0]),($std_Id, $therapy_list[1])";
+                
+          mysqli_query($conn, $sql);
+      
+        }else {
+
+          if(in_array(1, $therapy_list) || in_array(2, $therapy_list)){
+
+            $sql = "INSERT INTO therapyRecipient (std_Id, therapy_Id) VALUES($std_Id, $therapy_list[0])";
+                
+          mysqli_query($conn, $sql);
+
+          }
+
+        }
+        
+      }
     }
-  function checkFile($fileTemName, $extension, $fileType, $fileError, $fileSize,  $format, $file){
+    
+    function checkFile($fileTemName, $extension, $fileType, $fileError, $fileSize,  $format, $file){
 
     if(in_array($extension, $fileType)){
 
       if($fileError === 0){
         
-        if($fileSize < 2000000){
+        if($fileSize < 5000000){
 
          $fileNameNew = uniqid('',true).".".$extension;
           
@@ -307,14 +348,7 @@
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-5 bg-primary text-white">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          
-        </div>
-      </div>
-    </div>
+  <header id="main-header" class="py-5 bg-primary text-white" style="">
   </header>
 
   <!-- SEARCH -->
@@ -339,29 +373,25 @@
       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
 
         <!-- therapy -->
-        <div class="card">
+        <div class="card shadow p-3 mb-5 bg-white rounded"">
           <div class="card-body">
-             
             <div class="custom-control custom-switch">
               <input type="checkbox" onchange="showCheckBox(this.checked)" class="custom-control-input" id="switch" >
               <label class="custom-control-label font-weight-bold text-monospace" for="switch">Whether applicant need any therapy?</label>
             </div>
-
-            <div class="mb-4 mt-4" id="therapy">
-              <select class="custom-select custom-select-sm" name="therapy" >
-                  <option selected>Select</option>
-                <?php foreach ($rows as $row): ?>
-                  
-                  <option value="<?php echo $row[0] ?>"> <?php echo $row[1] ?> </option>
-
-                <?php endforeach; ?>
-              </select>
+            <div id="therapy" class="ml-3 mt-3">
+              <?php foreach ($rows as $row): ?>
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="checkbox" name="check_list[]" id="inlineCheckbox1" value="<?php echo $row[0]; ?>">
+                  <label class="form-check-label" for="inlineCheckbox1"><?php echo $row[1]; ?></label>
+                </div>
+              <?php endforeach; ?>
             </div>
           </div>
         </div>
 
         <!-- docs input -->
-        <div class="card mt-5">
+        <div class="card mt-5 shadow-lg p-3 mb-5 bg-white rounded">
           <div class="card-body">
           <p class="text-dark text-muted font-weight-bold text-monospace mt-3 id="heading">Provide the following documents of the applicant</p>   
             <div class="custom-file mt-4 mb-5">
@@ -415,7 +445,7 @@
   <?php require "includes/footer.php"; ?>
                 
    <!-- bootstrap script -->
-   <script src="scripts/therapy.js"></script>
+   <script src="scripts/thpy.js"></script>
    <script src="JS/bootstrapJquery.js"></script>
    <script src="JS/bootstrap.bundle.min.js"></script>
    <script src="JS/bootstrap.min.js"></script>

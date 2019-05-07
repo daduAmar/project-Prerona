@@ -136,7 +136,7 @@
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text text-primary">
-                          <i class="fas fa-user-lock"></i>
+                          <i class="fas fa-key"></i>
                           </span>
                         </div>
                       <input type="password" class="form-control" name="pass" id="password1" placeholder="Password">
@@ -177,7 +177,9 @@
                   <div class="form-group">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text text-success"> @ </span>
+                        <span class="input-group-text text-success">
+                        <i class="fas fa-at"></i>
+                        </span>
                       </div>
                     <input type="email" class="form-control input" name="email" id="uEmail" placeholder="Email">
                       <div class="input-group-append" id="errorIconEm">
@@ -190,7 +192,7 @@
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text text-success">
-                          <i class="fas fa-user-lock"></i>
+                        <i class="fas fa-key"></i>
                         </span>
                     </div>
                   <input type="password" class="form-control" name="pswd" id="password" placeholder="Enter Password">

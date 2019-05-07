@@ -2,26 +2,27 @@
   session_start();
   include_once "includes/connect.php";
   $std_Id = $_SESSION['std_id'];
+  // $std_Id = 27;
 
   if(isset($_POST["submit"])){
 
     $paidAdFee = $_POST["payFee"];
-    $monthlyFee = $_POST["monthFee"];
     $feeDate = $_POST["admDate"];
     $roomNo = $_POST["roomNo"];
     $hst_Id = 1;
 
     // Prepare an insert statement
-    $sql = "INSERT INTO hostelAdmission (std_Id, hst_Id, paidAdmissionFee, paidMonthlyFee, admissionDate, roomNo) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO hostelAdmission (std_Id, hst_Id, paidAdmissionFee, admissionDate, roomNo) VALUES (?, ?, ?, ?, ?)";
 
     if($stmt = mysqli_prepare($conn, $sql)){
          
       // Bind variables to the prepared statement as parameters
-      mysqli_stmt_bind_param($stmt, "iiiisi", $std_Id, $hst_Id, $paidAdFee, $monthlyFee, $feeDate, $roomNo);
+      mysqli_stmt_bind_param($stmt, "iiisi", $std_Id, $hst_Id, $paidAdFee, $feeDate, $roomNo);
     
       mysqli_stmt_execute($stmt);
       
-      echo "Records inserted successfully.";
+      // echo "Records inserted successfully.";
+      header("Location: upload.php");
       
     } else{
       echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
@@ -147,21 +148,11 @@
           <input type="text" class="form-control" id="aFee" name="admFee" value="<?php echo $row[1]; ?>" disabled>
         </div>
 
-        <div class="form-group" >
-          <label>Monthly Fee</label>
-          <input type="text" class="form-control" id="monFee" name="monthlyFee" value="<?php echo $row[2]; ?>" disabled>
-        </div>
-
         <?php endforeach;  ?>
         
         <div class="form-group" >
           <label>Payable Admission Fee</label>
           <input type="number" class="form-control" id="pFee" name="payFee" placeholder="Payable Fee Amount">
-        </div>
-
-        <div class="form-group" >
-          <label>Payable Monthly Fee</label>
-          <input type="number" class="form-control" id="mFee" name="monthFee" placeholder="Payable Monthly Amount">
         </div>
 
         <div class="form-group" >
@@ -184,14 +175,9 @@
   <?php require "includes/footer.php"; ?>
   
    <!-- bootstrap script -->
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-   <script src="JS/popper.min.js"></script>
-   <script src="JS/bootstrap.min.js"></script>
-
-    
-   <script>
-            $('#admDate').dateDropper();
-    </script>
+   <script src="JS/bootstrapJquery.js"></script>
+  <script src="JS/popper.min.js"></script>
+  <script src="JS/bootstrap.min.js"></script>
         
 </body>
 </html>

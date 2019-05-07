@@ -1,8 +1,6 @@
-
- var d = new Date();
- let year = d.getFullYear();
- document.querySelector('#year').innerHTML = '<em>' + year + '<em>';
-alert('hi');
+var d = new Date();
+let year = d.getFullYear();
+document.querySelector('#year').innerHTML = '<em>' + year + '<em>';
  
  
 
