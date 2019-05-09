@@ -81,7 +81,10 @@
     <header id="main-header">
       <div class="row no-gutters">
         <div class="col-lg-3 col-md-5">
-          <img src="<?php echo $row[2]; ?>"  alt="">
+            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
+            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260"
+            class="img-fluid img-thumbnail"> 
+            </a>
         </div>
         <div class="col-lg-9 col-md-7">
           <div class="d-flex flex-column">
@@ -175,7 +178,7 @@
                 Caste : <?php echo ucfirst($rowR[10]) ; ?>
               </p>
               <p class="p-1 mb-2 bg-dark text-white">
-                Income Group : <?php echo ucfirst($rowR[22]) ; ?>
+                Income Group : <?php echo ucfirst($rowR[23]) ; ?>
               </p>
             </div>
           </div>
@@ -183,17 +186,17 @@
             <div class="card-body">
               <h5 class="card-title">I-Card Number & Aadhar Number</h5>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Identity Number : <?php echo ucfirst($rowR[26]) ; ?>
+                  Identity Number : <?php echo ucfirst($rowR[27]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Aadhar Number : <?php echo ucfirst($rowR[27]) ; ?>
+                  Aadhar Number : <?php echo ucfirst($rowR[28]) ; ?>
                 </p>
             </div>
           </div>
           <div class="card bg-primary text-white text-center">
             <h5 class="card-title text-dark font-weight-bolder pt-1">Address</h5>
               <blockquote class="blockquote mb-0">
-              <p class="text-white">
+              <p class="text-dark font-weight-bold font-italic">
                 <?php echo ucfirst($rowR[11]) ; ?>
               
               </p>
@@ -239,13 +242,13 @@
             <div class="card-body">
               <h5 class="card-title">Bank Details</h5>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  A/c Number : <?php echo ucfirst($rowR[23]) ; ?>
+                  A/c Number : <?php echo ucfirst($rowR[24]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  IFSC : <?php echo ucfirst($rowR[24]) ; ?>
+                  IFSC : <?php echo ucfirst($rowR[25]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Branch : <?php echo ucfirst($rowR[25]) ; ?>
+                  Branch : <?php echo ucfirst($rowR[26]) ; ?>
                 </p>
             </div>
           </div>
@@ -290,23 +293,26 @@
         <h3></h3>
         <div class="row no-gutters">
           <div class="col-md-3">
-          <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=252" alt="" class="img-fluid">
+            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
+            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
             </a>
           </div>
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=253" alt="" class="img-fluid">
+            <a href="<?php echo $row[3]; ?>">
+            <img src="img/pdficon.png" width="267" height="220" alt="<?php pathinfo($row[3], PATHINFO_FILENAME); ?>">
+            </a>
+            <button type="button" class="btn btn-outline-dark btn-sm btn-block">Download</button>
+          </div>
+          
+          <div class="col-md-3">
+            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
+            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
             </a>
           </div>
+
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=254" alt="" class="img-fluid">
-            </a>
-          </div>
-          <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=255" alt="" class="img-fluid">
+            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
+            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
             </a>
           </div>
         </div>

@@ -77,12 +77,13 @@
        $photoDestination = '';
        echo "Choose applicant's photo!<br>";
       }
-
+      
       if(!empty($birthCertiName)){
 
         $birthDestination = checkFile($birthCertiTmpName, $birthCertiActualExt, $allowedType2, $birthCertiError, $birthCertiSize, 'JPG/JPEG/PDF/DOCX', 'Birth Certificate');
       
       } else {
+        
         $birthDestination = '';
         echo "Choose applicant's Birth Certificate!<br>";
       }

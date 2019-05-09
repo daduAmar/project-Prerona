@@ -3,7 +3,7 @@
     include_once "includes/connect.php";
     $sql="SELECT * FROM scheme";
     $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
-    //var_dump($results);
+   
     
 ?>
 

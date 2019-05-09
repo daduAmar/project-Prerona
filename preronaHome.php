@@ -119,13 +119,12 @@
             <!-- signin_form -->
               <div class="card bg-primary text-center card-form">
                 <div class="card-body">
-                  <!-- <h3>Sign Up Here...</h3> -->
                   <p>Enter your credentials to sign in...</p>
                   <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text text-primary">
+                          <span class="input-group-text bg-primary text-white">
                           <i class="fas fa-user"></i>
                           </span>
                         </div>
@@ -135,7 +134,7 @@
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text text-primary">
+                          <span class="input-group-text bg-primary text-white">
                           <i class="fas fa-key"></i>
                           </span>
                         </div>
@@ -163,7 +162,7 @@
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text text-success">
+                        <span class="input-group-text bg-success text-white">
                         <i class="fas fa-user-plus"></i>
                         </span>
                       </div>  
@@ -177,7 +176,7 @@
                   <div class="form-group">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text text-success">
+                        <span class="input-group-text bg-success text-white">
                         <i class="fas fa-at"></i>
                         </span>
                       </div>
@@ -191,7 +190,7 @@
                   <div class="form-group">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text text-success">
+                        <span class="input-group-text bg-success text-white">
                         <i class="fas fa-key"></i>
                         </span>
                     </div>
@@ -200,7 +199,7 @@
                   <div class="form-group">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text text-success">
+                        <span class="input-group-text bg-success text-white">
                           <i class="fas fa-lock"></i>
                         </span>
                       </div>
