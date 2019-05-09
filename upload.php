@@ -2,8 +2,8 @@
   session_start();
   include_once "includes/connect.php";
   global $std_Id;
-  $std_Id = $_SESSION['std_id'];
-  //  $std_Id = 27;
+  //$std_Id = $_SESSION['std_id'];
+     $std_Id = 31;
     if(isset($_POST['submit'])){
 
       //photo
@@ -436,6 +436,9 @@
           <div class="col">
           <button type="reset" class="btn btn-primary btn-block">Reset</button>
           </div>
+          <div class="col">
+          <button type="submit" name="next" class="btn btn-primary btn-block" onclick="pageTransition()" id="nextPg">Next</button>
+          </div>
         </div>
       </form>  
     </div>
@@ -446,6 +449,7 @@
   <?php require "includes/footer.php"; ?>
                 
    <!-- bootstrap script -->
+   <script src="scripts/pageTransition.js"></script>
    <script src="scripts/thpy.js"></script>
    <script src="JS/bootstrapJquery.js"></script>
    <script src="JS/bootstrap.bundle.min.js"></script>
