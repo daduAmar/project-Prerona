@@ -62,7 +62,7 @@
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white">
+  <header id="main-header" class="py-2 bg-info text-white">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -80,7 +80,7 @@
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search Student...">
             <div class="input-group-append">
-              <button class="btn btn-primary">Search</button>
+              <button class="btn btn-info">Search</button>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
   <?php
     //require_once "includes/connect.php";
 
-    $sql = "SELECT * FROM students_Info WHERE scheme_id = 2";
+    $sql = "SELECT * FROM students_Info WHERE scheme_id = 2 AND active = 1";
 
     $result = mysqli_query($conn, $sql)
           or die("Error in fetching records");
@@ -99,12 +99,21 @@
 
 
 
-    $query = "SELECT * FROM students_Info WHERE scheme_id = 1";
+    $query = "SELECT * FROM students_Info WHERE scheme_id = 1 AND active = 1";
 
     $rslt = mysqli_query($conn, $query)
           or die("Error in fetching records");
 
     $totRow = mysqli_num_rows($rslt);
+
+
+    // passed out student count            
+    $query = "SELECT * FROM students_Info WHERE active = 0";
+
+    $rslts = mysqli_query($conn, $query)
+          or die("Error in fetching records");
+
+    $totRowP = mysqli_num_rows($rslts);
 
   ?>
   <!-- students -->
@@ -114,13 +123,20 @@
         <div class="col">
           <div class="card">
             <div class="card-header">
-                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ssTab" aria-expanded="false" aria-controls="ssTab">
-                  Special School <span class="badge badge-light"><?php echo $totalRow; ?></span>
-                  </button>
-                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#dTab" aria-expanded="false" aria-controls="dTab">
-                   Disha <span class="badge badge-light"><?php echo $totRow; ?></span>
-                  </button>
+                <!-- special school -->
+              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#ssTab" aria-expanded="false" aria-controls="ssTab">
+                Special School <span class="badge badge-light"><?php echo $totalRow; ?></span>
+              </button>
+                <!-- disha -->
+              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#dTab" aria-expanded="false" aria-controls="dTab">
+                Disha <span class="badge badge-light"><?php echo $totRow; ?></span>
+              </button>
+                <!-- passed out -->
+              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#psdTab" aria-expanded="false" aria-controls="psdTab">
+               Passed Out <span class="badge badge-light"><?php echo $totRowP; ?></span>
+              </button>
             </div>
+              <!-- special school collapse -->
             <div class="collapse" id="ssTab">
               <div class="card card-body">
                 <table class="table table-striped">
@@ -134,7 +150,7 @@
                   <tbody>
                   <?php 
         
-                    $sql = "SELECT * FROM students_Info WHERE scheme_id = 2";
+                    $sql = "SELECT * FROM students_Info WHERE scheme_id = 2 AND active = 1";
 
                     $result = mysqli_query($conn, $sql)
                           or die("Error in fetching records");
@@ -146,12 +162,16 @@
                   ?>
                   <?php  foreach ($rows as $row): ?>
                     <tr>
-                      <td class="text-center"><?php echo $row[2]; ?></td>
+                      <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
                       <td class="text-center"><?php echo $row[18]; ?></td>
                       <td class="text-center">
-                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-primary">
-                      <i class="fas fa-angle-double-right"></i> View More
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
+                      <i class="fas fa-angle-double-right"></i> More Details
                       </a>
+                      </td>
+                      <td class="text-center">
+                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger">
+                      <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
                       </td>
                     </tr>
                   <?php endforeach; ?> 
@@ -159,6 +179,7 @@
                 </table>   
               </div>
             </div>
+             <!-- disha collapse -->
             <div class="collapse" id="dTab">
               <div class="card card-body">
                 <table class="table table-striped">
@@ -171,7 +192,7 @@
                   </thead>
                   <tbody>
                   <?php 
-                      $sql = "SELECT * FROM students_Info WHERE scheme_id = 1";
+                      $sql = "SELECT * FROM students_Info WHERE scheme_id = 1 AND active = 1";
 
                       $result = mysqli_query($conn, $sql)
                             or die("Error in fetching records");
@@ -183,11 +204,53 @@
                   ?>
                    <?php  foreach ($rows as $row): ?>
                     <tr>
-                      <td class="text-center"><?php echo $row[2]; ?></td>
+                      <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
                       <td class="text-center"><?php echo $row[18]; ?></td>
                       <td class="text-center">
-                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-primary">
-                      <i class="fas fa-angle-double-right"></i> View More
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning"
+                      <i class="fas fa-angle-double-right"></i> More Details
+                      </a>
+                      </td>
+                      <td class="text-center">
+                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger">
+                      <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?> 
+                  </tbody>
+                </table>   
+              </div>
+            </div>
+             <!-- passed out collapse -->
+            <div class="collapse" id="psdTab">
+              <div class="card card-body">
+                <table class="table table-striped">
+                  <thead class="thead-dark">
+                    <tr>
+                    <th class="text-center">Name</th>
+                      <th class="text-center">Admission Date</th>
+                      <th class="text-center" colspan="2">Action</th>
+                    </tr>  
+                  </thead>
+                  <tbody>
+                  <?php 
+                      $sql = "SELECT * FROM students_Info WHERE active = 0";
+
+                      $result = mysqli_query($conn, $sql)
+                            or die("Error in fetching records");
+                      $rows = mysqli_fetch_all($result);
+                        
+                      if ($result === false) {
+                          exit("Couldn't execute the query." . mysqli_error($conn));
+                      } 
+                  ?>
+                   <?php  foreach ($rows as $row): ?>
+                    <tr>
+                      <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
+                      <td class="text-center"><?php echo $row[18]; ?></td>
+                      <td class="text-center">
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
+                      <i class="fas fa-angle-double-right"></i> More Details
                       </a>
                       </td>
                     </tr>

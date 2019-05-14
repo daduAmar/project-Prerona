@@ -1,7 +1,11 @@
 <?php
-
-    require_once "includes/connect.php";
     session_start();
+    require_once "includes/connect.php";
+    
+
+    if(isset($_SESSION['username'])){
+      header("Location: adminHome.php");
+    }
 
     if(isset($_POST["submit"])){
     $username = $_POST['userName'];

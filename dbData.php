@@ -17,6 +17,7 @@
         $result = mysqli_stmt_get_result($stmt);
 
         $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
   
         $data['data'] = array();
   

@@ -1,6 +1,6 @@
 <?php
  session_start();
-
+ 
 if(!isset($_SESSION['username'])){
   header("Location: preronaHome.php");
 }
@@ -80,22 +80,17 @@ if(!isset($_SESSION['username'])){
       <div class="row">
         <div class="col-md-3">
           <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addPostModal">
-            <i class="fas fa-plus"></i> Add Student
+            <i class="fas fa-plus"></i> Add Hostel
           </a>
         </div>
         <div class="col-md-3">
           <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addCategoryModal">
-            <i class="fas fa-plus"></i> Add Hostel
+            <i class="fas fa-plus"></i> Add Therapy
           </a>
         </div>
         <div class="col-md-3">
           <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addUserModal">
             <i class="fas fa-plus"></i> Add User
-          </a>
-        </div>
-        <div class="col-md-3">
-          <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#addUserModal">
-            <i class="fas fa-plus"></i> DDRC
           </a>
         </div>
       </div>
@@ -130,7 +125,7 @@ if(!isset($_SESSION['username'])){
     <div class="container mt-4">
       <div class="row">
         <div class="col-md-4">
-          <div class="card text-center bg-primary text-white mb-3">
+          <div class="card text-center bg-info text-white mb-3">
             <div class="card-body">
               <h3>Students</h3>  
               <h4 class="display-4">

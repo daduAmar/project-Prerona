@@ -112,12 +112,12 @@
             </div>
 
             <div class="p-4 bg-black text-center display-5 font-weight-bolder">
-            <?php echo $fRow[0]; ?>
+            <?php echo strtoupper($fRow[0]); ?>
             </div>
 
             <div>
               <div class="d-flex flex-row text-white align-items-stretch text-center">
-                <div class="port-item p-4 bg-primary" data-toggle="collapse" data-target="#bio">
+                <div class="port-item p-4 bg-info" data-toggle="collapse" data-target="#bio">
                 <i class="fas fa-book-reader fa-2x"></i>
                   <span class="d-none d-sm-block">Bio</span>
                 </div>
@@ -142,7 +142,7 @@
 
     <!-- bio -->
     <div id="bio" class="collapse">
-      <div class="card card-body bg-primary text-white py-5">
+      <div class="card card-body bg-info text-white py-5">
         <h2>Bio</h2>
       </div>
 
@@ -288,7 +288,7 @@
       <div class="card card-body bg-warning text-white py-5">
         <h2>Docs</h2>
       </div>
-
+      
       <div class="card card-body py-5">
         <h3></h3>
         <div class="row no-gutters">
@@ -297,37 +297,120 @@
             <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
             </a>
           </div>
+
+          <?php 
+            $dpath=$row[3];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
+
           <div class="col-md-3">
-            <a href="<?php echo $row[3]; ?>">
-            <img src="img/pdficon.png" width="267" height="220" alt="<?php pathinfo($row[3], PATHINFO_FILENAME); ?>">
-            </a>
-            <button type="button" class="btn btn-outline-dark btn-sm btn-block">Download</button>
+            <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[3]; ?>">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[3], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[3]; ?>">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[3], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[3]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[3]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
+
+          <?php 
+            $dpath=$row[4];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
           
           <div class="col-md-3">
-            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
-            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
-            </a>
+            <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[4]; ?>" data-toggle="lightbox">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[4], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[4]; ?>" data-toggle="lightbox">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[4], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[4]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[4]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
 
+          <?php 
+            $dpath=$row[5];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
+
           <div class="col-md-3">
-            <a href="<?php echo $row[2]; ?>" data-toggle="lightbox">
-            <img src="<?php echo $row[2]; ?>" alt="" width="267" height="260">
-            </a>
+            <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[5]; ?>">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[5], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[5]; ?>">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[5], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[5]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[5]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
-        </div>
+        </div>  
 
         <div class="row no-gutters">
+
+          <?php 
+            $dpath=$row[6];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
+
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=256" alt="" class="img-fluid">
-            </a>
+            <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[6]; ?>">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[6], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[6]; ?>">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[6], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[6]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[6]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
+
+          <?php 
+            $dpath=$row[7];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
+
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=257" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=257" alt="" class="img-fluid">
-            </a>
+            <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[7]; ?>">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[7], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[7]; ?>">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[7], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[7]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[7]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
+
           <div class="col-md-3">
             <a href="https://unsplash.it/1200/768.jpg?image=258" data-toggle="lightbox">
               <img src="https://unsplash.it/600.jpg?image=258" alt="" class="img-fluid">

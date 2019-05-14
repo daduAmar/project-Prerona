@@ -1,0 +1,38 @@
+#con{
+  border: 2px solid #0b1525;
+  border-radius: 15px;
+  background:	#0b1525;
+  color: white;
+}
+
+#con input[type = "text"], #con input[type = "number"],  #con input[type = "submit"]{
+  border-radius: 24px;
+  border: 2px solid #2abb67;
+  color: white;
+  background: #10203a;
+  text-align: center;
+}
+
+#con button{
+  border-radius: 24px;
+  color: #ebefd0;
+  background: #10203a;
+  border: 2px solid #2abb67;
+}
+
+#con button:hover, #con input[type = "submit"]:hover, #con input[type = "number"]:hover, #con input[type = "text"]:hover{
+  border-color:  #318ecc;
+}
+
+form{
+  text-align: center;
+}
+
+body{
+  background: #384f66;
+}
+
+#main-header{
+  background-image: linear-gradient(to right, #4848e3, #4142e1, #3a3dde, #3237dc, #2931d9, #1f35d8, #1339d8, #003cd7, #0047d6, #0051d5, #065ad2,
+    #1c62cf);
+}

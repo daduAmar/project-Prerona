@@ -65,7 +65,7 @@
   </nav>
 
    <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white mb-4">
+  <header id="main-header" class="py-2 bg-primary text-white">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -77,9 +77,9 @@
   </header>
 
 
-  <!-- body SECTION -->
-  <section id="body-section">
-      <div class="container mt-4>
+    <!-- body SECTION -->
+    <section id="body-section">
+      <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-3 border border-dark rounded shadow-lg p-3 mb-5 bg-white rounded pt-3 mt-5 bg-light">
             <form method="post" action="Std_details_submit.php" id="form">
@@ -108,7 +108,7 @@
 
                 <div class="form-group col">
                   <label class="text-center">Age</label>
-                  <input type="number" readonly class="form-control-plaintext" name="stdAge" id="age">
+                  <input type="number" readonly class="form-control-plaintext" name="stdAge" id="age" >
                   <small class="text-muted">Enter Date Of Birth to calculate age!</small>
                 </div>
               </div>  
@@ -275,7 +275,7 @@
           </div>  
         </div>   
       </div>
-  </section>
+    </section>
  
   
   <!-- FOOTER -->
@@ -284,8 +284,8 @@
   <!-- bootstrap script -->
   <script src="scripts/age.js"></script>
   <script src="scripts/tweaks.js"></script>
-  <script src="JS/bootstrap.min.js"></script>
   <script src="JS/bootstrapJquery.js"></script>
-  <script src="JS/popper.min.js"></script>
+<script src="JS/popper.min.js"></script>
+<script src="JS/bootstrap.min.js"></script>
 </body>
 </html>

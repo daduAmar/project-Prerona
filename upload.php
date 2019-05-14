@@ -2,8 +2,8 @@
   session_start();
   include_once "includes/connect.php";
   global $std_Id;
-  //$std_Id = $_SESSION['std_id'];
-     $std_Id = 31;
+  $std_Id = $_SESSION['std_id'];
+     //$std_Id = 31;
     if(isset($_POST['submit'])){
 
       //photo
@@ -349,7 +349,14 @@
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-5 bg-primary text-white" style="">
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Therapy & Docs</h1>
+        </div>
+      </div>
+    </div>
   </header>
 
   <!-- SEARCH -->
@@ -431,13 +438,13 @@
         <br>
         <div class="row">
           <div class="col">
-            <button type="submit" class="btn btn-primary btn-block" name="submit">Upload</button>
+            <button type="submit" id="sub" class="btn btn-primary btn-block" name="submit" onclick="activeBtn()">Upload</button>
           </div>
           <div class="col">
           <button type="reset" class="btn btn-primary btn-block">Reset</button>
           </div>
           <div class="col">
-          <button type="submit" name="next" class="btn btn-primary btn-block" onclick="pageTransition()" id="nextPg">Next</button>
+          <button type="button" name="next" class="btn btn-primary btn-block" onclick="pageTransition()" id="nextPg">Next</button>
           </div>
         </div>
       </form>  
