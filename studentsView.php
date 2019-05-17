@@ -207,7 +207,7 @@
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
                       <td class="text-center"><?php echo $row[18]; ?></td>
                       <td class="text-center">
-                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning"
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
                       </a>
                       </td>

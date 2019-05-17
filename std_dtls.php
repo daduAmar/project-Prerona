@@ -12,7 +12,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="CSS/bootstrap.min.css" > 
-  <link rel="stylesheet" href="CSS/admin.page.css" > 
+  <link rel="stylesheet" href="CSS/stdReg.css" > 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <title>sDetails</title>
 </head>
@@ -85,12 +85,12 @@
             <form method="post" action="Std_details_submit.php" id="form">
               <div class="mb-4">
                 <label for="scheme">Select Scheme</label>
-                <select class="custom-select custom-select-lg" name="scheme_Id" id="scheme" onchange="showInputFields(this.id)">
+                <select class="custom-select custom-select-lg" id="scheme" name="scheme_Id"  onchange="showInputFields(this.id)">
                     <option selected>Select a scheme</option>
                   <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     
                     <option value="<?php echo $row['scheme_Id'] ?>"> <?php echo $row['schemeName'] ?> </option>
-
+   
                   <?php endwhile; ?>
                 </select>
               </div>
@@ -283,7 +283,7 @@
   
   <!-- bootstrap script -->
   <script src="scripts/age.js"></script>
-  <script src="scripts/tweaks.js"></script>
+  <script src="scripts/inputFields.js"></script>
   <script src="JS/bootstrapJquery.js"></script>
 <script src="JS/popper.min.js"></script>
 <script src="JS/bootstrap.min.js"></script>

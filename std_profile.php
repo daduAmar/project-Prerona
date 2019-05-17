@@ -412,14 +412,14 @@
           </div>
 
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=258" data-toggle="lightbox">
+            <!-- <a href="https://unsplash.it/1200/768.jpg?image=258" data-toggle="lightbox">
               <img src="https://unsplash.it/600.jpg?image=258" alt="" class="img-fluid">
-            </a>
+            </a> -->
           </div>
           <div class="col-md-3">
-            <a href="https://unsplash.it/1200/768.jpg?image=259" data-toggle="lightbox">
+            <!-- <a href="https://unsplash.it/1200/768.jpg?image=259" data-toggle="lightbox">
               <img src="https://unsplash.it/600.jpg?image=259" alt="" class="img-fluid">
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
