@@ -1,0 +1,58 @@
+#outer-Card{
+  background: url(../img/mFee.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+ /* opacity: 0.8; */
+}
+
+#inner-Card{
+border-radius: 15px;
+}
+
+
+#mfee  input[type = "number"], input[type = "text"], #mfee input[type = "date"]{
+  border-bottom: solid rgb(77, 71, 71) 1px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+}
+
+#mfee  input[type = "number"]:focus, #mfee input[type = "date"]:focus{
+  border-bottom: solid rgb(77, 71, 71) 1px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+  color: rgb(43, 40, 40);
+}
+
+#mfee input[type = "date"]{
+  text-align: center;
+}
+
+#mfee input[type = "submit"]{
+  border-radius: 15px;
+}
+
+#mfee input[type = "submit"]:hover{
+  border-radius: 12px;
+  background: url(../img/mFee.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: rgb(2, 18, 20);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#mfee #label{
+  font-size: 15px;
+  color: #555454;
+  line-height: 1.5;
+  padding-left: 5px;
+}
+
+#mfee #date{
+  text-align: center;
+}

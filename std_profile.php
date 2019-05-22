@@ -1,6 +1,46 @@
 <?php
  session_start();
  require_once "includes/connect.php";
+
+  //monthly fee record
+  if(isset($_POST["submit"])){
+
+    $SchFee = $_POST["sFee"];
+    $respiteFee = $_POST["hstFee"];
+    $transFee = $_POST["transFee"];
+    $therapyFee = $_POST["thpyFee"];
+
+    // Prepare an insert statement
+    $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      
+    if($stmt = mysqli_prepare($conn, $sql)){
+       
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "issssssissssssssssssisssi", $schemeId, $name, $bDate);
+      
+        mysqli_stmt_execute($stmt);
+
+        $s_Id = mysqli_insert_id($conn);
+
+        $_SESSION['std_id'] = $s_Id;
+        
+        echo "Records inserted successfully.";
+        
+    } else{
+        echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+    }
+
+    // Close statement
+    mysqli_stmt_close($stmt);
+ 
+  }
+
+
+
+
+
+
+
  
  if(isset($_GET['s_id'])){
 
@@ -14,8 +54,10 @@
 
     $rows = mysqli_fetch_all($result1);
 
-    foreach ($rows as $row){
+    
 
+    foreach ($rows as $row){
+    
     }
 
     if ($result1 === false) {
@@ -32,10 +74,12 @@
 
     $rowsR = mysqli_fetch_all($result2);
 
+    // print_r($rowsR);
+
     foreach ($rowsR as $rowR){
 
     }
-
+    //print_r($rowR);
     if ($result2 === false) {
 
     exit("Couldn't execute the query." . mysqli_error($conn));
@@ -51,6 +95,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>sprofile</title>
   <link rel="stylesheet" href="CSS/bootstrap.min.css" >
+  <link rel="stylesheet" href="CSS/monFee.css" >
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
   <link rel="stylesheet" href="CSS/stdProfile.css">
@@ -193,7 +238,7 @@
                 </p>
             </div>
           </div>
-          <div class="card bg-primary text-white text-center">
+          <div class="card bg-info text-white text-center">
             <h5 class="card-title text-dark font-weight-bolder pt-1">Address</h5>
               <blockquote class="blockquote mb-0">
               <p class="text-dark font-weight-bold font-italic">
@@ -231,10 +276,10 @@
                   Disability Type : <?php echo ucfirst($rowR[16]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Respite : <?php echo ucfirst($rowR[20]) ; ?>
+                  Respite : <?php echo ucfirst($rowR[21]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Transpotation : <?php echo ucfirst($rowR[21]) ; ?>
+                  Transpotation : <?php echo ucfirst($rowR[22]) ; ?>
                 </p>
             </div>
           </div>
@@ -255,33 +300,102 @@
         </div>
       </div>
     </div>
+    <?php
+
+      $query = "SELECT feeType, 	totalFeeAmt FROM monthlyFee";
+
+      $output = mysqli_query($conn, $query)
+        or die("Error in fetching records");
+
+        $fetchFeetypes = mysqli_fetch_all($output, MYSQLI_ASSOC);
+        
+        $feeType = array();
+        $fee = array();
+
+        foreach ($fetchFeetypes as $fetchFeetype) {
+          array_push($feeType, $fetchFeetype['feeType']);
+          array_push($fee, $fetchFeetype['totalFeeAmt']);
+        }
+      
+      
+        if ($output === false) {
+
+        exit("Couldn't execute the query." . mysqli_error($conn));
+
+        }
+
+      
+    ?>
 
     <!-- Fee -->
-    <div id="mfee" class="collapse">
-      <div class="card card-body bg-success text-white py-5">
-        <h2>Bank Details</h2>
-        <p class="lead">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ut!</p>
-      </div>
-
-      <div class="card card-body py-5">
-        <div class="card-deck">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">123 Designs</h4>
-              <p class="p-2 mb-3 bg-dark text-white">
-                A/c No.
-              </p>
-              <p class="p-2 mb-3 bg-dark text-white">
-                IFSC
-              </p>
-            </div>
-            <div class="card-footer">
-              <h6 class="text-muted">Branch: </h6>
-            </div>
-          </div>
+      <div id="mfee" class="collapse">
+        <div class="card card-body bg-success text-white py-5">
+          <h2>Monthly Fee</h2>
         </div>
+        <div class="card card-body py-5" id="outer-Card">
+          <div class="row">
+            <div class="col-md-6 offset-md-3">
+              <div class="card card-body shadow-lg p-3 rounded" id="inner-Card">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[0]); ?></p> 
+                  <div class="row">
+                    <div class="form-group col">
+                      <span id="label">Total Amount</span>               
+                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[0]; ?>" disabled>
+                    </div>
+                    <div class="form-group col">  
+                      <span id="label">Payable Amount</span>            
+                      <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                    </div>
+                  </div>            
+                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[1]); ?></p>
+                  <div class="row">
+                    <div class="form-group col"> 
+                      <span id="label">Total Amount</span>         
+                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[1]; ?>" disabled>
+                    </div>
+                    <div class="form-group col">  
+                      <span id="label">Payable Amount</span>  
+                      <input type="number" class="form-control shadow rounded" id="hstFee" name="hstFee" placeholder="Payable Amount">
+                    </div>
+                  </div>             
+                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[2]); ?></p>
+                  <div class="row">
+                    <div class="form-group col">
+                      <span id="label">Total Amount</span>         
+                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[2]; ?>" disabled>
+                    </div>
+                    <div class="form-group col"> 
+                      <span id="label">Payable Amount</span>      
+                      <input type="number" class="form-control shadow rounded" id="transFee" name="transFee" placeholder="Payable Amount">
+                    </div>
+                  </div> 
+                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[3]); ?></p>
+                  <div class="row">
+                    <div class="form-group col">
+                      <span id="label">Total Amount</span> 
+                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[3]; ?>" disabled>
+                    </div>
+                    <div class="form-group col"> 
+                      <span id="label">Payable Amount</span>    
+                      <input type="number" class="form-control shadow rounded" id="thpyFee" name="thpyFee" placeholder="Payable Amount">
+                    </div>
+                  </div>
+                  <div class="form-group" id="date">  
+                    <span class="font-weight-bold text-monospace mb-2 mt-4" >Payable Date</span>
+                    <input type="date" class="form-control shadow rounded" id="feeDate" name="feeDate">
+                  </div>
+                  <div class="row mt-4">
+                    <div class="col-md-6 offset-md-3">
+                      <input type="submit" class="btn btn-outline-dark btn-block shadow p-2 mb-3 bg-white" value="Submit">  
+                    </div>
+                  </div>        
+                </form>
+              </div>
+            </div>
+          </div>    
+        </div>    
       </div>
-    </div>
 
     <!-- docs -->
     <div id="docs" class="collapse">

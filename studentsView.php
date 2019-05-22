@@ -87,9 +87,11 @@
       </div>
     </div>
   </section>
-  <?php
-    //require_once "includes/connect.php";
 
+
+  <?php
+  
+    //special school students count  
     $sql = "SELECT * FROM students_Info WHERE scheme_id = 2 AND active = 1";
 
     $result = mysqli_query($conn, $sql)
@@ -98,7 +100,7 @@
     $totalRow = mysqli_num_rows($result);
 
 
-
+    //disha students count            
     $query = "SELECT * FROM students_Info WHERE scheme_id = 1 AND active = 1";
 
     $rslt = mysqli_query($conn, $query)
@@ -116,6 +118,8 @@
     $totRowP = mysqli_num_rows($rslts);
 
   ?>
+
+
   <!-- students -->
   <section id="students">
     <div class="container">
@@ -124,7 +128,7 @@
           <div class="card">
             <div class="card-header">
                 <!-- special school -->
-              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#ssTab" aria-expanded="false" aria-controls="ssTab">
+              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#T1" aria-expanded="false" aria-controls="ssTab">
                 Special School <span class="badge badge-light"><?php echo $totalRow; ?></span>
               </button>
                 <!-- disha -->
@@ -137,7 +141,7 @@
               </button>
             </div>
               <!-- special school collapse -->
-            <div class="collapse" id="ssTab">
+            <div class="collapse" id="T1">
               <div class="card card-body">
                 <table class="table table-striped">
                   <thead class="thead-dark">

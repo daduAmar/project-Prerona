@@ -81,7 +81,7 @@ if(!isset($_SESSION['username'])){
       <div class="row">
         <div class="col-md-3">
           <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addPostModal">
-            <i class="fas fa-plus"></i> Add Hostel
+            <i class="fas fa-plus"></i> Add Scheme
           </a>
         </div>
         <div class="col-md-3">
@@ -91,7 +91,7 @@ if(!isset($_SESSION['username'])){
         </div>
         <div class="col-md-3">
           <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addUserModal">
-            <i class="fas fa-plus"></i> Add User
+            <i class="fas fa-plus"></i> Add Hostel
           </a>
         </div>
       </div>
