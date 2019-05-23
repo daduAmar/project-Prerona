@@ -302,31 +302,30 @@
     </div>
     <?php
 
-      $query = "SELECT feeType, 	totalFeeAmt FROM monthlyFee";
+      $query = "SELECT mFee_Id, feeType, totalFeeAmt FROM monthlyFee";
 
       $output = mysqli_query($conn, $query)
         or die("Error in fetching records");
 
         $fetchFeetypes = mysqli_fetch_all($output, MYSQLI_ASSOC);
-        
+
+        $fee_Id = array();
         $feeType = array();
         $fee = array();
 
         foreach ($fetchFeetypes as $fetchFeetype) {
+          array_push($fee_Id, $fetchFeetype['mFee_Id']);
           array_push($feeType, $fetchFeetype['feeType']);
           array_push($fee, $fetchFeetype['totalFeeAmt']);
         }
-      
+        //print_r($fee_Id);
       
         if ($output === false) {
 
         exit("Couldn't execute the query." . mysqli_error($conn));
 
-        }
-
-      
+        }    
     ?>
-
     <!-- Fee -->
       <div id="mfee" class="collapse">
         <div class="card card-body bg-success text-white py-5">
@@ -335,52 +334,80 @@
         <div class="card card-body py-5" id="outer-Card">
           <div class="row">
             <div class="col-md-6 offset-md-3">
-              <div class="card card-body shadow-lg p-3 rounded" id="inner-Card">
+              <div class="card card-body  shadow-lg p-4 rounded" id="inner-Card">
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[0]); ?></p> 
-                  <div class="row">
-                    <div class="form-group col">
-                      <span id="label">Total Amount</span>               
-                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[0]; ?>" disabled>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col">
+                        <span id="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded">
+                            <option selected>Select a fee type</option>
+                            <option value="<?php echo ucwords($fee_Id[0]); ?>"><?php echo ucwords($feeType[0]); ?></option>
+                          </select>
+                      </div>  
+                      <div class="col">  
+                      <span id="label">Total School Fee</span>            
+                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total School Fee" disabled>
+                      </div>
                     </div>
-                    <div class="form-group col">  
-                      <span id="label">Payable Amount</span>            
-                      <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
-                    </div>
+                    <div class="mt-3">         
+                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                    </div>       
                   </div>            
-                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[1]); ?></p>
-                  <div class="row">
-                    <div class="form-group col"> 
-                      <span id="label">Total Amount</span>         
-                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[1]; ?>" disabled>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col">
+                        <span id="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded">
+                            <option selected>Select a fee type</option>
+                            <option value="<?php echo ucwords($fee_Id[1]); ?>"><?php echo ucwords($feeType[1]); ?></option>
+                          </select>
+                      </div>  
+                      <div class="col">  
+                      <span id="label">Total Respite Fee</span>            
+                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Respite Fee" disabled>
+                      </div>
                     </div>
-                    <div class="form-group col">  
-                      <span id="label">Payable Amount</span>  
-                      <input type="number" class="form-control shadow rounded" id="hstFee" name="hstFee" placeholder="Payable Amount">
+                    <div class="mt-3">         
+                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                    </div>       
+                  </div>            
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col">
+                        <span id="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded">
+                            <option selected>Select a fee type</option>
+                            <option value="<?php echo ucwords($fee_Id[2]); ?>"><?php echo ucwords($feeType[2]); ?></option>
+                          </select>
+                      </div>  
+                      <div class="col">  
+                      <span id="label">Total Therapeutic Service Fee</span>            
+                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Therapeutic Service Fee" disabled>
+                      </div>
                     </div>
-                  </div>             
-                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[2]); ?></p>
-                  <div class="row">
-                    <div class="form-group col">
-                      <span id="label">Total Amount</span>         
-                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[2]; ?>" disabled>
+                    <div class="mt-3">         
+                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                    </div>       
+                  </div>            
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col">
+                        <span id="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded">
+                            <option selected>Select a fee type</option>
+                            <option value="<?php echo ucwords($fee_Id[3]); ?>"><?php echo ucwords($feeType[3]); ?></option>
+                          </select>
+                      </div>  
+                      <div class="col">  
+                      <span id="label">Total Conveyance Service fee</span>            
+                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Conveyance Service fee" disabled>
+                      </div>
                     </div>
-                    <div class="form-group col"> 
-                      <span id="label">Payable Amount</span>      
-                      <input type="number" class="form-control shadow rounded" id="transFee" name="transFee" placeholder="Payable Amount">
-                    </div>
-                  </div> 
-                  <p class="text-center text-dark font-weight-bold text-monospace"><?php echo ucwords($feeType[3]); ?></p>
-                  <div class="row">
-                    <div class="form-group col">
-                      <span id="label">Total Amount</span> 
-                      <input type="text" class="form-control shadow rounded" value="<?php echo $fee[3]; ?>" disabled>
-                    </div>
-                    <div class="form-group col"> 
-                      <span id="label">Payable Amount</span>    
-                      <input type="number" class="form-control shadow rounded" id="thpyFee" name="thpyFee" placeholder="Payable Amount">
-                    </div>
-                  </div>
+                    <div class="mt-3">         
+                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                    </div>       
+                  </div>            
                   <div class="form-group" id="date">  
                     <span class="font-weight-bold text-monospace mb-2 mt-4" >Payable Date</span>
                     <input type="date" class="form-control shadow rounded" id="feeDate" name="feeDate">

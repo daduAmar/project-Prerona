@@ -2,8 +2,8 @@
   session_start();
   include_once "includes/connect.php";
   global $std_Id;
-  $std_Id = $_SESSION['std_id'];
-     //$std_Id = 31;
+  //$std_Id = $_SESSION['std_id'];
+     $std_Id = 36;
     if(isset($_POST['submit'])){
 
       //photo
@@ -43,7 +43,7 @@
 			$disabilityExt = explode('.', $disabilityName);
       $disabilityActualExt = strtolower(end($disabilityExt));
 
-      //income certificate
+      //income certificate or bpl
       $incomeName = $_FILES['income']['name'];
 			$incomeTmpName = $_FILES['income']['tmp_name'];
 			$incomeSize = $_FILES['income']['size'];
@@ -52,14 +52,23 @@
 			$incomeExt = explode('.', $incomeName);
       $incomeActualExt = strtolower(end($incomeExt));
 
-       //bpl certificate
-       $bplName = $_FILES['bpl']['name'];
-       $bplTmpName = $_FILES['bpl']['tmp_name'];
-       $bplSize = $_FILES['bpl']['size'];
-       $bplError = $_FILES['bpl']['error'];
+       //guardianship certificate
+       $guardianName = $_FILES['guardian']['name'];
+       $guardianTmpName = $_FILES['guardian']['tmp_name'];
+       $guardianSize = $_FILES['guardian']['size'];
+       $guardianError = $_FILES['guardian']['error'];
        
-       $bplExt = explode('.', $bplName);
-       $bplActualExt = strtolower(end($bplExt));
+       $guardianExt = explode('.', $guardianName);
+       $guardianActualExt = strtolower(end($guardianExt));
+
+       //niramaya health
+       $niramayaName = $_FILES['niramaya']['name'];
+       $niramayaTmpName = $_FILES['niramaya']['tmp_name'];
+       $niramayaSize = $_FILES['niramaya']['size'];
+       $niramayaError = $_FILES['niramaya']['error'];
+       
+       $niramayaExt = explode('.', $niramayaName);
+       $niramayaActualExt = strtolower(end($niramayaExt));
  
 
 
@@ -111,187 +120,116 @@
         
       }else {
         $incomeDestination = '';
-        echo "Choose  applicant's Parent Income Certificate!<br>";
+        // echo "Choose  applicant's Parent Income Certificate!<br>";
       }
 
-      if(!empty($bplName)){
+      if(!empty($guardianName)){
 
-        $bplDestination = checkFile($bplTmpName, $bplActualExt, $allowedType2, $bplError, $bplSize, 'JPG/JPEG/PDF/DOCX', 'BPL Card');
+        $guardianDestination = checkFile($guardianTmpName, $guardianActualExt, $allowedType2, $guardianError, $guardianSize, 'JPG/JPEG/PDF/DOCX', 'Guardianship Certificate');
         
       }else {
-        $bplDestination = '';
+        $guardianDestination = '';
+      }
+
+      if(!empty($niramayaName)){
+
+        $niramayaDestination = checkFile($niramayaTmpName, $niramayaActualExt, $allowedType2, $niramayaError, $niramayaSize, 'JPG/JPEG/PDF/DOCX', 'Niramaya Health Card');
+        
+      }else {
+        $niramayaDestination = '';
       }
       
       $is_Ok = false;
 
-      if(!empty($photoDestination) && !empty($birthDestination) || !empty($casteDestination) && !empty($casteDestination) && !empty($incomeDestination) || !empty($bplDestination)){
+      if(!empty($photoDestination) && !empty($birthDestination) && !empty($disabilityDestination) || !empty($casteDestination) || !empty($incomeDestination) || !empty($guardianDestination) || !empty($niramayaDestination)){
 
-        if(empty($casteDestination) && empty($bplDestination)){
-            
-          insertFun_No_Caste_Bpl($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $incomeDestination);
-          $is_Ok = true;
-
-        }elseif(!empty($casteDestination) && empty($bplDestination)){
-          
-          insertFun($conn, $std_Id, $photoDestination, $birthDestination,  $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
-          $is_Ok = true;
-
-        }elseif (empty($casteDestination) && !empty($bplDestination)) {
-
-          insertFun($conn, $std_Id, $photoDestination, $birthDestination, $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
-          $is_Ok = true;
-
-        }else {
-
-          insertFun($conn, $std_Id, $photoDestination, $birthDestination, $casteDestination,$disabilityDestination, $incomeDestination, $bplDestination);
-          $is_Ok = true;
-
-        }
+        insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $casteDestination,  $incomeDestination, $guardianDestination, $niramayaDestination);
+        $is_Ok = true;
       }
-
-
       //therapy insertion
-      if(!empty($_POST['check_list']) && $is_Ok === true){
+      if(!empty($_POST['check_list']) && $is_Ok === false){
 
         $therapy_list = [];
 
         foreach($_POST['check_list'] as $selected){
           array_push($therapy_list, $selected);
         }
-        
-        if(in_array(1, $therapy_list) && in_array(2, $therapy_list)){
 
-          $sql = "INSERT INTO therapyRecipient (std_Id, therapy_Id) VALUES
-                      ($std_Id, $therapy_list[0]),($std_Id, $therapy_list[1])";
-                
+        for ($i=0; $i < sizeof($therapy_list); $i++) { 
+
+          $sql = "INSERT INTO therapyRecipient (std_Id, therapy_Id) VALUES ($std_Id, $therapy_list[$i])";
+              
           mysqli_query($conn, $sql);
-      
-        }else {
-
-          if(in_array(1, $therapy_list) || in_array(2, $therapy_list)){
-
-            $sql = "INSERT INTO therapyRecipient (std_Id, therapy_Id) VALUES($std_Id, $therapy_list[0])";
-                
-          mysqli_query($conn, $sql);
-
-          }
-
         }
-        
       }
     }
     
-    function checkFile($fileTemName, $extension, $fileType, $fileError, $fileSize,  $format, $file){
+  function checkFile($fileTemName, $extension, $fileType, $fileError, $fileSize,  $format, $file){
 
-    if(in_array($extension, $fileType)){
+  if(in_array($extension, $fileType)){
 
-      if($fileError === 0){
+    if($fileError === 0){
+      
+      if($fileSize < 5000000){
+
+        $fileNameNew = uniqid('',true).".".$extension;
         
-        if($fileSize < 5000000){
+        $fileDestination = 'uploads/'.$fileNameNew;
+        
+        move_uploaded_file($fileTemName, $fileDestination);
+        return $fileDestination;
 
-         $fileNameNew = uniqid('',true).".".$extension;
-          
-         $fileDestination = 'uploads/'.$fileNameNew;
-          
-         move_uploaded_file($fileTemName, $fileDestination);
-         return $fileDestination;
+      } else {
 
-        } else {
-
-          echo "Your file size is too big!<br>";
-
-        }
-      } else{
-
-        echo "There was an error uploading $file!<br>";
+        echo "Your file size is too big!<br>";
 
       }
-    
+    } else{
+
+      echo "There was an error uploading $file!<br>";
+
+    }
+  
+  }else {
+
+    echo "$file must be in $format format!<br>";
+
+  }
+}
+  
+function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $casteDestination, $incomeDestination, $guardianDestination, $niramayaDestination){
+
+  // Prepare an insert statement
+  $sql = "INSERT INTO studentDocuments (std_Id, photo, birthCertificate, casteCertificate, disabilityCertificate, incomeCertificate, 	guardianCertificate, 	niramayaCard) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  
+  if(!empty($photoDestination) && !empty($birthDestination) && !empty($disabilityDestination)){
+
+    if($stmt = mysqli_prepare($conn, $sql)){
+
+      if(!empty($photoDestination) && !empty($birthDestination) && !empty($disabilityDestination) || !empty($casteDestination) || !empty($incomeDestination) || !empty($guardianDestination)  || !empty($niramayaDestination)){
+
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "isssssss", $std_Id, $photoDestination, $birthDestination,
+        $casteDestination, $disabilityDestination, $incomeDestination, $guardianDestination, $niramayaDestination);
+
+        mysqli_stmt_execute($stmt);
+        
+        echo "Files Uploaded...<br>";
+      }  
+
     }else {
 
-      echo "$file must be in $format format!<br>";
+      echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
 
     }
 
-   
-  }
-  
-  function insertFun($conn, $std_Id, $photoDestination, $birthDestination,  $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination){
+  }else {
 
-     // Prepare an insert statement
-     $sql = "INSERT INTO studentDocuments (std_Id, photo, birthCertificate, casteCertificate, disabilityCertificate, incomeCertificate, bplCard) VALUES (?, ?, ?, ?, ?, ?, ?)";
-              
-      if($stmt = mysqli_prepare($conn, $sql)){
+    echo "1st 3 req";
 
-        if(!empty($photoDestination) && !empty($birthDestination) && empty($casteDestination) && !empty($casteDestination) && !empty($incomeDestination) && !empty($bplDestination)){
-
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issssss", $std_Id, $photoDestination, $birthDestination,
-          $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
-
-          mysqli_stmt_execute($stmt);
-          
-          echo "Files Uploaded...<br>";
-
-        }
-
-        if (!empty($photoDestination) && !empty($birthDestination) && !empty($casteDestination) && !empty($casteDestination) && !empty($incomeDestination) && empty($bplDestination)) {
-
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issssss", $std_Id, $photoDestination, $birthDestination, $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
-
-          mysqli_stmt_execute($stmt);
-          
-          echo "Files Uploaded...<br>";
-
-        }
-
-        if(!empty($photoDestination) && !empty($birthDestination) && !empty($casteDestination) && !empty($casteDestination) && !empty($incomeDestination) && !empty($bplDestination)){
-
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issssss", $std_Id, $photoDestination, $birthDestination,  $casteDestination, $disabilityDestination, $incomeDestination, $bplDestination);
-
-          mysqli_stmt_execute($stmt);
-          
-          echo "Files Uploaded...<br>";
-
-        }
-
-      }else {
-
-           echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
-      }
-       // Close statement
-       mysqli_stmt_close($stmt);
-  }
-
-  function insertFun_No_Caste_Bpl($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $incomeDestination){
-
-    // Prepare an insert statement
-    $sql = "INSERT INTO studentDocuments (std_Id, photo, birthCertificate, disabilityCertificate, incomeCertificate) VALUES (?, ?, ?, ?, ?)";
-
-     if($stmt = mysqli_prepare($conn, $sql)){
-
-        if(!empty($photoDestination) && !empty($birthDestination) && !empty($disabilityDestination) && !empty($incomeDestination)){
-
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issss", $std_Id, $photoDestination, $birthDestination,   $disabilityDestination, $incomeDestination);
-        
-          mysqli_stmt_execute($stmt);
-          
-          echo "Files Uploaded...<br>";
-
-        }  
-
-     } else{
-
-          echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
-     }
-      // Close statement
-      mysqli_stmt_close($stmt);
- }
+  } 
+} 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -401,36 +339,48 @@
         <!-- docs input -->
         <div class="card mt-5 shadow-lg p-3 mb-5 bg-white rounded">
           <div class="card-body">
-          <p class="text-dark text-muted font-weight-bold text-monospace mt-3 id="heading">Provide the following documents of the applicant</p>   
+          <p class="text-dark text-muted font-weight-bold text-monospace mt-3 id="heading">Provide the following documents of the applicant</p>
+
             <div class="custom-file mt-4 mb-5">
               <input type="file" class="custom-file-input" name="photo" id="photo">
               <label class="custom-file-label" for="file">Photo of the applicant</label>
-              <small class="text-info">*Photo must in JPG/JPEG format</small>
+              <small class="text-danger">*Photo must in JPG/JPEG format</small>
             </div>
+
             <div class="custom-file mb-5">
               <input type="file" class="custom-file-input" name="birthCerti" id="birthCerti">
               <label class="custom-file-label" for="file">Birth Certificate of the applicant</label>
-              <small class="text-info">*Birth Certificate must in JPG/JPEG/PDF/DOCX format</small>
+              <small class="text-danger">*Birth Certificate must in JPG/JPEG/PDF/DOCX format</small>
             </div>
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="caste" id="caste">
-              <label class="custom-file-label" for="file">Caste Certificate of the applicant,if any</label>
-              <small class="text-info">*Caste Certificate must in JPG/JPEG/PDF/DOCX format</small>
-            </div>
+
             <div class="custom-file mb-5">
               <input type="file" class="custom-file-input" name="disability" id="disability">
               <label class="custom-file-label" for="file">Disability Certificate of the applicant</label>
-              <small class="text-info">*Disability Certificate must in JPG/JPEG/PDF/DOCX format</small>
+              <small class="text-danger">*Disability Certificate must in JPG/JPEG/PDF/DOCX format</small>
             </div>
+
+            <div class="custom-file mb-5">
+              <input type="file" class="custom-file-input" name="caste" id="caste">
+              <label class="custom-file-label" for="file">Caste Certificate of the applicant,if any</label>
+              <small class="text-danger">*Caste Certificate must in JPG/JPEG/PDF/DOCX format</small>
+            </div>
+            
             <div class="custom-file mb-5">
               <input type="file" class="custom-file-input" name="income" id="income">
-              <label class="custom-file-label" for="file">Income Certificate of the applicant</label>
-              <small class="text-info">*Income Certificate must in JPG/JPEG/PDF/DOCX format</small>
+              <label class="custom-file-label" for="file">Income Certificate/BPL Card of the applicant,if any..</label>
+              <small class="text-danger">*Income Certificate/BPL Card must in JPG/JPEG/PDF/DOCX format</small>
             </div>
+
             <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="bpl" id="bpl">
-              <label class="custom-file-label" for="file">BPL Card of the applicant,if any</label>
-              <small class="text-info">*BPL Card must in JPG/JPEG/PDF/DOCX format</small>
+              <input type="file" class="custom-file-input" name="guardian" id="guardian">
+              <label class="custom-file-label" for="file">Guardianship Certificate of the applicant,if any..</label>
+              <small class="text-danger">*Guardianship Certificate must in JPG/JPEG/PDF/DOCX format</small>
+            </div>
+
+            <div class="custom-file mb-5">
+              <input type="file" class="custom-file-input" name="niramaya" id="niramaya">
+              <label class="custom-file-label" for="file">Niramaya Health Card of the applicant</label>
+              <small class="text-danger">*Niramaya Health Card must in JPG/JPEG/PDF/DOCX format</small>
             </div>
           </div>
         </div>

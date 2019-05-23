@@ -43,7 +43,7 @@
         $executed = true;
           
         } else{
-
+          
           echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
 
         }
