@@ -2,8 +2,8 @@
   session_start();
   include_once "includes/connect.php";
   global $std_Id;
-  //$std_Id = $_SESSION['std_id'];
-     $std_Id = 36;
+  $std_Id = $_SESSION['std_id'];
+     //$std_Id = 36;
     if(isset($_POST['submit'])){
 
       //photo
@@ -147,7 +147,7 @@
         $is_Ok = true;
       }
       //therapy insertion
-      if(!empty($_POST['check_list']) && $is_Ok === false){
+      if(!empty($_POST['check_list']) && $is_Ok === true){
 
         $therapy_list = [];
 

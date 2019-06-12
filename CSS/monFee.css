@@ -12,19 +12,10 @@ border-radius: 15px;
 
 
 #mfee  input[type = "number"], input[type = "text"], #mfee input[type = "date"]{
-  border-bottom: solid rgb(77, 71, 71) 1px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
   outline: none;
 }
 
 #mfee  input[type = "number"]:focus, #mfee input[type = "date"]:focus{
-  border-bottom: solid rgb(77, 71, 71) 1px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  outline: none;
   color: rgb(43, 40, 40);
 }
 
@@ -46,7 +37,7 @@ border-radius: 15px;
   font-weight: bold;
 }
 
-#mfee #label{
+#mfee .label{
   font-size: 15px;
   color: #555454;
   line-height: 1.5;

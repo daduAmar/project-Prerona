@@ -1,9 +1,128 @@
 <?php
- session_start();
- 
-if(!isset($_SESSION['username'])){
-  header("Location: preronaHome.php");
-}
+  session_start();
+  include_once "includes/connect.php";
+  
+  if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
+
+  //add scheme
+  if(isset($_POST["addScheme"])){
+
+    $newSchemeName = $_POST["schmName"];
+
+    // Prepare an insert statement
+    $sql = "INSERT INTO scheme (schemeName) VALUES (?)";
+
+
+    if($stmt = mysqli_prepare($conn, $sql)){
+          
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "s", $newSchemeName);
+      
+      mysqli_stmt_execute($stmt);
+
+      echo "success!";
+
+      } 
+      else {
+
+        echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+
+      }
+  }
+
+  //delete scheme
+  if(isset($_GET['scheme_id'])){
+
+    $id=$_GET['scheme_id'];
+
+    $sql="DELETE FROM scheme WHERE scheme_Id = $id";
+    mysqli_query($conn, $sql);
+    
+    header("Location: adminHome.php?deleted");
+
+  }
+
+  //add therapy
+  if(isset($_POST["addTherapy"])){
+
+    $newTherapyName = $_POST["thpyName"];
+
+    // Prepare an insert statement
+    $sql = "INSERT INTO therapy (name) VALUES (?)";
+
+
+    if($stmt = mysqli_prepare($conn, $sql)){
+          
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "s", $newTherapyName);
+      
+      mysqli_stmt_execute($stmt);
+
+      echo "success!";
+
+    } 
+    else {
+
+      echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+
+    }
+  }
+
+  //delete therapy
+  if(isset($_GET['thpy_id'])){
+
+    $thy_id = $_GET['thpy_id'];
+
+    $sql="DELETE FROM therapy WHERE therapy_Id = $thy_id";
+    mysqli_query($conn, $sql);
+    
+    header("Location: adminHome.php?deleted");
+
+  }
+
+
+  //add monthly fee
+  if(isset($_POST["addFeeType"])){
+
+    $feeType = $_POST["feeType"];
+    $feeAmt = $_POST["feeAmt"];
+
+    // Prepare an insert statement
+    $sql = "INSERT INTO monthlyFee (feeType, totalFeeAmt) VALUES (?, ?)";
+
+
+    if($stmt = mysqli_prepare($conn, $sql)){
+          
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "si", $feeType, $feeAmt);
+      
+      mysqli_stmt_execute($stmt);
+
+      echo "success!";
+
+    } 
+    else {
+
+      echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+
+    }
+  }
+
+  //delete therapy
+  if(isset($_GET['m_id'])){
+
+    $type_id = $_GET['m_id'];
+
+    $sql="DELETE FROM monthlyFee WHERE mFee_Id = $type_id";
+    mysqli_query($conn, $sql);
+    
+    header("Location: adminHome.php?deleted");
+
+  }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +137,7 @@ if(!isset($_SESSION['username'])){
 </head>
 <body>
    <!-- navbar -->
-   <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+   <nav class="navbar navbar-expand-md navbar-dark bg-dark p-0">
     <div class="container">
       <a href="#" class="navbar-brand">PRERONA</a>
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -80,18 +199,18 @@ if(!isset($_SESSION['username'])){
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addPostModal">
-            <i class="fas fa-plus"></i> Add Scheme
+          <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addSchemeModal">
+            <i class="fas fa-plus"></i> Scheme
           </a>
         </div>
         <div class="col-md-3">
-          <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addCategoryModal">
-            <i class="fas fa-plus"></i> Add Therapy
+          <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addTherapyModal">
+            <i class="fas fa-plus"></i> Therapy
           </a>
         </div>
         <div class="col-md-3">
-          <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addUserModal">
-            <i class="fas fa-plus"></i> Add Hostel
+          <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addMonthlyModal">
+            <i class="fas fa-plus"></i> Monthly Fee
           </a>
         </div>
       </div>
@@ -102,6 +221,7 @@ if(!isset($_SESSION['username'])){
   <?php
     require_once "includes/connect.php";
 
+    //user count
     $sql = "SELECT * FROM users WHERE is_active = 1";
 
     $result = mysqli_query($conn, $sql)
@@ -109,9 +229,7 @@ if(!isset($_SESSION['username'])){
 
     $totalRow = mysqli_num_rows($result);
 
-  ?>
-  <?php
-
+    //students count
     $sql = "SELECT * FROM students_Info";
 
     $result = mysqli_query($conn, $sql)
@@ -119,11 +237,19 @@ if(!isset($_SESSION['username'])){
 
     $rowCount = mysqli_num_rows($result);
 
+    //hostellers count
+    $sql = "SELECT * FROM hostelAdmission";
+
+    $result = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+    $hstlRowCount = mysqli_num_rows($result);
+
   ?>
 
   <br>
   <section id="home_section">
-    <div class="container mt-4">
+    <div class="container my-4">
       <div class="row">
         <div class="col-md-4">
           <div class="card text-center bg-info text-white mb-3">
@@ -139,11 +265,11 @@ if(!isset($_SESSION['username'])){
         <div class="col-md-4">
           <div class="card text-center bg-success text-white mb-3">
             <div class="card-body">
-              <h3>Hostel Capacity</h3>
+              <h3>Respite</h3>
               <h4 class="display-4">
-              <i class="fas fa-hotel"></i> 4
+              <i class="fas fa-hotel"></i> <?php echo $hstlRowCount; ?>
               </h4>
-              <a href="#" class="btn btn-outline-light btn-sm">View</a>
+              <a href="respiteView.php" class="btn btn-outline-light btn-sm">View</a>
             </div>
           </div>
         </div>
@@ -161,7 +287,205 @@ if(!isset($_SESSION['username'])){
       </div>
     </div>
   </section>
-<br>
+  <br>
+
+  <!-- MODALS -->
+  <?php
+
+    //scheme
+    $sql = "SELECT * FROM scheme";
+
+    $result = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+    $rowRslt = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    //therapy
+    $sql = "SELECT * FROM therapy";
+
+    $rslts = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+    $rowsThRslt = mysqli_fetch_all($rslts, MYSQLI_ASSOC);
+
+    //monthly fee
+    $sql = "SELECT * FROM monthlyFee";
+
+    $rslt = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+    $rowsMonthRslt = mysqli_fetch_all($rslt, MYSQLI_ASSOC);
+
+
+
+  ?>
+
+  <!-- ADD SCHEME MODAL -->
+  <div class="modal fade" id="addSchemeModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Add Scheme</h5>
+        </div>
+        <div class="modal-body">
+        <h3 class="text-monospace text-primary text-center">Scheme Details</h3>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">Id</th>
+              <th scope="col" class="text-center">Scheme Name</th>
+              <th scope="col" class="text-center" colspan="2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php  foreach ($rowRslt as $schRow): ?>
+            <tr>
+              <td class="text-center"><?php echo $schRow['scheme_Id']; ?></td>
+              <td class="text-center"><?php echo ucwords($schRow['schemeName']); ?></td>
+              <td class="text-center">
+                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-danger btn-sm">
+                <i class="fas fa-minus-circle"></i> Remove
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-info btn-sm">
+                <i class="fas fa-tools"></i> Update 
+                </a>
+              </td>
+            </tr>
+            <?php endforeach; ?> 
+          </tbody>
+        </table>
+
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <div class="form-group">
+              <label for="schmName" class="text-primary">Scheme Name</label>
+              <input type="text" class="form-control" name="schmName" id="schmName" placeholder="New Scheme Name">
+            </div>
+            <input type="submit" class="btn btn-outline-primary btn-block" value="Add Scheme" name="addScheme">
+          </form>
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD THERAPY MODAL -->
+  <div class="modal fade" id="addTherapyModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Add Therapy</h5>
+        </div>
+        <div class="modal-body">
+          <h3 class="text-monospace text-success text-center">Therapeutic Services</h3>
+          <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">Id</th>
+                <th scope="col" class="text-center">Therapy Name</th>
+                <th scope="col" class="text-center" colspan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php foreach($rowsThRslt as $thyRow):  ?>
+            <tr>
+              <td class="text-center"><?php echo $thyRow['therapy_Id'];  ?></td>
+              <td class="text-center"><?php echo ucwords($thyRow['name']); ?></td>
+              <td class="text-center">
+                <a href="adminHome.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-danger btn-sm">
+                <i class="fas fa-minus-circle"></i> Remove
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="adminHome.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-info btn-sm">
+                <i class="fas fa-tools"></i> Update 
+                </a>
+              </td>
+            </tr>
+              <?php endforeach; ?> 
+          </tbody>
+        </table>
+
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <div class="form-group">
+              <label for="thpyName" class="text-success">Therapy Name</label>
+              <input type="text" class="form-control" name="thpyName" id="thpyName" placeholder="New Therapy Name">
+            </div>
+            <input type="submit" class="btn btn-outline-success btn-block" value="Add Therapy" name="addTherapy">
+          </form>
+          
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- ADD MONTHLY MODAL -->
+   <div class="modal fade" id="addMonthlyModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-white">
+          <h5 class="modal-title">Add Monthly Fee</h5>
+        </div>
+        <div class="modal-body">
+          <h3 class="text-monospace text-warning text-center">Monthly Fees</h3>
+          <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">Id</th>
+                <th scope="col" class="text-center">Fee Type</th>
+                <th scope="col" class="text-center">Fee Amount</th>
+                <th scope="col" class="text-center" colspan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php foreach($rowsMonthRslt as $monthRow):  ?>
+            <tr>
+              <td class="text-center"><?php echo $monthRow['mFee_Id']; ?></td>
+              <td class="text-center"><?php echo ucwords($monthRow['feeType']); ?></td>
+              <td class="text-center"><?php echo $monthRow['totalFeeAmt']; ?></td>
+              <td class="text-center">
+                <a href="adminHome.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-danger btn-sm">
+                <i class="fas fa-minus-circle"></i> Remove
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="adminHome.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-info btn-sm">
+                <i class="fas fa-tools"></i> Update 
+                </a>
+              </td>
+            </tr>
+              <?php endforeach; ?> 
+          </tbody>
+        </table>
+
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <div class="form-group">
+              <label for="feeType" class="text-warning">Fee Type</label>
+              <input type="text" class="form-control" name="feeType" id="feeType" placeholder="New Fee Type">
+            </div>
+            <div class="form-group">
+              <label for="feeAmt" class="text-warning">Fee Amount</label>
+              <input type="number" class="form-control" name="feeAmt" id="feeAmt" placeholder="Fee Amount">
+            </div>
+            <input type="submit" class="btn btn-outline-warning btn-block" value="Add Fee" name="addFeeType">
+          </form>
+          
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Footer -->
   <?php require "includes/footer.php"; ?>
 

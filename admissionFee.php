@@ -2,7 +2,7 @@
   session_start();
   include_once "includes/connect.php";
   //$std_Id = $_SESSION['std_id'];
-  $std_Id = 37;
+  $std_Id = 1;
   $executed = false;
 
   if(isset($_POST["submit"])){
@@ -54,6 +54,31 @@
       echo "something went wrong!!";
     }
    
+  }
+
+  // update admissionFee
+  if(isset($_POST["update"])){
+
+    $newAdmFee = $_POST["updFee"];
+
+    // Prepare an insert statement
+    $sql = "UPDATE students_Info SET admissionFee = ? WHERE std_Id = ?";
+
+    if($stmt = mysqli_prepare($conn, $sql)){
+          
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "ii", $newAdmFee, $std_Id);
+      
+      mysqli_stmt_execute($stmt);
+
+      echo "success!";
+
+      } 
+      else {
+
+        echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+
+      }
   }
 
     
@@ -146,12 +171,12 @@ $rslts = mysqli_query($conn, $query)
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white mb-3">
+  <header class="py-2 text-white mb-3">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1>
-          <i class="fas fa-funnel-dollar mr-2"></i>Fees</h1>
+          <!-- <h1>
+          <i class="fas fa-funnel-dollar mr-2"></i>Fees</h1> -->
         </div>
       </div>
     </div>
@@ -177,7 +202,10 @@ $rslts = mysqli_query($conn, $query)
     <div class="container" >
       <div class="row">
         <div class="col-md-6 offset-md-3 py-4" id="con">
-          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form1">
+            <span> <h1>
+              <i class="fas fa-funnel-dollar mr-2 mb-3"></i>Fees</h1>
+            </span>
             <?php foreach ($fetchrows as $fRow):  ?>
               <div class="form-group">
                 <label>Student Name</label>
@@ -186,7 +214,14 @@ $rslts = mysqli_query($conn, $query)
             
               <div class="form-group" >
                 <label>School Admission Fee</label>
+                <div class="input-group" >
                 <input type="number" class="form-control" id="aFee" name="admFee" value="<?php echo $fRow[1]; ?>" disabled>
+                <div class="input-group-append" id="edit">
+                  <button type="button" class="btn text-white" data-toggle="collapse" data-target="#updateInp" aria-expanded="false" aria-controls="updateInp">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </div>
+                </div>
               </div>
 
             <?php endforeach;  ?> 
@@ -194,13 +229,13 @@ $rslts = mysqli_query($conn, $query)
                 <label>Payable School Admission Fee</label>
                 <input type="number" class="form-control" id="pFee" name="payFee">
               </div>
-            <div class="row">
-              <?php foreach ($rows as $row):  ?>
-                <div class="form-group col" id="hAdmFeeDiv">
-                  <label>Respite Admission Fee</label>
-                  <input type="number" class="form-control" id="hAdmFee" name="hAdmFee" value="<?php echo  $row[0]; ?>" disabled>
-                </div>
-              <?php endforeach;  ?>   
+              <div class="row">
+                <?php foreach ($rows as $row):  ?>
+                  <div class="form-group col" id="hAdmFeeDiv">
+                    <label>Respite Admission Fee</label>
+                    <input type="number" class="form-control" id="hAdmFee" name="hAdmFee" value="<?php echo  $row[0]; ?>" disabled>
+                  </div>
+                <?php endforeach;  ?>   
 
               <div class="form-group col" id="hPayFeeDiv">
                 <label>Payable Respite Admission Fee</label>
@@ -208,14 +243,12 @@ $rslts = mysqli_query($conn, $query)
               </div>
             </div>
             
-            
-            
             <div class="form-group">
               <label>Net Payable Fee</label><br>
               <div class="input-group" >
                 <input type="number" class="form-control" id="totFee" name="totFee" disabled>
                 <div class="input-group-append"  id="calculateBtn">
-                  <button type="button" class="btn text-white  input-group-text" >Calculate Fee</button>
+                  <button type="button" class="btn text-white input-group-text" >Calculate Fee</button>
                 </div>
               </div>
             </div>
@@ -226,6 +259,18 @@ $rslts = mysqli_query($conn, $query)
 
             <input type="submit" value="Submit" class="btn btn-primary btn-block mt-2" name="submit" id="sub">
           </form> 
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form2">
+            <div class="form-group collapse mt-3" id="updateInp">
+              <label>Update Admission Fee</label><br>
+              <div class="input-group" >
+                <input type="number" class="form-control" id="updFee" name="updFee" placeholder="New Admission Fee">
+                <div class="input-group-append"  id="updateInput">
+                <button type="submit" class="btn text-white input-group-text" name="update">Update Fee
+                </button>
+                </div>
+              </div> 
+            </div>
+          </form>
         </div>
       </div>
     </div>

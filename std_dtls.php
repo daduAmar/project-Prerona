@@ -81,7 +81,7 @@
     <section id="body-section">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6 offset-lg-3 border border-dark rounded shadow-lg p-3 mb-5 bg-white rounded pt-3 mt-5 bg-light">
+          <div class="col-lg-6 offset-lg-3 rounded shadow-lg p-3 my-4">
             <form method="post" action="Std_details_submit.php" id="form">
               <div class="mb-4">
                 <label for="scheme">Select Scheme</label>
@@ -108,7 +108,7 @@
 
                 <div class="form-group col">
                   <label class="text-center">Age</label>
-                  <input type="number" readonly class="form-control-plaintext" name="stdAge" id="age" >
+                  <input type="number" readonly class="form-control" name="stdAge" id="age" >
                   <small class="text-muted">Enter Date Of Birth to calculate age!</small>
                 </div>
               </div>  

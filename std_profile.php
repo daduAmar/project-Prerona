@@ -2,103 +2,127 @@
  session_start();
  require_once "includes/connect.php";
 
-  //monthly fee record
-  if(isset($_POST["submit"])){
+ $sid = $_GET['s_id'];
 
-    $SchFee = $_POST["sFee"];
-    $respiteFee = $_POST["hstFee"];
-    $transFee = $_POST["transFee"];
-    $therapyFee = $_POST["thpyFee"];
-
-    // Prepare an insert statement
-    $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      
-    if($stmt = mysqli_prepare($conn, $sql)){
-       
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "issssssissssssssssssisssi", $schemeId, $name, $bDate);
-      
-        mysqli_stmt_execute($stmt);
-
-        $s_Id = mysqli_insert_id($conn);
-
-        $_SESSION['std_id'] = $s_Id;
-        
-        echo "Records inserted successfully.";
-        
-    } else{
-        echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
-    }
-
-    // Close statement
-    mysqli_stmt_close($stmt);
- 
-  }
-
-
-
-
-
-
-
- 
  if(isset($_GET['s_id'])){
 
-   $sid=$_GET['s_id'];
-   
-   //students docs retrieve
-   $sql1="SELECT * FROM studentDocuments WHERE std_Id= $sid";
+  //$sid = $_GET['s_id'];
+  
+  //students docs retrieve
+  $sql1="SELECT * FROM studentDocuments WHERE std_Id= $sid";
 
-   $result1 = mysqli_query($conn, $sql1)
-    or die("Error in fetching records");
+  $result1 = mysqli_query($conn, $sql1)
+  or die("Error in fetching records");
 
-    $rows = mysqli_fetch_all($result1);
+  $rows = mysqli_fetch_all($result1);
 
-    
 
-    foreach ($rows as $row){
-    
-    }
+  foreach ($rows as $row){
+  
+  }
 
-    if ($result1 === false) {
+  if ($result1 === false) {
 
-    exit("Couldn't execute the query." . mysqli_error($conn));
+  exit("Couldn't execute the query." . mysqli_error($conn));
 
-    }
+  }
 
-    //students details
-    $sql2="SELECT * FROM students_Info WHERE std_Id= $sid";
+  //students details
+  $sql2="SELECT * FROM students_Info WHERE std_Id= $sid";
 
-    $result2 = mysqli_query($conn, $sql2)
-    or die("Error in fetching records");
+  $result2 = mysqli_query($conn, $sql2)
+  or die("Error in fetching records");
 
-    $rowsR = mysqli_fetch_all($result2);
+  $rowsR = mysqli_fetch_all($result2);
 
-    // print_r($rowsR);
+  // print_r($rowsR);
 
-    foreach ($rowsR as $rowR){
+  foreach ($rowsR as $rowR){
 
-    }
-    //print_r($rowR);
-    if ($result2 === false) {
+  }
+  //print_r($rowR);
+  if ($result2 === false) {
 
-    exit("Couldn't execute the query." . mysqli_error($conn));
+  exit("Couldn't execute the query." . mysqli_error($conn));
 
-    }
+  }
+
  }
+
+ //fetching students_info
+ $sql = "SELECT hostel, transpotation FROM students_Info WHERE std_Id = $sid";
+
+  $rslts = mysqli_query($conn, $sql) or die("Error in fetching records");
+
+  $rqdRows = mysqli_fetch_all($rslts);
+
+
+  if ($rslts === false) {
+
+  exit("Couldn't execute the query." . mysqli_error($conn));
+
+  }       
+
+//fetching therapy data
+ $sql = "SELECT std_Id FROM therapyRecipient WHERE std_Id = $sid";
+
+ $rslt = mysqli_query($conn, $sql) or die("Error in fetching records");
+
+ //$rowCountTh = mysqli_fetch_all($rslts);
+
+ //print_r($rowCountTh);
+
+
+ if ($rslt === false) {
+
+ exit("Couldn't execute the query." . mysqli_error($conn));
+
+ }       
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>sprofile</title>
-  <link rel="stylesheet" href="CSS/bootstrap.min.css" >
-  <link rel="stylesheet" href="CSS/monFee.css" >
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
-  <link rel="stylesheet" href="CSS/stdProfile.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>sprofile</title>
+<link rel="stylesheet" href="CSS/bootstrap.min.css" >
+<link rel="stylesheet" href="CSS/monFee.css" >
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<link rel="stylesheet" href="CSS/stdProfile.css">
+
+<!-- hiding hostel, transpotation & therapy input tag -->
+<?php foreach ($rqdRows as $rRow):  ?>
+<?php if ($rRow[0] == 'No'):  ?>
+<style>
+  #mfee #hostel{
+    display : none;
+  }
+</style>
+<?php endif; ?>
+<?php endforeach;  ?>
+
+<?php foreach ($rqdRows as $rRow):  ?>
+<?php if ($rRow[1] == 'No'):  ?>
+<style>
+  #mfee #transport{
+    display : none;
+  }
+</style>
+<?php endif; ?>
+<?php endforeach;  ?>
+
+<?php if (mysqli_num_rows($rslt) == 0):  ?>
+<style>
+  #mfee #therapy{
+    display : none;
+  }
+</style>
+<?php endif; ?>
+
+
 </head>
 <body>
 <?php
@@ -106,21 +130,20 @@
   $query = "SELECT schemeName FROM scheme WHERE scheme_Id = (SELECT scheme_Id FROM students_Info WHERE std_Id= $sid)";
 
   $rslt = mysqli_query($conn, $query)
-    or die("Error in fetching records");
+  or die("Error in fetching records");
 
-    $fetchrows = mysqli_fetch_all($rslt);
+  $fetchrows = mysqli_fetch_all($rslt);
 
-    foreach ($fetchrows as $fRow){
+  foreach ($fetchrows as $fRow){
 
-    }
+  }
 
-    if ($rslt === false) {
+  if ($rslt === false) {
 
-    exit("Couldn't execute the query." . mysqli_error($conn));
+  exit("Couldn't execute the query." . mysqli_error($conn));
 
-    }
+  }
 
-  
 ?>
   <div class="container">
     <header id="main-header">
@@ -326,6 +349,11 @@
 
         }    
     ?>
+    <?php 
+      $_SESSION['stdId_pro'] = $sid;
+    ?>
+
+
     <!-- Fee -->
       <div id="mfee" class="collapse">
         <div class="card card-body bg-success text-white py-5">
@@ -335,86 +363,99 @@
           <div class="row">
             <div class="col-md-6 offset-md-3">
               <div class="card card-body  shadow-lg p-4 rounded" id="inner-Card">
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                  <div class="form-group">
+                <form action="monthFee.php" method="post">
+                  <div class="form-group"> 
+                    <div class="row"> 
+                      <div class="col">
+                        <span class="label">Payment Date</span>
+                        <input type="date" class="form-control shadow rounded" id="feeDate" name="feeDate">
+                      </div>
+                      <div class="col">
+                        <span class="label">For The Month</span>
+                        <input type="text" class="form-control shadow rounded" id="feeMon" name="feeMon" readonly>
+                      </div>
+                      <div class="col">
+                        <span class="label">For The Year</span>
+                        <input type="text" class="form-control shadow rounded" id="feeYear" name="feeYear" readonly>
+                      </div>
+                    </div>  
+                  </div>
+                  <div class="form-group py-2">
                     <div class="row">
                       <div class="col">
-                        <span id="label">Fee Type</span>               
-                          <select class="custom-select shadow rounded">
+                        <span class="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded" id="sFeeId" name="sFeeId" onchange="loadFee(this.id)">
                             <option selected>Select a fee type</option>
                             <option value="<?php echo ucwords($fee_Id[0]); ?>"><?php echo ucwords($feeType[0]); ?></option>
                           </select>
                       </div>  
                       <div class="col">  
-                      <span id="label">Total School Fee</span>            
-                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total School Fee" disabled>
+                      <span class="label" id="lblSch"></span>          
+                        <input type="number" class="form-control shadow rounded" id="sFee" disabled>
                       </div>
                     </div>
                     <div class="mt-3">         
-                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                      <input type="number" class="form-control  text-center shadow rounded" id="pSFee" name="pSFee" placeholder="Payable Amount">
                     </div>       
                   </div>            
-                  <div class="form-group">
+                  <div class="form-group py-2" id="hostel">
                     <div class="row">
                       <div class="col">
-                        <span id="label">Fee Type</span>               
-                          <select class="custom-select shadow rounded">
+                        <span class="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded" onchange="loadFee(this.id)" id="hstFeeId" name="hstFeeId">
                             <option selected>Select a fee type</option>
                             <option value="<?php echo ucwords($fee_Id[1]); ?>"><?php echo ucwords($feeType[1]); ?></option>
                           </select>
                       </div>  
                       <div class="col">  
-                      <span id="label">Total Respite Fee</span>            
-                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Respite Fee" disabled>
+                      <span class="label" id="lblHst"></span>            
+                        <input type="number" class="form-control shadow rounded" id="hstFee" disabled>
                       </div>
                     </div>
                     <div class="mt-3">         
-                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                      <input type="number" class="form-control text-center shadow rounded" id="pHstFee" name="pHstFee" placeholder="Payable Amount">
                     </div>       
                   </div>            
-                  <div class="form-group">
+                  <div class="form-group py-2" id="therapy">
                     <div class="row">
                       <div class="col">
-                        <span id="label">Fee Type</span>               
-                          <select class="custom-select shadow rounded">
+                        <span class="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded" onchange="loadFee(this.id)" id="thyFeeId" name="thyFeeId">
                             <option selected>Select a fee type</option>
                             <option value="<?php echo ucwords($fee_Id[2]); ?>"><?php echo ucwords($feeType[2]); ?></option>
                           </select>
                       </div>  
                       <div class="col">  
-                      <span id="label">Total Therapeutic Service Fee</span>            
-                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Therapeutic Service Fee" disabled>
+                      <span class="label" id="lblThy"></span>            
+                        <input type="number" class="form-control shadow rounded" id="thyFee" disabled>
                       </div>
                     </div>
                     <div class="mt-3">         
-                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                      <input type="number" class="form-control text-center shadow rounded" id="pThyFee" name="pThyFee" placeholder="Payable Amount">
                     </div>       
                   </div>            
-                  <div class="form-group">
+                  <div class="form-group py-2" id="transport">
                     <div class="row">
                       <div class="col">
-                        <span id="label">Fee Type</span>               
-                          <select class="custom-select shadow rounded">
+                        <span class="label">Fee Type</span>               
+                          <select class="custom-select shadow rounded" onchange="loadFee(this.id)" id="conveyFeeId" name="conveyFeeId">
                             <option selected>Select a fee type</option>
                             <option value="<?php echo ucwords($fee_Id[3]); ?>"><?php echo ucwords($feeType[3]); ?></option>
                           </select>
                       </div>  
                       <div class="col">  
-                      <span id="label">Total Conveyance Service fee</span>            
-                        <input type="number" class="form-control shadow rounded" id="sFee" name="sFee" value="" placeholder="Total Conveyance Service fee" disabled>
+                      <span class="label" id="lblCon"></span>            
+                        <input type="number" class="form-control shadow rounded" id="conFee" disabled>
                       </div>
                     </div>
                     <div class="mt-3">         
-                      <input type="number" class="form-control text-center shadow rounded" id="sFee" name="sFee" placeholder="Payable Amount">
+                      <input type="number" class="form-control text-center shadow rounded" id="pConFee" name="pConFee" placeholder="Payable Amount">
                     </div>       
                   </div>            
-                  <div class="form-group" id="date">  
-                    <span class="font-weight-bold text-monospace mb-2 mt-4" >Payable Date</span>
-                    <input type="date" class="form-control shadow rounded" id="feeDate" name="feeDate">
-                  </div>
-                  <div class="row mt-4">
+                  
+                  <div class="row mt-4 py-1">
                     <div class="col-md-6 offset-md-3">
-                      <input type="submit" class="btn btn-outline-dark btn-block shadow p-2 mb-3 bg-white" value="Submit">  
+                      <input type="submit" class="btn btn-outline-dark btn-block shadow p-2 mb-3 bg-white" value="Submit" name="submit">  
                     </div>
                   </div>        
                 </form>
@@ -552,10 +593,26 @@
             <?php endif; ?>
           </div>
 
+          <?php 
+            $dpath=$row[8];
+            $dpathExt=explode('.', $dpath);
+            $dpathActExt= strtolower(end($dpathExt));
+          ?>
+
           <div class="col-md-3">
-            <!-- <a href="https://unsplash.it/1200/768.jpg?image=258" data-toggle="lightbox">
-              <img src="https://unsplash.it/600.jpg?image=258" alt="" class="img-fluid">
-            </a> -->
+          <?php if($dpathActExt == 'pdf'): ?>
+              <a href="<?php echo $row[8]; ?>">
+                <img src="img/pdficon.png" width="267" height="260" alt="<?php pathinfo($row[8], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php elseif($dpathActExt == 'docx') : ?>
+              <a href="<?php echo $row[8]; ?>">
+                <img src="img/Word-icon.png" width="267" height="260" alt="<?php pathinfo($row[8], PATHINFO_FILENAME); ?>">
+              </a>
+            <?php else: ?>
+              <a href="<?php echo $row[8]; ?>" data-toggle="lightbox">
+                <img src="<?php echo $row[8]; ?>" alt="" width="267" height="260">
+              </a>
+            <?php endif; ?>
           </div>
           <div class="col-md-3">
             <!-- <a href="https://unsplash.it/1200/768.jpg?image=259" data-toggle="lightbox">
@@ -632,7 +689,8 @@
 
 
    <!-- bootstrap script -->
-   <script src="JS/bootstrapJquery.js"></script>
+  <script src="scripts/monFee.js"></script> 
+  <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
