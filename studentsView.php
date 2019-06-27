@@ -1,6 +1,10 @@
 <?php
   session_start();
   include_once "includes/connect.php";
+
+  if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -22,16 +26,16 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+            <a href="users.php" class="nav-link">Users</a>
           </li>
         </ul>
 
@@ -120,6 +124,50 @@
   <!-- students -->
   <section id="students">
     <div class="container">
+    <?php if(isset($_GET["succ"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "Fees Recorded Successfully For The Cuurent Month";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["smsSend"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "SMS Send....!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["sucs"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Details Updated Successfully!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["fail"])): ?>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Details Cannot Be Updated!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
       <div class="row">
         <div class="col">
           <div class="card">
@@ -164,7 +212,7 @@
                   <?php  foreach ($rows as $row): ?>
                     <tr>
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
-                      <td class="text-center"><?php echo $row[18]; ?></td>
+                      <td class="text-center"><?php echo $row[19]; ?></td>
                       <td class="text-center">
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
@@ -206,7 +254,7 @@
                    <?php  foreach ($rows as $row): ?>
                     <tr>
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
-                      <td class="text-center"><?php echo $row[18]; ?></td>
+                      <td class="text-center"><?php echo $row[19]; ?></td>
                       <td class="text-center">
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
@@ -270,6 +318,7 @@
   <?php require "includes/footer.php"; ?>
   
 <!-- bootstrap script -->
+<script src="scripts/tweaks.js"></script>
 <script src="JS/bootstrapJquery.js"></script>
 <script src="JS/popper.min.js"></script>
 <script src="JS/bootstrap.min.js"></script>

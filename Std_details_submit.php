@@ -18,6 +18,7 @@
       $state = $_POST["state"];
       $district = $_POST["dist"];
       $zip = $_POST["zip"];
+      $phone = $_POST["phone"];
       $class = $_POST["class"];
       $disability = $_POST["disabilityType"];
       $admissionDate = $_POST["admissionDate"];
@@ -32,12 +33,14 @@
 
       //echo $stdAge;
       // Prepare an insert statement
-      $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, phone, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       
       if($stmt = mysqli_prepare($conn, $sql)){
-         
+
+        if(!empty($name) && !empty($stdAge) && !empty($bPlace) && !empty($fatherName) && !empty($motherName) &&!empty($address) && !empty($state) && !empty($district) && !empty($zip) && !empty($phone) && !empty($class)){
+
           // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "issssssissssssssssssisssi", $schemeId, $name, $bDate, $bPlace, $fatherName, $motherName, $gender, $stdAge, $religion, $caste, $address, $state, $district, $zip, $class, $disability, $admissionDate, $hostel, $transpotation, $incomeGroup, $bankAcNo, $bankIFSC, $bankBranch, $iCard, $aadharNo);
+          mysqli_stmt_bind_param($stmt, "issssssisssssssssssssisssi", $schemeId, $name, $bDate, $bPlace, $fatherName, $motherName, $gender, $stdAge, $religion, $caste, $address, $state, $district, $zip,  $phone, $class, $disability, $admissionDate, $hostel, $transpotation, $incomeGroup, $bankAcNo, $bankIFSC, $bankBranch, $iCard, $aadharNo);
         
           mysqli_stmt_execute($stmt);
 
@@ -52,6 +55,7 @@
           }else {
             header("Location: upload.php");
           }
+        }  
           
       } else{
           echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);

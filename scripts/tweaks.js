@@ -1,6 +1,5 @@
-var d = new Date();
-let year = d.getFullYear();
-document.querySelector('#year').innerHTML = '<em>' + year + '<em>';
- 
- 
+document.querySelector('.close').addEventListener('click', function () {
+  window.location = 'studentsView.php';
+});
+
 

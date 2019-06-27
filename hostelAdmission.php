@@ -1,6 +1,11 @@
 <?php
   session_start();
   include_once "includes/connect.php";
+
+  if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
+
   $std_Id = $_SESSION['std_id'];
   //$std_Id = 27;
 
@@ -88,7 +93,7 @@
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white">
+  <header id="main-header" class="py-2 bg-info text-white">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -155,11 +160,11 @@
         </div>
 
         <div class="form-group" >
-          <label>Room Number</label>
-          <input type="number" class="form-control" id="roomNo" name="roomNo" placeholder="Room Number">
+          <label>Seat Number</label>
+          <input type="number" class="form-control" id="roomNo" name="roomNo" placeholder="Seat Number">
         </div>
     
-        <input type="submit" value="Submit" class="btn btn-primary btn-block" name="submit">
+        <input type="submit" value="Save & Next" class="btn btn-info btn-block" name="submit">
       </form>  
     </div>
     

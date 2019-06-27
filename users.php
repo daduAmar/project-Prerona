@@ -1,6 +1,11 @@
 <?php
     session_start();
     require_once "includes/connect.php";
+
+    if(!isset($_SESSION['username'])){
+      header("Location: preronaHome.php");
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -24,16 +29,16 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link active">Users</a>
+            <a href="users.php" class="nav-link active">Users</a>
           </li>
         </ul>
 

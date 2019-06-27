@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\Exception;
 
 define('USERNAME', 'amarjyoti.gautam@gmail.com');				
 define('PASSWORD', 'amar25@#');
+define('API_KEY', 'YIb8SdUTJV1OeGc2nwDuxH3jMthWygl7CQkBXA9KqN6F45LrRi2baO7Vn1ZcY3K5lhTAgSF09ktjHfrs');
+
 
 class MyUtil
 {
@@ -42,5 +44,53 @@ class MyUtil
 				echo 'Email could not be sent. Mailer Error: ' . $mail->ErrorInfo;
 		    }
 
+	}
+
+	public static function sendSMS($text, $numbers)
+	{
+		$fields = array(
+		    "sender_id" => "FSTSMS",
+		    "message" => $text,
+		    "language" => "english",
+		    "route" => "p",
+		    "numbers" => $numbers,						// multiple numbers can be added as CSV
+		);
+
+
+
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => "https://www.fast2sms.com/dev/bulk",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_SSL_VERIFYHOST => 0,
+		  CURLOPT_SSL_VERIFYPEER => 0,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS => json_encode($fields),
+		  CURLOPT_HTTPHEADER => array(
+		    "authorization: " . API_KEY,
+		    "accept: */*",
+		    "cache-control: no-cache",
+		    "content-type: application/json"
+		  ),
+
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+		  return "SMS could not be sent. Error: " . $err;
+		}
+		else {
+			$arr = json_decode($response, true);
+			return $arr['message'][0];
+		}
 	}
 }

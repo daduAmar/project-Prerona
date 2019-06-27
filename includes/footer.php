@@ -8,22 +8,17 @@
 <body>  
 
    <!-- FOOTER -->
-   <footer id="main-footer" class="bg-dark text-white p-5 d-none d-lg-block">
+   <footer id="main-footer" class="bg-dark text-white p-5">
     <div class="container">
-      <div class="row">
-        <div class="col">
-          <p class="lead text-center">
-            Copyright &copy;
-            <span id="year"></span>
-            PRERONA
-          </p>
-        </div>
-      </div>
+      <p class="lead text-center font-weight-bold text-monospace">
+      <strong>PRERONA</strong> <br>
+      <em>PRATIBANDHI SISHU BIKASH KENDRA</em><br>
+      <em>Spastics Society Of Jorhat</em><br>
+      </p>
     </div>
   </footer>
 
 
   <!-- bootstrap script -->
-  <script src="scripts/tweaks.js"></script>
 </body>
 </html>

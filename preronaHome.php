@@ -30,7 +30,7 @@
         if($row['is_active'] == 0){
 
           $is_ok = false;
-          $not_active = '<strong> Oops!! access denied. </strong> Your account is not active,please check your email.... <a href="www.gmail.com">Click Here</a>';
+          $not_active = '<strong> Oops!! access denied. </strong> Your account is not active,please check your email.... ';
 
         }else{
 
@@ -93,7 +93,7 @@
       
         mysqli_stmt_execute($stmt);
 
-        $email = "bharatidadu47@gmail.com";
+        $email = $u_email;
         $subject = "Prerona:Account Verfication";
         $body  = "Hi!You have signed up in Prerona's Student Portal,in order to complete the signed up process click <a href='".ROOT_URL."account_verify.php?code=$code'> Verify
         </a>here...";
@@ -134,7 +134,7 @@
 <body >
   <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top" id="main-nav">
     <div class="container">
-      <a href="#" class="navbar-brand">PRERONA</a>
+      <a  class="navbar-brand"><img src="img/2.png" class="mr-2" alt="" width="90" height="50">PRERONA</a>
       <button class="navbar-toggler"
       type="button" data-toggle="collapse"
        data-target="#navbarNav" aria-controls="navbarNav"
@@ -156,7 +156,7 @@
       </div>
     </div>
   </nav>
-
+    
   <!-- HOME SECTION -->
  
   <header id="home-section">

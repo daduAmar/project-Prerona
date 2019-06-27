@@ -2,6 +2,7 @@
 
 require "includes/connect.php";
 
+
 if(isset($_GET['code'])){
 
   $resetCode = filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING);

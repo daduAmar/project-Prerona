@@ -1,0 +1,48 @@
+body{
+  background: rgb(214, 210, 210);
+}
+
+#main-header img {
+  width: 100%;
+  height: 100%;
+}
+
+#main-header .port-item {
+  width: 100%;
+}
+
+#main-header .port-item:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#home #outerCard{
+  background: rgb(202, 201, 201);
+}
+
+.bg-black {
+  color: #fff;
+  background: #000;
+}
+
+.bg{
+  color: #fff;
+  background: rgb(85, 84, 87);
+}
+
+.collaps{
+  background: rgb(142, 140, 143);
+}
+
+@media (min-width: 1199px) {
+  .port-item {
+    padding: 3em !important;
+  }
+}
+
+#main-footer{
+  background: url(../img/ddrcFooter.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}

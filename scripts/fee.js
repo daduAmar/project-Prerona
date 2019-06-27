@@ -1,4 +1,5 @@
 document.querySelector('#loadImg').style.display = 'none';
+document.querySelector('#print').style.display = 'none';
 let btn = document.querySelector('#sub').disabled = true;
 
 
@@ -20,18 +21,19 @@ function calculate() {
 
     alert('Payable School Admission Fee cannot be empty!');
 
-  }else if(sFee != '' && hFee == '') { 
+  } else if (sFee != '' && hFee == '') {
 
     totalFee = parseInt(sFee);
     totInput.value = totalFee;
     document.querySelector('#hPayFee').disabled = true;
 
-  } else{
-     
+  } else {
+
     totalFee = parseInt(sFee) + parseInt(hFee);
     totInput.value = totalFee;
-   
-  } 
+
+  }
   document.querySelector('#loadImg').style.display = 'none';
+  document.querySelector('#print').style.display = 'block';
   let btn = document.querySelector('#sub').disabled = false;
 }

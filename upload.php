@@ -1,9 +1,16 @@
 <?php
   session_start();
   include_once "includes/connect.php";
+
+  if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
+
   global $std_Id;
   $std_Id = $_SESSION['std_id'];
-     //$std_Id = 36;
+  //$std_Id = 2;
+  $its_ok = true;
+  $photo = $disability = $birth = $success = '';
     if(isset($_POST['submit'])){
 
       //photo
@@ -80,26 +87,31 @@
 
       if(!empty($photoName)){
 
-        $photoDestination = checkFile($photoTmpName, $photoActualExt, $allowedType1, $photoError, $photoSize, 'JPG/JPEG', 'Photo');
+        $photoDestination = checkFile($photoTmpName, $photoActualExt);
         
       } else {
+
        $photoDestination = '';
-       echo "Choose applicant's photo!<br>";
+       $photo = "Please Provide Applicant's photo!";
+       $its_ok = false;
+
       }
       
       if(!empty($birthCertiName)){
 
-        $birthDestination = checkFile($birthCertiTmpName, $birthCertiActualExt, $allowedType2, $birthCertiError, $birthCertiSize, 'JPG/JPEG/PDF/DOCX', 'Birth Certificate');
+        $birthDestination = checkFile($birthCertiTmpName, $birthCertiActualExt);
       
       } else {
         
         $birthDestination = '';
-        echo "Choose applicant's Birth Certificate!<br>";
+        $birth = "Please Provide Applicant's Birth Certificate!";
+        $its_ok = false;
+
       }
 
       if(!empty($casteName)){
 
-        $casteDestination = checkFile($casteTmpName, $casteActualExt, $allowedType2, $casteError, $casteSize, 'JPG/JPEG/PDF/DOCX', 'Caste Certificate');
+        $casteDestination = checkFile($casteTmpName, $casteActualExt);
         
       }else{
         $casteDestination = '';
@@ -107,25 +119,27 @@
 
       if(!empty($disabilityName)){
 
-        $disabilityDestination = checkFile($disabilityTmpName, $disabilityActualExt, $allowedType2, $disabilityError, $disabilitySize,  'JPG/JPEG/PDF/DOCX', 'Disability Certificate');
+        $disabilityDestination = checkFile($disabilityTmpName, $disabilityActualExt);
 
       }else {
+
         $disabilityDestination = '';
-        echo "Choose  applicant's Disability Certificate!<br>";
+        $disability = "Please Provide  Applicant's Disability Certificate!";
+        $its_ok = false;
+
       }
 
       if(!empty($incomeName)){
 
-        $incomeDestination = checkFile($incomeTmpName, $incomeActualExt, $allowedType2, $incomeError, $incomeSize, 'JPG/JPEG/PDF/DOCX', 'Income Certificate');
+        $incomeDestination = checkFile($incomeTmpName, $incomeActualExt);
         
       }else {
         $incomeDestination = '';
-        // echo "Choose  applicant's Parent Income Certificate!<br>";
       }
 
       if(!empty($guardianName)){
 
-        $guardianDestination = checkFile($guardianTmpName, $guardianActualExt, $allowedType2, $guardianError, $guardianSize, 'JPG/JPEG/PDF/DOCX', 'Guardianship Certificate');
+        $guardianDestination = checkFile($guardianTmpName, $guardianActualExt);
         
       }else {
         $guardianDestination = '';
@@ -133,7 +147,7 @@
 
       if(!empty($niramayaName)){
 
-        $niramayaDestination = checkFile($niramayaTmpName, $niramayaActualExt, $allowedType2, $niramayaError, $niramayaSize, 'JPG/JPEG/PDF/DOCX', 'Niramaya Health Card');
+        $niramayaDestination = checkFile($niramayaTmpName, $niramayaActualExt);
         
       }else {
         $niramayaDestination = '';
@@ -164,38 +178,16 @@
       }
     }
     
-  function checkFile($fileTemName, $extension, $fileType, $fileError, $fileSize,  $format, $file){
+  function checkFile($fileTemName, $extension){
 
-  if(in_array($extension, $fileType)){
-
-    if($fileError === 0){
-      
-      if($fileSize < 5000000){
-
-        $fileNameNew = uniqid('',true).".".$extension;
-        
-        $fileDestination = 'uploads/'.$fileNameNew;
-        
-        move_uploaded_file($fileTemName, $fileDestination);
-        return $fileDestination;
-
-      } else {
-
-        echo "Your file size is too big!<br>";
-
-      }
-    } else{
-
-      echo "There was an error uploading $file!<br>";
-
-    }
-  
-  }else {
-
-    echo "$file must be in $format format!<br>";
+    $fileNameNew = uniqid('',true).".".$extension;
+    
+    $fileDestination = 'uploads/'.$fileNameNew;
+    
+    move_uploaded_file($fileTemName, $fileDestination);
+    return $fileDestination;
 
   }
-}
   
 function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabilityDestination, $casteDestination, $incomeDestination, $guardianDestination, $niramayaDestination){
 
@@ -206,16 +198,15 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
 
     if($stmt = mysqli_prepare($conn, $sql)){
 
-      if(!empty($photoDestination) && !empty($birthDestination) && !empty($disabilityDestination) || !empty($casteDestination) || !empty($incomeDestination) || !empty($guardianDestination)  || !empty($niramayaDestination)){
+      
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "isssssss", $std_Id, $photoDestination, $birthDestination,
+      $casteDestination, $disabilityDestination, $incomeDestination, $guardianDestination, $niramayaDestination);
 
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "isssssss", $std_Id, $photoDestination, $birthDestination,
-        $casteDestination, $disabilityDestination, $incomeDestination, $guardianDestination, $niramayaDestination);
+      mysqli_stmt_execute($stmt);
+      
+      $success = "Files Uploaded...! Click Next";
 
-        mysqli_stmt_execute($stmt);
-        
-        echo "Files Uploaded...<br>";
-      }  
 
     }else {
 
@@ -225,7 +216,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
 
   }else {
 
-    echo "1st 3 req";
+    //echo "1st 3 req";
 
   } 
 } 
@@ -287,7 +278,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
   </nav>
 
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white">
+  <header id="main-header" class="py-3 bg-info text-white">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -316,6 +307,54 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
     ?>            
     <br>
     <div class="container">
+
+      <!-- required files -->
+      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php
+            echo isset($photo) ? $photo : "";
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php
+            echo isset($disability) ? $disability : "";
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php
+            echo isset($birth) ? $birth : "";
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+      <?php if(isset($_POST["submit"]) && $its_ok === true): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <?php
+            echo "Files Uploaded...! Click Next"; 
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+
+      <!-- file form -->
       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
 
         <!-- therapy -->
@@ -323,7 +362,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
           <div class="card-body">
             <div class="custom-control custom-switch">
               <input type="checkbox" onchange="showCheckBox(this.checked)" class="custom-control-input" id="switch" >
-              <label class="custom-control-label font-weight-bold text-monospace" for="switch">Whether applicant need any therapy?</label>
+              <label class="custom-control-label font-weight-bold text-monospace" for="switch">Whether Applicant Need Any Therapeutic Service?</label>
             </div>
             <div id="therapy" class="ml-3 mt-3">
               <?php foreach ($rows as $row): ?>
@@ -338,63 +377,70 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
 
         <!-- docs input -->
         <div class="card mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+        <!-- error msg -->
+        <div id="msg">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
           <div class="card-body">
           <p class="text-dark text-muted font-weight-bold text-monospace mt-3 id="heading">Provide the following documents of the applicant</p>
-
-            <div class="custom-file mt-4 mb-5">
-              <input type="file" class="custom-file-input" name="photo" id="photo">
-              <label class="custom-file-label" for="file">Photo of the applicant</label>
-              <small class="text-danger">*Photo must in JPG/JPEG format</small>
-            </div>
-
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="birthCerti" id="birthCerti">
-              <label class="custom-file-label" for="file">Birth Certificate of the applicant</label>
-              <small class="text-danger">*Birth Certificate must in JPG/JPEG/PDF/DOCX format</small>
-            </div>
-
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="disability" id="disability">
-              <label class="custom-file-label" for="file">Disability Certificate of the applicant</label>
-              <small class="text-danger">*Disability Certificate must in JPG/JPEG/PDF/DOCX format</small>
-            </div>
-
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="caste" id="caste">
-              <label class="custom-file-label" for="file">Caste Certificate of the applicant,if any</label>
-              <small class="text-danger">*Caste Certificate must in JPG/JPEG/PDF/DOCX format</small>
-            </div>
             
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="income" id="income">
+              <div class="custom-file mt-4">
+              
+                <input type="file" class="custom-file-input" name="photo" id="stdPhoto" onchange="photoValidate()">
+                <label class="custom-file-label" for="file">Photo of the applicant</label>
+                <small class="text-danger">*Necessary</small>
+              </div>
+              <div class="mb-3" id="prePhoto"></div>
+
+            <div class="custom-file mb-3">
+              <input type="file" class="custom-file-input" name="birthCerti" id="birthCerti" onchange="birthValidate()">
+              <label class="custom-file-label" for="file">Birth Certificate of the applicant</label>
+              <small class="text-danger">*Necessary</small>
+            </div>
+            <div class="mb-3 alert alert-success text-center" id="bth"></div>
+
+            <div class="custom-file mb-3">
+              <input type="file" class="custom-file-input" name="disability" id="disability" onchange="disaValidate()">
+              <label class="custom-file-label" for="file">Disability Certificate of the applicant</label>
+              <small class="text-danger">*Necessary</small>
+            </div>
+            <div class="mb-3 alert alert-success text-center" id="dis"></div>
+
+            <div class="custom-file mb-4">
+              <input type="file" class="custom-file-input" name="caste" id="caste" onchange="casteValidate()">
+              <label class="custom-file-label" for="file">Caste Certificate of the applicant,if any..</label>
+            </div>
+            <div class="mb-3 alert alert-success text-center" id="cast"></div>
+            
+            <div class="custom-file mb-4">
+              <input type="file" class="custom-file-input" name="income" id="income" onchange="incomeValidate()">
               <label class="custom-file-label" for="file">Income Certificate/BPL Card of the applicant,if any..</label>
-              <small class="text-danger">*Income Certificate/BPL Card must in JPG/JPEG/PDF/DOCX format</small>
             </div>
+            <div class="mb-3 alert alert-success text-center" id="incm"></div>
 
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="guardian" id="guardian">
+            <div class="custom-file mb-4">
+              <input type="file" class="custom-file-input" name="guardian" id="guardian" onchange="guardValidate()">
               <label class="custom-file-label" for="file">Guardianship Certificate of the applicant,if any..</label>
-              <small class="text-danger">*Guardianship Certificate must in JPG/JPEG/PDF/DOCX format</small>
             </div>
+            <div class="mb-3 alert alert-success text-center" id="guard"></div>
 
-            <div class="custom-file mb-5">
-              <input type="file" class="custom-file-input" name="niramaya" id="niramaya">
-              <label class="custom-file-label" for="file">Niramaya Health Card of the applicant</label>
-              <small class="text-danger">*Niramaya Health Card must in JPG/JPEG/PDF/DOCX format</small>
+            <div class="custom-file mb-4">
+              <input type="file" class="custom-file-input" name="niramaya" id="niramaya" onchange="niraValidate()">
+              <label class="custom-file-label" for="file">Niramaya Health Card of the applicant,if any..</label>
             </div>
+            <div class="alert alert-success text-center" id="nira"></div>
           </div>
         </div>
 
         <br>
         <div class="row">
           <div class="col">
-            <button type="submit" id="sub" class="btn btn-primary btn-block" name="submit" onclick="activeBtn()">Upload</button>
+            <button type="submit" id="sub" class="btn btn-info btn-block" name="submit">Upload</button>
           </div>
           <div class="col">
-          <button type="reset" class="btn btn-primary btn-block">Reset</button>
-          </div>
-          <div class="col">
-          <button type="button" name="next" class="btn btn-primary btn-block" onclick="pageTransition()" id="nextPg">Next</button>
+          <button type="button" name="next" class="btn btn-info btn-block" onClick="pageTransition()" id="nextPg">Next</button>
           </div>
         </div>
       </form>  
@@ -406,6 +452,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
   <?php require "includes/footer.php"; ?>
                 
    <!-- bootstrap script -->
+   <script src="scripts/uploads.js"></script>
    <script src="scripts/pageTransition.js"></script>
    <script src="scripts/thpy.js"></script>
    <script src="JS/bootstrapJquery.js"></script>

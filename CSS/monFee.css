@@ -27,7 +27,7 @@ border-radius: 15px;
   border-radius: 15px;
 }
 
-#mfee input[type = "submit"]:hover{
+#mfee #sb:hover{
   border-radius: 12px;
   background: url(../img/mFee.jpg);
   background-repeat: no-repeat;

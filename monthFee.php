@@ -71,6 +71,7 @@
         $sql = "INSERT INTO stdPaidFees (mFee_Id, std_Id, feeMonth, feeYear, paidFee, payDate) VALUES ('$schFeeId', '$sId', '$month', '$year', '$schFee', '$date'), ('$respiteFeeId', '$sId', '$month', '$year', '$respiteFee', '$date'), ('$therapyFeeId', '$sId',' $month', '$year', '$therapyFee',' $date')";
 
         if(mysqli_query($conn, $sql)){
+          
           header("Location: studentsView.php?succ");
         }
 

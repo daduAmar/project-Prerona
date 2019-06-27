@@ -2,6 +2,12 @@
   session_start();
   include_once "includes/connect.php";
 
+  $is_checked = true;
+
+  if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
+
   //delete hosteller
   if(isset($_GET['ahst_id'])){
 
@@ -78,16 +84,16 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+            <a href="users.php" class="nav-link">Users</a>
           </li>
         </ul>
 
@@ -120,23 +126,65 @@
       <div class="row">
         <div class="col-md-6">
           <h1>
-          <i class="fas fa-wheelchair"></i> Respite Details</h1>
+          <i class="fas fa-hotel"></i>  Respite</h1>
         </div>
       </div>
     </div>
   </header>
+
+  <?php 
+
+    if(isset($_GET["search"])){
+
+      $is_checked = false;
+
+      $name = $_GET["searchNm"];
+
+      $sql = "SELECT students_Info.stdName, hostelAdmission.hAdmission_Id, hostelAdmission.paidAdmissionFee,hostelAdmission.admissionDate, hostelAdmission.roomNo FROM hostelAdmission INNER JOIN students_Info ON students_Info.std_Id = hostelAdmission.std_Id WHERE students_Info.stdName LIKE '%$name%'";
+
+      $result = mysqli_query($conn, $sql)
+          or die("Error in fetching records");
+
+      $hstlSrRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+     
+        
+      if ($result === false) {
+          exit("Couldn't execute the query." . mysqli_error($conn));
+      } 
+
+    }   
+    
+    if(!isset($_GET["search"])){
+      
+      $is_checked = true;
+      //hostellers info
+      $sql = "SELECT students_Info.stdName, hostelAdmission.hAdmission_Id, hostelAdmission.paidAdmissionFee,hostelAdmission.admissionDate, hostelAdmission.roomNo FROM hostelAdmission INNER JOIN students_Info ON students_Info.std_Id = hostelAdmission.std_Id";
+
+      $result = mysqli_query($conn, $sql)
+            or die("Error in fetching records");
+
+      $hstlRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      //print_r($hstlRows);
+        
+      if ($result === false) {
+          exit("Couldn't execute the query." . mysqli_error($conn));
+      }
+    }   
+  ?>
   
   <!-- SEARCH -->
   <section id="search" class="py-3 mb-4 bg-light">
     <div class="container">
       <div class="d-flex flex-row-reverse">
         <div class="ml-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search Hosteller...">
-              <div class="input-group-append">
-                <button class="btn btn-success">Search</button>
-              </div> 
-          </div>     
+          <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="get">
+            <div class="input-group">
+              <input type="text" class="form-control" name="searchNm" placeholder="Search Hosteller...">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-success" name="search">Search</button>
+                </div> 
+            </div>  
+          </form>     
         </div>          
         <div class="mr-1">
           <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addRespiteModal">
@@ -146,6 +194,8 @@
       </div>
     </div>
   </section>
+
+  
 
   <!-- respite -->
   <section id="respite">
@@ -167,22 +217,11 @@
                     </tr>  
                   </thead>
                   <tbody>
-                    <?php 
-          
-                      //hostellers info
-                      $sql = "SELECT students_Info.stdName, hostelAdmission.hAdmission_Id, hostelAdmission.paidAdmissionFee,hostelAdmission.admissionDate, hostelAdmission.roomNo FROM hostelAdmission INNER JOIN students_Info ON students_Info.std_Id = hostelAdmission.std_Id";
 
-                      $result = mysqli_query($conn, $sql)
-                            or die("Error in fetching records");
 
-                      $hstlRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                      //print_r($hstlRow);
-                        
-                      if ($result === false) {
-                          exit("Couldn't execute the query." . mysqli_error($conn));
-                      } 
-                    ?>
+                     <?php if($is_checked === true):  ?>
                     <?php foreach($hstlRows as $hstlRow):  ?>
+
                       <tr>
                         <td class="text-center"><?php echo $hstlRow['stdName']; ?></td>
                         <td class="text-center"><?php echo $hstlRow['paidAdmissionFee']; ?></td>
@@ -199,7 +238,30 @@
                           </a>
                         </td>
                       </tr>
+                    <?php endforeach; ?>
+                    <?php endif;  ?>
+
+                    <?php if(isset($_GET["search"])):  ?>
+                    <?php foreach($hstlSrRows as $hstlSrRow):  ?>
+
+                      <tr>
+                        <td class="text-center"><?php echo $hstlSrRow['stdName']; ?></td>
+                        <td class="text-center"><?php echo $hstlSrRow['paidAdmissionFee']; ?></td>
+                        <td class="text-center"><?php echo $hstlSrRow['admissionDate']; ?></td>
+                        <td class="text-center"><?php echo $hstlSrRow['roomNo']; ?></td>
+                        <td class="text-center">
+                          <a href="respiteView.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-danger btn-sm">
+                          <i class="fas fa-minus-circle"></i> Remove
+                          </a>
+                        </td>
+                        <td class="text-center">
+                          <a href="adminHome.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-info btn-sm">
+                          <i class="fas fa-tools"></i> Update 
+                          </a>
+                        </td>
+                      </tr>
                     <?php endforeach; ?> 
+                    <?php endif;  ?>
                   </tbody>
                 </table>  
               </div>    

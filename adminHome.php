@@ -146,16 +146,16 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link active">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link active">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+            <a href="users.php" class="nav-link">Users</a>
           </li>
         </ul>
 
@@ -167,7 +167,7 @@
               
                 if(isset($_SESSION['username']))
                 {
-                echo $_SESSION['username'];
+                echo ucwords($_SESSION['username']);
                 }
               ?>
             </a>
@@ -188,7 +188,7 @@
       <div class="row">
         <div class="col-md-6">
           <h1>
-          <i class="fas fa-users-cog mr-1"></i> Admin Dashboard</h1>
+          <i class="fas fa-users-cog mr-1"></i> User Dashboard</h1>
         </div>
       </div>
     </div>
@@ -199,7 +199,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addSchemeModal">
+          <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#addSchemeModal">
             <i class="fas fa-plus"></i> Scheme
           </a>
         </div>
@@ -250,6 +250,16 @@
   <br>
   <section id="home_section">
     <div class="container my-4">
+    <?php if(isset($_GET["success"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "Congratulations!...Registration Is Successfully Completed";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
       <div class="row">
         <div class="col-md-4">
           <div class="card text-center bg-info text-white mb-3">
@@ -324,11 +334,11 @@
   <div class="modal fade" id="addSchemeModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title">Add Scheme</h5>
         </div>
         <div class="modal-body">
-        <h3 class="text-monospace text-primary text-center">Scheme Details</h3>
+        <h3 class="text-monospace text-info text-center">Scheme Details</h3>
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
@@ -359,14 +369,14 @@
 
           <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <div class="form-group">
-              <label for="schmName" class="text-primary">Scheme Name</label>
+              <label for="schmName" class="text-info">Scheme Name</label>
               <input type="text" class="form-control" name="schmName" id="schmName" placeholder="New Scheme Name">
             </div>
-            <input type="submit" class="btn btn-outline-primary btn-block" value="Add Scheme" name="addScheme">
+            <input type="submit" class="btn btn-outline-info btn-block" value="Add Scheme" name="addScheme">
           </form>
         </div>
         <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button class="btn btn-info" data-dismiss="modal">Close</button>
         
         </div>
       </div>

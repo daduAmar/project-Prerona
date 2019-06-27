@@ -4,16 +4,16 @@ body {
 }
  
 .navbar {
-  border-bottom: #008ed6 3px solid;
+  border-bottom: #0285f0 4px solid;
   opacity: 0.8;
 }
 
 #home-section {
-  background: url(../img/dis2.jpg);
+  background: url(../img/ddrc.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  min-height: 700px;
+  min-height: 1000px;
 }
 
 #home-section .dark-overlay {
@@ -21,7 +21,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 700px;
+  min-height: 1000px;
   background: rgba(0, 0, 0, 0.7);
 }
 
