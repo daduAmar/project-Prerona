@@ -134,7 +134,7 @@
 <body >
   <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top" id="main-nav">
     <div class="container">
-      <a  class="navbar-brand"><img src="img/2.png" class="mr-2" alt="" width="90" height="50">PRERONA</a>
+      <a  class="navbar-brand">PRERONA</a>
       <button class="navbar-toggler"
       type="button" data-toggle="collapse"
        data-target="#navbarNav" aria-controls="navbarNav"

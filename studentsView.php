@@ -35,7 +35,7 @@
             <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="users.php" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link active">Students Details</a>
           </li>
         </ul>
 
@@ -157,16 +157,6 @@
       </div>
     <?php endif; ?>
 
-    <?php if(isset($_GET["fail"])): ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?php
-          echo "Student Details Cannot Be Updated!";
-        ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <?php endif; ?>
 
       <div class="row">
         <div class="col">

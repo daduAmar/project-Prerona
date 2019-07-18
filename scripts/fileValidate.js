@@ -27,8 +27,4 @@ function fileValidate() {
   }
 }
 
-document.querySelector('.close').addEventListener('click', function () {
-  window.location = 'ddrc.php';
-});
-
 

@@ -137,7 +137,7 @@
             <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="users.php" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 

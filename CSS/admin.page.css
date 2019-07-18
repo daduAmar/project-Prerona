@@ -1,3 +1,11 @@
 #main-header{
   background-image: linear-gradient(to right, #4185dc, #3d86de, #3986e0, #3487e1, #2e88e3, #228be2, #148de1, #0090e0, #0095db, #0099d5, #009ccd, #149fc6);
 }
+
+#home_section .bg-user{
+  background-color: #d4e20c;
+}
+
+.bg-user{
+  background-color: #d4e20c;
+}

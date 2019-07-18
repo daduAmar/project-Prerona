@@ -8,8 +8,10 @@
 
   global $std_Id;
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 2;
-  $its_ok = true;
+  //$std_Id = 12;
+  $its_ok_photo = true;
+  $its_ok_disability = true;
+  $its_ok_birth = true;
   $photo = $disability = $birth = $success = '';
     if(isset($_POST['submit'])){
 
@@ -93,7 +95,7 @@
 
        $photoDestination = '';
        $photo = "Please Provide Applicant's photo!";
-       $its_ok = false;
+       $its_ok_photo = false;
 
       }
       
@@ -105,7 +107,7 @@
         
         $birthDestination = '';
         $birth = "Please Provide Applicant's Birth Certificate!";
-        $its_ok = false;
+        $its_ok_birth = false;
 
       }
 
@@ -125,7 +127,7 @@
 
         $disabilityDestination = '';
         $disability = "Please Provide  Applicant's Disability Certificate!";
-        $its_ok = false;
+        $its_ok_disability = false;
 
       }
 
@@ -206,6 +208,9 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
       mysqli_stmt_execute($stmt);
       
       $success = "Files Uploaded...! Click Next";
+      $its_ok_photo = true;
+      $its_ok_birth = true;
+      $its_ok_disability = true;
 
 
     }else {
@@ -241,16 +246,16 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link ">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link ">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link active"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 
@@ -282,7 +287,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1>Therapy & Docs</h1>
+          <h1><i class="fas fa-file-alt"></i> Therapy & Docs</h1>
         </div>
       </div>
     </div>
@@ -308,8 +313,8 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
     <br>
     <div class="container">
 
-      <!-- required files -->
-      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+      <!-- files validation-->
+      <?php if(isset($_POST["submit"]) && $its_ok_photo === false): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <?php
             echo isset($photo) ? $photo : "";
@@ -320,7 +325,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
         </div>
       <?php endif; ?>
 
-      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+      <?php if(isset($_POST["submit"]) && $its_ok_disability === false ): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <?php
             echo isset($disability) ? $disability : "";
@@ -331,7 +336,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
         </div>
       <?php endif; ?>
 
-      <?php if(isset($_POST["submit"]) && $its_ok === false): ?>
+      <?php if(isset($_POST["submit"]) && $its_ok_birth === false): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <?php
             echo isset($birth) ? $birth : "";
@@ -342,7 +347,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
         </div>
       <?php endif; ?>
 
-      <?php if(isset($_POST["submit"]) && $its_ok === true): ?>
+      <?php if(isset($_POST["submit"]) && $its_ok_photo === true && $its_ok_disability === true && $its_ok_birth === true): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <?php
             echo "Files Uploaded...! Click Next"; 
@@ -352,6 +357,19 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
           </button>
         </div>
       <?php endif; ?>
+
+      <?php if(isset($_GET["enroll"])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <?php
+            echo "Student Is Successfully Enrolled Into Respite!"; 
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+
 
 
       <!-- file form -->
@@ -378,57 +396,96 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
         <!-- docs input -->
         <div class="card mt-5 shadow-lg p-3 mb-5 bg-white rounded">
         <!-- error msg -->
-        <div id="msg">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
           <div class="card-body">
           <p class="text-dark text-muted font-weight-bold text-monospace mt-3 id="heading">Provide the following documents of the applicant</p>
             
               <div class="custom-file mt-4">
-              
                 <input type="file" class="custom-file-input" name="photo" id="stdPhoto" onchange="photoValidate()">
+
                 <label class="custom-file-label" for="file">Photo of the applicant</label>
+
                 <small class="text-danger">*Necessary</small>
+              </div>
+              <div id="msgPhoto">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <div class="mb-3" id="prePhoto"></div>
 
             <div class="custom-file mb-3">
               <input type="file" class="custom-file-input" name="birthCerti" id="birthCerti" onchange="birthValidate()">
+
               <label class="custom-file-label" for="file">Birth Certificate of the applicant</label>
+
               <small class="text-danger">*Necessary</small>
             </div>
+            <div id="msgBirth">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
             <div class="mb-3 alert alert-success text-center" id="bth"></div>
 
             <div class="custom-file mb-3">
               <input type="file" class="custom-file-input" name="disability" id="disability" onchange="disaValidate()">
+
               <label class="custom-file-label" for="file">Disability Certificate of the applicant</label>
+
               <small class="text-danger">*Necessary</small>
+            </div>
+            <div id="msgDisability">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="mb-3 alert alert-success text-center" id="dis"></div>
 
             <div class="custom-file mb-4">
               <input type="file" class="custom-file-input" name="caste" id="caste" onchange="casteValidate()">
+
               <label class="custom-file-label" for="file">Caste Certificate of the applicant,if any..</label>
+            </div>
+            <div id="msgCaste">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="mb-3 alert alert-success text-center" id="cast"></div>
             
             <div class="custom-file mb-4">
               <input type="file" class="custom-file-input" name="income" id="income" onchange="incomeValidate()">
+
               <label class="custom-file-label" for="file">Income Certificate/BPL Card of the applicant,if any..</label>
+            </div>
+            <div id="msgIncome">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="mb-3 alert alert-success text-center" id="incm"></div>
 
             <div class="custom-file mb-4">
               <input type="file" class="custom-file-input" name="guardian" id="guardian" onchange="guardValidate()">
+
               <label class="custom-file-label" for="file">Guardianship Certificate of the applicant,if any..</label>
+            </div>
+            <div id="msgGuard">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="mb-3 alert alert-success text-center" id="guard"></div>
 
             <div class="custom-file mb-4">
               <input type="file" class="custom-file-input" name="niramaya" id="niramaya" onchange="niraValidate()">
+
               <label class="custom-file-label" for="file">Niramaya Health Card of the applicant,if any..</label>
+            </div>
+            <div id="msgNira">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="alert alert-success text-center" id="nira"></div>
           </div>

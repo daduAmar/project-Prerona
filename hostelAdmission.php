@@ -7,13 +7,31 @@
   }
 
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 27;
+  //$std_Id = 12;
+
+  //fetching respite details
+  $sql="SELECT hst_Id FROM respite";
+  $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+  $resRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+  foreach($resRows as $resRow){
+
+  }
+
+  //print_r($resRows);
+
+  if ($result === false) {
+
+    exit("Couldn't execute the query." . mysqli_error($conn));
+
+  } 
+
 
   if(isset($_POST["submit"])){
 
     $feeDate = $_POST["admDate"];
     $roomNo = $_POST["roomNo"];
-    $hst_Id = 1;
+    $hst_Id = $resRow['hst_Id'];
 
     // Prepare an insert statement
     $sql = "INSERT INTO hostelAdmission (std_Id, hst_Id, admissionDate, roomNo) VALUES (?, ?, ?, ?)";
@@ -26,7 +44,8 @@
       mysqli_stmt_execute($stmt);
       
       // echo "Records inserted successfully.";
-      header("Location: upload.php");
+      header("Location: upload.php?enroll");
+      exit;
       
     } else{
       echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
@@ -56,16 +75,16 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav">
           <li class="nav-item px-2">
-            <a href="adminHome.php" class="nav-link ">Admin Dashboard</a>
+            <a href="adminHome.php" class="nav-link ">Dashboard</a>
           </li>
           <li class="nav-item px-2">
             <a href="std_dtls.php" class="nav-link active"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 
@@ -105,11 +124,26 @@
   </header>
 
 
-    <!-- retriving students name -->
+    
   <?php
+
+      //  retriving students name 
       $sql="SELECT stdName FROM students_Info WHERE std_Id = $std_Id";
       $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
       $row = mysqli_fetch_assoc($result);
+
+      if ($result === false) {
+
+        exit("Couldn't execute the query." . mysqli_error($conn));
+
+      } 
+
+      //  retriving seat number 
+      $sql="SELECT roomNo FROM hostelAdmission";
+      $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+      $hRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+      // print_r($hRows);
 
       if ($result === false) {
 
@@ -156,12 +190,24 @@
 
         <div class="form-group" >
           <label>Admission Date</label>
-          <input type="date" class="form-control" id="admDate" name="admDate">
+          <input type="date" class="form-control form-control-sm" id="admDate" name="admDate">
         </div>
 
         <div class="form-group" >
           <label>Seat Number</label>
-          <input type="number" class="form-control" id="roomNo" name="roomNo" placeholder="Seat Number">
+          <div class="input-group">
+            <input type="number" class="form-control form-control-sm" id="roomNo" name="roomNo" placeholder="Seat Number">
+            <div class="input-group-append">
+              <select class="custom-select custom-select-sm bg-secondary text-light">
+                  <option value="-1" selected>Occupied Seats</option>
+                <?php foreach($hRows as $hRow): ?>
+                  
+                  <option> <?php echo $hRow['roomNo']; ?> </option>
+  
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>  
         </div>
     
         <input type="submit" value="Save & Next" class="btn btn-info btn-block" name="submit">

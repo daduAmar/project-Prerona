@@ -133,7 +133,7 @@
   <link rel="stylesheet" href="CSS/bootstrap.min.css" >
   <link rel="stylesheet" href="CSS/admin.page.css" >
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <title>Admin</title>
+  <title>Dashboard</title>
 </head>
 <body>
    <!-- navbar -->
@@ -155,7 +155,7 @@
             <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="users.php" class="nav-link">Users</a>
+            <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 
@@ -183,12 +183,12 @@
   </nav>
   
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-primary text-white">
+  <header id="main-header" class="py-2 text-white">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
           <h1>
-          <i class="fas fa-users-cog mr-1"></i> User Dashboard</h1>
+          <i class="fas fa-users-cog mr-1"></i> Dashboard</h1>
         </div>
       </div>
     </div>
@@ -208,8 +208,8 @@
             <i class="fas fa-plus"></i> Therapy
           </a>
         </div>
-        <div class="col-md-3">
-          <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addMonthlyModal">
+        <div class="col-md-3 ">
+          <a href="#" class="btn bg-user btn-block" data-toggle="modal" data-target="#addMonthlyModal">
             <i class="fas fa-plus"></i> Monthly Fee
           </a>
         </div>
@@ -250,10 +250,38 @@
   <br>
   <section id="home_section">
     <div class="container my-4">
+    <!-- **notificaion -->
     <?php if(isset($_GET["success"])): ?>
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?php
           echo "Congratulations!...Registration Is Successfully Completed";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["schm_succ"]) || isset($_GET["thpy_succ"]) || isset($_GET["fee_succ"]) || isset($_GET["res_succ"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+      
+        <?php
+          if(isset($_GET["schm_succ"])){
+            echo "Scheme Details Updated!";
+          }
+
+          if(isset($_GET["thpy_succ"])){
+            echo "Therapy Details Updated!";
+          }
+
+          if(isset($_GET["fee_succ"])){
+            echo "Monthly Fee Details Updated!";
+          }
+
+          if(isset($_GET["res_succ"])){
+            echo "Respite Details Updated!";
+          }
+         
         ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -284,7 +312,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card text-center bg-warning text-white mb-3">
+          <div class="card text-center bg-user text-white mb-3" >
             <div class="card-body">
               <h3>Users</h3>
               <h4 class="display-4">
@@ -335,7 +363,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
-          <h5 class="modal-title">Add Scheme</h5>
+          <h5 class="modal-title">Manage Scheme</h5>
         </div>
         <div class="modal-body">
         <h3 class="text-monospace text-info text-center">Scheme Details</h3>
@@ -353,12 +381,12 @@
               <td class="text-center"><?php echo $schRow['scheme_Id']; ?></td>
               <td class="text-center"><?php echo ucwords($schRow['schemeName']); ?></td>
               <td class="text-center">
-                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-danger btn-sm">
+                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                 <i class="fas fa-minus-circle"></i> Remove
                 </a>
               </td>
               <td class="text-center">
-                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-info btn-sm">
+                <a href="modalUpdate.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-info btn-sm">
                 <i class="fas fa-tools"></i> Update 
                 </a>
               </td>
@@ -388,7 +416,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
-          <h5 class="modal-title">Add Therapy</h5>
+          <h5 class="modal-title">Manage Therapy</h5>
         </div>
         <div class="modal-body">
           <h3 class="text-monospace text-success text-center">Therapeutic Services</h3>
@@ -406,12 +434,12 @@
               <td class="text-center"><?php echo $thyRow['therapy_Id'];  ?></td>
               <td class="text-center"><?php echo ucwords($thyRow['name']); ?></td>
               <td class="text-center">
-                <a href="adminHome.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-danger btn-sm">
+                <a href="adminHome.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                 <i class="fas fa-minus-circle"></i> Remove
                 </a>
               </td>
               <td class="text-center">
-                <a href="adminHome.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-info btn-sm">
+                <a href="modalUpdate.php?thpy_id=<?php echo $thyRow['therapy_Id']; ?>" class="btn btn-info btn-sm">
                 <i class="fas fa-tools"></i> Update 
                 </a>
               </td>
@@ -440,8 +468,8 @@
    <div class="modal fade" id="addMonthlyModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header bg-warning text-white">
-          <h5 class="modal-title">Add Monthly Fee</h5>
+        <div class="modal-header bg-user text-white">
+          <h5 class="modal-title">Manage Monthly Fee</h5>
         </div>
         <div class="modal-body">
           <h3 class="text-monospace text-warning text-center">Monthly Fees</h3>
@@ -461,12 +489,12 @@
               <td class="text-center"><?php echo ucwords($monthRow['feeType']); ?></td>
               <td class="text-center"><?php echo $monthRow['totalFeeAmt']; ?></td>
               <td class="text-center">
-                <a href="adminHome.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-danger btn-sm">
+                <a href="adminHome.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                 <i class="fas fa-minus-circle"></i> Remove
                 </a>
               </td>
               <td class="text-center">
-                <a href="adminHome.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-info btn-sm">
+                <a href="modalUpdate.php?m_id=<?php echo $monthRow['mFee_Id']; ?>" class="btn btn-info btn-sm">
                 <i class="fas fa-tools"></i> Update 
                 </a>
               </td>
@@ -489,7 +517,7 @@
           
         </div>
         <div class="modal-footer">
-          <button class="btn btn-warning" data-dismiss="modal">Close</button>
+          <button class="btn bg-user" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -503,6 +531,19 @@
   <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
+  <script language="javascript" type="text/javascript">
+
+    function confirmDelete(){
+
+      return confirm('Remove, Are you sure?');
+
+    }
+
+    document.querySelector('.close').addEventListener('click', function () {
+      window.location = 'adminHome.php';
+    });
+  </script>
+
 </body>
 </html>
 

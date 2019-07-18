@@ -68,7 +68,7 @@ $sql="SELECT * FROM scheme";
 <link rel="stylesheet" href="CSS/monFee.css" >
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
-<link rel="stylesheet" href="CSS/stdProfile.css">
+<link rel="stylesheet" href="CSS/updateStd.css">
 </head>
 <body>
 
@@ -89,10 +89,10 @@ $sql="SELECT * FROM scheme";
               <small class="font-italic h3 ml-2"><?php echo ucfirst($rowR[7]); ?></small>
             </div>
 
-            <div class="text-white bg-secondary text-center p-4">
-              <div class="d-flex flex-row text-white ">
-                <div class="port-item text-center font-weight-bold text-monospace">
-                <h1 class="display-4">Update </h1>
+            <div class="text-white bg-secondary py-4">
+              <div class="d-flex flex-row-reverse text-white">
+                <div class="port-item bg-info ">
+                <h1 class="text-center display-5 font-italic">Update Details</h1>
                 </div>
               </div>
             </div>
@@ -107,6 +107,16 @@ $sql="SELECT * FROM scheme";
     <!-- FOOTER -->
     <footer id="main-footer" class="p-5 card card-body shadow-lg shadow-lg">
     <div class="container">
+    <?php if(isset($_GET["fail"])): ?>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Details Cannot Be Updated!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
       <div class="row">
         <div class="col">
         <form method="post" action="stdUpd.php" id="form">
@@ -161,8 +171,7 @@ $sql="SELECT * FROM scheme";
 
             <div class="form-group col">
               <label class="text-center">Age</label>
-              <input type="number" readonly class="form-control" value="<?php echo $rowR[8]; ?>" name="stdAge" id="age" require>
-              <small class="text-muted">Enter Date Of Birth to calculate age!</small>
+              <input type="number" class="form-control" value="<?php echo $rowR[8]; ?>" name="stdAge" id="age" require>
             </div>
           </div>  
 
@@ -194,21 +203,18 @@ $sql="SELECT * FROM scheme";
 
           <div class="mb-4">
           <label for="gender">Gender</label>
-          <?php 
-            $genVal = $rowR[7];
-          ?>
           <select class="custom-select custom-select" value="<?php echo $rowR[7]; ?>" name="gender" id="gender" onchange="validateGender(this.id)">
-            <?php if($genVal == 'male'): ?>
+            <?php if($rowR[7] == 'male'): ?>
               <option selected value="male">Male</option>
             <?php else: ?>
             <option value="male">Male</option>
             <?php endif; ?>
-            <?php if($genVal == 'female'): ?>
+            <?php if($rowR[7] == 'female'): ?>
             <option selected value="female">Female</option>
             <?php else: ?>
             <option  value="female">Female</option>
             <?php endif; ?>
-            <?php if($genVal == 'others'): ?>
+            <?php if($rowR[7] == 'others'): ?>
             <option selected value="others">Others</option>
             <?php else: ?>
             <option value="others">Others</option>
@@ -225,7 +231,6 @@ $sql="SELECT * FROM scheme";
             <label for="religion">Religion</label>
             <select class="custom-select custom-select-sm" value="<?php echo $rowR[9]; ?>" name="religion" id="religion">
 
-            
             <?php if($rowR[9] == 'hindu'): ?>
               <option value="hindu" selected>Hindu</option>
             <?php else: ?>
@@ -237,7 +242,6 @@ $sql="SELECT * FROM scheme";
             <?php else: ?>
               <option value="muslim">Muslim</option>
             <?php endif; ?>
-
 
             <?php if($rowR[9] == 'christain'): ?>
               <option value="christain" selected>Christain</option>
@@ -278,16 +282,35 @@ $sql="SELECT * FROM scheme";
             <div class="mb-4 col">
               <label for="hostel">Caste</label>
               <select class="custom-select custom-select-sm" value="<?php echo $rowR[10]; ?>" name="caste" id="caste">
-                <option selected>Select Caste</option>
-                <option value="GEN">GEN</option>
-                <option value="OBC">OBC</option>
-                <option value="MOBC">MOBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
+
+                <?php if($rowR[10] == 'GEN'): ?>
+                  <option value="GEN" selected>GEN</option>
+                <?php else: ?>
+                  <option value="GEN">GEN</option>
+                <?php endif; ?>
+
+                <?php if($rowR[10] == 'OBC'): ?>
+                  <option value="OBC" selected>OBC</option>
+                <?php else: ?>
+                  <option value="OBC">OBC</option>
+                <?php endif; ?>
+
+                <?php if($rowR[10] == 'MOBC'): ?>
+                  <option value="MOBC" selected>MOBC</option>
+                <?php else: ?>
+                  <option value="MOBC">MOBC</option>
+                <?php endif; ?>
+
+                <?php if($rowR[10] == 'SC'): ?>
+                  <option value="SC" selected>SC</option>
+                <?php else: ?>
+                  <option value="SC">SC</option>
+                <?php endif; ?>
+
               </select>
               <div class="invalid-feedback">
             
-            </div>
+              </div>
             </div>
           </div>  
 
@@ -337,12 +360,37 @@ $sql="SELECT * FROM scheme";
           <div class="mb-4" id="disability">
           <label for="hostel">Disability Type</label>
           <select class="custom-select custom-select" value="<?php echo $rowR[17]; ?>" name="disabilityType">
-            <option selected>Select Applicant's Disability</option>
-            <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
-            <option value="Mentally Handicapped">Mentally Handicapped</option>
-            <option value="Visually Handicapped">Visually Handicapped</option>
-            <option value="Hearing Handicapped">Hearing Handicapped</option>
-            <option value="Multiple Disabilities">Multiple Disabilities</option>
+            
+            <?php if($rowR[17] == 'Orthopedically Handicapped'): ?>
+              <option value="Orthopedically Handicapped" selected>Orthopedically Handicapped</option>
+            <?php else: ?>
+              <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
+            <?php endif; ?>
+
+            <?php if($rowR[17] == 'Mentally Handicapped'): ?>
+              <option value="Mentally Handicapped" selected>Mentally Handicapped</option>
+            <?php else: ?>
+              <option value="Mentally Handicapped">Mentally Handicapped</option>
+            <?php endif; ?>
+
+            <?php if($rowR[17] == 'Visually Handicapped'): ?>
+              <option value="Visually Handicapped" selected>Visually Handicapped</option>
+            <?php else: ?>
+              <option value="Visually Handicapped">Visually Handicapped</option>
+            <?php endif; ?>
+
+            <?php if($rowR[17] == 'Hearing Handicapped'): ?>
+              <option value="Hearing Handicapped" selected>Hearing Handicapped</option>
+            <?php else: ?>
+              <option value="Hearing Handicapped">Hearing Handicapped</option>
+            <?php endif; ?>
+
+            <?php if($rowR[17] == 'Multiple Disabilities'): ?>
+              <option value="Multiple Disabilities" selected>Multiple Disabilities</option>
+            <?php else: ?>
+              <option value="Multiple Disabilities">Multiple Disabilities</option>
+            <?php endif; ?>
+
           </select>
           <div class="invalid-feedback">
             
@@ -372,9 +420,19 @@ $sql="SELECT * FROM scheme";
             <div class="mb-4 col">
             <label for="hostel">Respite</label>
             <select class="custom-select custom-select-sm" value="<?php echo $rowR[22]; ?>" name="hostel" id="hostel">
-              <option selected>Choose..</option>
+              
+            <?php if($rowR[22] == 'Yes'): ?>
+              <option value="Yes" selected>Yes</option>
+            <?php else: ?>
               <option value="Yes">Yes</option>
+            <?php endif; ?>
+
+            <?php if($rowR[22] == 'No'): ?>
+              <option value="No" selected>No</option>
+            <?php else: ?>
               <option value="No">No</option>
+            <?php endif; ?>
+
             </select>
             <div class="invalid-feedback">
             
@@ -384,9 +442,19 @@ $sql="SELECT * FROM scheme";
             <div class="mb-4 col">
             <label for="transpotation">Transpotation</label>
             <select class="custom-select custom-select-sm" value="<?php echo $rowR[23]; ?>" name="transpotation" id="transpotation">
-              <option selected>Choose..</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+
+              <?php if($rowR[23] == 'Yes'): ?>
+                <option value="Yes" selected>Yes</option>
+              <?php else: ?>
+                <option value="Yes">Yes</option>
+              <?php endif; ?>
+
+              <?php if($rowR[23] == 'No'): ?>
+                <option value="No" selected>No</option>
+              <?php else: ?>
+                <option value="No">No</option>
+              <?php endif; ?>
+
             </select>
             <div class="invalid-feedback">
             
@@ -396,10 +464,25 @@ $sql="SELECT * FROM scheme";
             <div class="mb-4 col">
               <label for="bpl">Income Group</label>
               <select class="custom-select custom-select-sm" value="<?php echo $rowR[24]; ?>" name="incomeGroup" id="bpl">
-                <option selected>Select a group</option>
-                <option value="BPL">BPL</option>
-                <option value="APL">APL</option>
-                <option value="HIG">HIG</option>
+                
+                <?php if($rowR[24] == 'BPL'): ?>
+                  <option value="BPL" selected>BPL</option>
+                <?php else: ?>
+                  <option value="BPL">BPL</option>
+                <?php endif; ?>
+
+                <?php if($rowR[24] == 'APL'): ?>
+                  <option value="APL" selected>APL</option>
+                <?php else: ?>
+                  <option value="APL">APL</option>
+                <?php endif; ?>
+
+                <?php if($rowR[24] == 'HIG'): ?>
+                  <option value="HIG" selected>HIG</option>
+                <?php else: ?>
+                  <option value="HIG">HIG</option>
+                <?php endif; ?>
+
               </select>
               <div class="invalid-feedback">
               
@@ -450,7 +533,7 @@ $sql="SELECT * FROM scheme";
             
           </div>
 
-          <button type="submit" id="sub" name="update" class="btn btn-info btn-block mt-2">Update</button>
+          <button type="submit" id="sub" name="update" class="btn btn-dark btn-block mt-2">Update</button>
           <br>
         </form>
         </div>

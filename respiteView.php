@@ -33,33 +33,33 @@
 }
 
  //add respite
- if(isset($_POST["addRespite"])){
+//  if(isset($_POST["addRespite"])){
 
-  $admissionFee = $_POST["admissionFee"];
-  $monthlyFee = $_POST["monFee"];
-  $capacity = $_POST["capacity"];
-  $warden = $_POST["warden"];
+//   $admissionFee = $_POST["admissionFee"];
+//   $monthlyFee = $_POST["monFee"];
+//   $capacity = $_POST["capacity"];
+//   $warden = $_POST["warden"];
 
-  // Prepare an insert statement
-  $sql = "INSERT INTO respite (admissionFee, monthlyFee, capacity, warden) VALUES (?, ?, ?, ?)";
+//   // Prepare an insert statement
+//   $sql = "INSERT INTO respite (admissionFee, monthlyFee, capacity, warden) VALUES (?, ?, ?, ?)";
 
 
-  if($stmt = mysqli_prepare($conn, $sql)){
+//   if($stmt = mysqli_prepare($conn, $sql)){
         
-    // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($stmt, "iiis", $admissionFee, $monthlyFee, $capacity, $warden);
+//     // Bind variables to the prepared statement as parameters
+//     mysqli_stmt_bind_param($stmt, "iiis", $admissionFee, $monthlyFee, $capacity, $warden);
     
-    mysqli_stmt_execute($stmt);
+//     mysqli_stmt_execute($stmt);
 
-    echo "success!";
+//     echo "success!";
 
-    } 
-    else {
+//     } 
+//     else {
 
-      echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+//       echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
 
-    }
-}
+//     }
+// }
 
 
 
@@ -93,7 +93,7 @@
             <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="users.php" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 
@@ -188,7 +188,7 @@
         </div>          
         <div class="mr-1">
           <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addRespiteModal">
-            <i class="fas fa-plus"></i> Add Respite
+          <i class="fas fa-sliders-h mr-1"></i>Manage Respite
           </a>        
         </div>
       </div>
@@ -202,6 +202,25 @@
     <div class="container">
       <div class="row">
         <div class="col">
+        <?php if(isset($_GET["res_succ"]) || isset($_GET["host_succ"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+        <?php
+
+          if(isset($_GET["res_succ"])){
+            echo "Respite Details Updated!";
+          }
+
+          if(isset($_GET["host_succ"])){
+            echo "Hosteller Details Updated!";
+          }
+         
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
           <div class="card shadow-lg mt-4 mb-5 bg-white">
             <div class="card card-body">
               <h3 class="font-weight-bold text-monospace">Hostellers Details</h3>
@@ -218,22 +237,20 @@
                   </thead>
                   <tbody>
 
-
-                     <?php if($is_checked === true):  ?>
+                    <?php if($is_checked === true):  ?>
                     <?php foreach($hstlRows as $hstlRow):  ?>
-
                       <tr>
                         <td class="text-center"><?php echo $hstlRow['stdName']; ?></td>
                         <td class="text-center"><?php echo $hstlRow['paidAdmissionFee']; ?></td>
                         <td class="text-center"><?php echo $hstlRow['admissionDate']; ?></td>
                         <td class="text-center"><?php echo $hstlRow['roomNo']; ?></td>
                         <td class="text-center">
-                          <a href="respiteView.php?ahst_id=<?php echo $hstlRow['hAdmission_Id']; ?>" class="btn btn-danger btn-sm">
+                          <a href="respiteView.php?ahst_id=<?php echo $hstlRow['hAdmission_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                           <i class="fas fa-minus-circle"></i> Remove
                           </a>
                         </td>
                         <td class="text-center">
-                          <a href="adminHome.php?ahst_id=<?php echo $hstlRow['hAdmission_Id']; ?>" class="btn btn-info btn-sm">
+                          <a href="modalUpdate.php?ahst_id=<?php echo $hstlRow['hAdmission_Id']; ?>" class="btn btn-info btn-sm">
                           <i class="fas fa-tools"></i> Update 
                           </a>
                         </td>
@@ -250,12 +267,12 @@
                         <td class="text-center"><?php echo $hstlSrRow['admissionDate']; ?></td>
                         <td class="text-center"><?php echo $hstlSrRow['roomNo']; ?></td>
                         <td class="text-center">
-                          <a href="respiteView.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-danger btn-sm">
+                          <a href="respiteView.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                           <i class="fas fa-minus-circle"></i> Remove
                           </a>
                         </td>
                         <td class="text-center">
-                          <a href="adminHome.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-info btn-sm">
+                          <a href="modalUpdate.php?ahst_id=<?php echo $hstlSrRow['hAdmission_Id']; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateHostellersModal">
                           <i class="fas fa-tools"></i> Update 
                           </a>
                         </td>
@@ -281,44 +298,42 @@
           or die("Error in fetching records");
 
     $rowsResRslt = mysqli_fetch_all($rslt, MYSQLI_ASSOC);
+
+
   ?>
 
-  <!-- MODAL -->
-  <!-- ADD SCHEME MODAL -->
+  <!--************* MODAL ******************-->
+  <!-- ADD RESPITE MODAL -->
   <div class="modal fade" id="addRespiteModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
-          <h5 class="modal-title">Add Respite</h5>
+          <h5 class="modal-title">Manage Respite</h5>
         </div>
         <div class="modal-body">
         <h3 class="text-monospace text-success text-center">Respite Details</h3>
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
-              <th scope="col" class="text-center">Id</th>
               <th scope="col" class="text-center">Admission Fee</th>
               <th scope="col" class="text-center">Monthly Fee</th>
               <th scope="col" class="text-center">Capacity</th>
-              <th scope="col" class="text-center">Warden</th>
               <th scope="col" class="text-center" colspan="2">Action</th>
             </tr>
           </thead>
           <tbody>
             <?php  foreach ($rowsResRslt as $rowResRslt): ?>
             <tr>
-              <td class="text-center"><?php echo $rowResRslt['hst_Id']; ?></td>
               <td class="text-center"><?php echo $rowResRslt['admissionFee']; ?></td>
               <td class="text-center"><?php echo $rowResRslt['monthlyFee']; ?></td>
               <td class="text-center"><?php echo $rowResRslt['capacity']; ?></td>
-              <td class="text-center"><?php echo $rowResRslt['warden']; ?></td>
               <td class="text-center">
-                <a href="respiteView.php?hst_id=<?php echo $rowResRslt['hst_Id']; ?>" class="btn btn-danger btn-sm">
+                <a href="respiteView.php?hst_id=<?php echo $rowResRslt['hst_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                 <i class="fas fa-minus-circle"></i> Remove
                 </a>
               </td>
               <td class="text-center">
-                <a href="respiteView.php?hst_id=<?php echo $rowResRslt['hst_Id']; ?>" class="btn btn-info btn-sm">
+                <a href="modalUpdate.php?hst_id=<?php echo $rowResRslt['hst_Id']; ?>" class="btn btn-info btn-sm">
                 <i class="fas fa-tools"></i> Update 
                 </a>
               </td>
@@ -327,7 +342,7 @@
           </tbody>
         </table>
 
-          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+          <!-- <form action="<?php  ?>" method="post">
             <div class="form-group">
               <label for="admissionfee" class="text-success">Admission Fee</label>
               <input type="text" class="form-control" name="admissionFee" id="admissionFee" placeholder="Fee Amount">
@@ -345,7 +360,7 @@
               <input type="text" class="form-control" name="warden" id="warden" placeholder="Warden Name">
             </div>
             <input type="submit" class="btn btn-outline-success btn-block" value="Add Scheme" name="addRespite">
-          </form>
+          </form> -->
         </div>
         <div class="modal-footer">
         <button class="btn btn-success" data-dismiss="modal">Close</button>
@@ -362,5 +377,15 @@
 <script src="JS/bootstrapJquery.js"></script>
 <script src="JS/popper.min.js"></script>
 <script src="JS/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+    function confirmDelete(){
+
+        return confirm('Remove, Are you sure?');
+    }
+
+    document.querySelector('.close').addEventListener('click', function () {
+      window.location = 'respiteView.php';
+    });
+  </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
   }
 
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 3;
+  //$std_Id = 12;
   $executed = false;
 
   if(isset($_POST["submit"])){
@@ -55,6 +55,7 @@
     }
     if($executed === true){
       header("Location: adminHome.php?success");
+      exit;
     }else {
       echo "something went wrong!!";
     }
@@ -119,9 +120,7 @@ $rslts = mysqli_query($conn, $query)
   <?php foreach ($fetchrows as $fRow):  ?>
   <?php if ($fRow[1] == 'No'):  ?>
   <style>
-    #hAdmFeeDiv, #hPayFeeDiv{
-      display : none;
-    }
+    #hAdmFeeDiv, #hPayFeeDiv{display : none;}
   </style>
   <?php endif; ?>
   <?php endforeach;  ?> 
@@ -145,10 +144,10 @@ $rslts = mysqli_query($conn, $query)
             <a href="std_dtls.php" class="nav-link active"> Student Registration </a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">DDRC</a>
+            <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-            <a href="#" class="nav-link">Users</a>
+          <a href="studentsView.php" class="nav-link">Students Details</a>
           </li>
         </ul>
 

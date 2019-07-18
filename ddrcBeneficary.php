@@ -6,6 +6,18 @@
     header("Location: preronaHome.php");
   }
 
+  //delete scheme
+  if(isset($_GET['ddrc_id'])){
+
+    $id = $_GET['ddrc_id'];
+
+    $sql="DELETE FROM DDRC WHERE ddrc_Id = $id";
+    mysqli_query($conn, $sql);
+    
+    header("Location: ddrcBeneficary.php?ddrcDel");
+
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,16 +44,22 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+
           <li class="nav-item">
-            <a href="ddrc.php" class="nav-link font-weight-bolder active"><i class="fas fa-list mr-1"></i>DDRC
+            <a href="adminHome.php" class="nav-link font-weight-bolder"><i class="fas fa-users-cog"></i>Dashboard</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="ddrc.php" class="nav-link font-weight-bolder"><i class="fas fa-list mr-1"></i>DDRC
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="ddrcBeneficary.php" class="nav-link font-weight-bolder active"><i class="fas fa-list mr-1"></i>Beneficary List
             </a>
           </li>
           <li class="nav-item">
-            <a href="adminHome.php" class="nav-link active"><i class="fas fa-users-cog"></i>Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a href="u_logout.php" class="nav-link active">
-              <i class="fas fa-user-times"></i> Logout
+            <a href="annual_report_start.php" class="nav-link font-weight-bolder"><i class="fas fa-newspaper mr-1"></i>Annual Report
             </a>
           </li>
           
@@ -71,17 +89,15 @@
           <div class="row">
             <div class="col">
               <div class="table-responsive-sm">
-                <table class="table table-striped table-bordered table-hover bg-white">
+                <table class="table table-striped table-bordered table-hover bg-white card-form">
                   <thead class="thead-dark">
                     <tr>
                       <th class="text-center">Beneficary Id</th>
                       <th class="text-center">Name</th>
-                      <th class="text-center">Gender</th>
-                      <th class="text-center">Phone</th>
                       <th class="text-center" colspan="2">Action</th>
                     </tr>  
                   </thead>
-                  <tbody>
+                  <tbody class="card-form">
                     <?php 
           
                       //hostellers info
@@ -101,15 +117,13 @@
                       <tr>
                         <td class="text-center"><?php echo $ddrcRow['beneficiary_Id']; ?></td>
                         <td class="text-center"><?php echo $ddrcRow['bName']; ?></td>
-                        <td class="text-center"><?php echo $ddrcRow['gender']; ?></td>
-                        <td class="text-center"><?php echo $ddrcRow['phone']; ?></td>
                         <td class="text-center">
                           <a href="beneficaryPro.php?ddrc_id=<?php echo $ddrcRow['ddrc_Id']; ?>" class="btn btn-success btn-sm">
-                          <i class="fas fa-angle-double-down"></i> View More
+                          <i class="fas fa-angle-double-right"></i> View More
                           </a>
                         </td>
                         <td class="text-center">
-                          <a href="respiteView.php?ddrc_id=<?php echo $ddrcRow['ddrc_Id']; ?>" class="btn btn-danger btn-sm">
+                          <a href="ddrcBeneficary.php?ddrc_id=<?php echo $ddrcRow['ddrc_Id']; ?>" class="btn btn-danger btn-sm" id="Btn" onclick="return confirmDelete()">
                           <i class="fas fa-minus-circle"></i> Remove
                           </a>
                         </td>
@@ -125,14 +139,22 @@
     </div>
   </header>
   
-  
+    
 
 
   <!-- scripts -->
-  <script src="scripts/fileValidate.js"></script>
   <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
+
+  <script language="javascript" type="text/javascript">
+    function confirmDelete()
+      {
+        return confirm('Delete, Are you sure?');
+      }
+
+  </script>
+
  
 </body>
 

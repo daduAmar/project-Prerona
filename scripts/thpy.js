@@ -9,7 +9,7 @@ function showCheckBox(checked) {
   }
 }
 
-document.querySelector('.close').addEventListener('click', function (e) {
-  window.location = 'upload.php';
-});
+// document.querySelector('.close').addEventListener('click', function (e) {
+//   window.location = 'upload.php';
+// });
 

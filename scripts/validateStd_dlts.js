@@ -37,6 +37,136 @@ function validateGender(selected) {
 
 }
 
+function validateReligion(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#religion').classList.add('is-invalid');
+    document.querySelector('#religion').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#religion').classList.add('is-valid');
+    document.querySelector('#religion').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateCaste(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#caste').classList.add('is-invalid');
+    document.querySelector('#caste').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#caste').classList.add('is-valid');
+    document.querySelector('#caste').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateDisability(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#disability').classList.add('is-invalid');
+    document.querySelector('#disability').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#disability').classList.add('is-valid');
+    document.querySelector('#disability').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateRespite(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#hostel').classList.add('is-invalid');
+    document.querySelector('#hostel').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+
+  } else {
+
+    if (id.value == 'Yes') {
+
+      document.querySelector('#hostel').classList.add('is-valid');
+      document.querySelector('#hostel').classList.remove('is-invalid');
+      document.getElementById('sub').disabled = false;
+      document.getElementById('transpotation').disabled = true;
+
+    } else {
+
+      document.querySelector('#hostel').classList.add('is-valid');
+      document.querySelector('#hostel').classList.remove('is-invalid');
+      document.getElementById('sub').disabled = false;
+      document.getElementById('transpotation').disabled = false;
+
+    }
+
+
+
+  }
+
+}
+
+function validateTranspotation(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#transpotation').classList.add('is-invalid');
+    document.querySelector('#transpotation').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#transpotation').classList.add('is-valid');
+    document.querySelector('#transpotation').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateIncome(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#incomeGroup').classList.add('is-invalid');
+    document.querySelector('#incomeGroup').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#incomeGroup').classList.add('is-valid');
+    document.querySelector('#incomeGroup').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+
 document.getElementById('stdName').addEventListener('keyup', validateName);
 document.getElementById('pob').addEventListener('keyup', validateBOP);
 document.getElementById('fname').addEventListener('keyup', validateFname);
@@ -125,7 +255,7 @@ function validateMname() {
 
 function validateAddress() {
   const add = document.getElementById('address');
-  const re = /^[A-Z][a-zA-Z0-9 ]+[^\W]$/;
+  const re = /^[A-Z][a-zA-Z0-9 ,./]+[^\W]$/;
 
   if (!re.test(add.value)) {
 

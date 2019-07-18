@@ -43,7 +43,7 @@ if (mysqli_query($conn,$sql))
 }
 else
 {
-  header("Location: studentsView.php?fail");
+  header("Location: updateStd.php?fail");
 }
 
 }

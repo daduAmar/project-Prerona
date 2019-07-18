@@ -113,31 +113,24 @@
 <?php foreach ($rqdRows as $rRow):  ?>
 <?php if ($rRow[0] == 'No'):  ?>
 <style>
-  #mfee #hostel{
-    display : none;
-  }
+  #mfee #hostel{ display : none; }
 </style>
 <?php endif; ?>
 <?php endforeach;  ?>
 
 <?php foreach ($rqdRows as $rRow):  ?>
-<?php if ($rRow[1] == 'No'):  ?>
+<?php if ($rRow[1] == ''):  ?>
 <style>
-  #mfee #transport{
-    display : none;
-  }
+  #mfee #transport{display : none;}
 </style>
 <?php endif; ?>
 <?php endforeach;  ?>
 
 <?php if (mysqli_num_rows($rslt) == 0):  ?>
 <style>
-  #mfee #therapy{
-    display : none;
-  }
+  #mfee #therapy{display : none;}
 </style>
 <?php endif; ?>
-
 
 </head>
 <body>
@@ -220,7 +213,7 @@
 
       <div class="card card-body py-5">
         <div class="text-right">
-        <a href="updateStd.php?s_id=<?php echo $sid; ?>" class="btn btn-outline-dark mb-2"><i class="fas fa-user-edit text-dark pr-1"></i>Edit</a>
+        <a href="updateStd.php?s_id=<?php echo $sid; ?>" class="btn btn-dark mb-2"><i class="fas fa-user-edit text-white pr-1"></i>Edit</a>
         </div>
         <div class="card-columns">
           <div class="card">
@@ -252,9 +245,6 @@
               </p>
               <p class="p-1 mb-2 bg-dark text-white">
                 Income Group : <?php echo ucwords($rowR[24]) ; ?>
-              </p>
-              <p class="p-1 mb-2 bg-dark text-white">
-              Phone: <?php echo ucwords($rowR[15]) ; ?>
               </p>
             </div>
           </div>
@@ -293,7 +283,7 @@
           <div class="card">
             <div class="card-body">
                 <p class="p-1 mb-1 bg-dark text-white">
-                 Class: <?php echo ucwords($rowR[14]) ; ?>
+                 Class: <?php echo ucwords($rowR[16]) ; ?>
                 </p>
                 <p class="bg-dark p-1 mb-1 text-white">
                  Phone: <?php echo $rowR[15] ; ?>
