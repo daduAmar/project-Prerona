@@ -264,7 +264,6 @@ $rslts = mysqli_query($conn, $query)
             <input type="submit" value="Submit" class="btn btn-primary btn-block mt-2" name="submit" id="sub">
             
           </form> 
-          <button class="btn btn-dark mt-2" id="print">Print</button> 
           <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form2">
             <div class="form-group collapse mt-3" id="updateInp">
               <label>Update Admission Fee</label><br>
@@ -292,32 +291,6 @@ $rslts = mysqli_query($conn, $query)
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
   <script src="scripts/fee.js"></script>
-  <script type="text/javascript">
-  $(document).ready(function(){
-          
-    $("#print").click(function(){
-
-    var data = $("#bill").html();
-    var mywindow = window.open("", "", 'height=500,width=800');
-        
-    mywindow.document.write("<!doctype html>");
-    mywindow.document.write('<html lang="en"><head><title>Admission Fee</title>');
-    mywindow.document.write("<meta charset='utf-8'>");
-    mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-    mywindow.document.write("<link rel='stylesheet' href='CSS/admissionFee.css'>");
-    mywindow.document.write('</head><body >');
-    
-    mywindow.document.write("<div class='container'>");
-    mywindow.document.write("<div class='container'><h2>Admission Receipt</h2></div>");
-    mywindow.document.write("<hr>");
-    mywindow.document.write(data);
-    mywindow.document.write("</div>");
-    mywindow.document.write('</body></html>');
-    mywindow.print();
-    mywindow.close();
-    });
-});    
 </script>
 </body>
 </html>

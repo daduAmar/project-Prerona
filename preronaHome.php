@@ -10,6 +10,7 @@
       header("Location: adminHome.php");
     }
 
+    // sign in
     if(isset($_POST["submit"])){
 
       $username = $_POST['userName'];
@@ -40,6 +41,7 @@
             $_SESSION['username'] = $row['userName'];
 
             header("Location: adminHome.php");
+            exit;
           }else{
 
             $is_ok = false;

@@ -2,6 +2,10 @@
     session_start();
     include_once "includes/connect.php";
 
+    if(!isset($_SESSION['username'])){
+        header("Location: preronaHome.php");
+    }
+
     if (isset($_GET['search']) && isset($_SESSION['years'])) {
         $y_id = $_GET['y_id'];
 
@@ -108,28 +112,28 @@
     <div class="dark-overlay">
       <div class="home-inner ml-3 mr-3 mb-4">
         <div class="container">
-        <div class="card card-body card-form text-dark text-center">
-            <h5 class="card-title font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+            <div class="card card-body card-form text-dark text-center">
+                <p class="font-italic text-muted">Please select a year to view annual report...</p>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 
-                <div class="input-group">  
-                    <select name="y_id" class="custom-select custom-select-sm text-dark">
-                        <option value="-1" selected>*** Select Year ***</option>
+                    <div class="input-group">  
+                        <select name="y_id" class="custom-select custom-select-sm text-dark">
+                            <option value="-1" selected>*** Select Year ***</option>
 
-                        <?php foreach($_SESSION['years'] as $year): ?>
-                                    
-                            <option value="<?php echo $year['id'] ?>"> <?php echo $year['year'] ?> </option>
-                        
-                        <?php endforeach; ?> 
-                    </select>
-                    <div class="input-group-append">
-                        <input type="submit" name="search" class="btn btn-secondary btn-sm" value="View">
-                    </div>    
-                </div>
-            </form>
+                            <?php foreach($_SESSION['years'] as $year): ?>
+                                        
+                                <option value="<?php echo $year['id'] ?>"> <?php echo $year['year'] ?> </option>
+                            
+                            <?php endforeach; ?> 
+                        </select>
+                        <div class="input-group-append">
+                            <input type="submit" name="search" class="btn btn-secondary btn-sm" value="View">
+                        </div>    
+                    </div>
+                </form>
 
-        </div>
-        <?php
+            </div>
+            <?php
 
             if(isset($_GET['search'])){
                 // fetch from year table
@@ -147,10 +151,10 @@
                 }
             }    
 
-        ?>
-        <?php if(isset($allActivityrows)): ?>
-            <div class="card card-body card-form text-dark">
-           
+            ?>
+            <?php if(isset($allActivityrows)): ?>
+            <div class="card card-body card-form text-dark report">
+                <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
                 <form>
                     <div class="row">
                         <div class="form-group col">
@@ -180,9 +184,12 @@
                   </div>
                 </form>
             </div>
+            <div class="mr-4 mb-2 card-form text-center">
+                <button class="btn btn-dark mt-2" id="btn">Print</button> 
+            </div>
 
             <?php for($i=0; $i < sizeof($data); $i++): ?>
-                <div class="card card-body card-form">
+                <div class="card card-body card-form" id="report<?php echo $i; ?>">
                     <div class="card card-form">
                     <div class="card-header bg-dark text-center text-light">
                     <?php  ?>
@@ -216,10 +223,12 @@
                         </div>    
                     </div>
                 </div> 
-
+                <div class="mr-4 mb-2 text-center card-form">
+                <button class="btn btn-dark mt-2" id="btn<?php echo $i; ?>">Print</button> 
+                </div>
             <?php endfor; ?>    
-        <?php endif; ?>
-
+            <?php endif; ?>
+            
   
         </div>
       </div>
@@ -230,6 +239,158 @@
   <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+          
+    $("#btn").click(function(){
+  
+    var data = $(".report").html();
+    var mywindow = window.open("", "", 'height=500,width=800');
+        
+    mywindow.document.write("<!doctype html>");
+    mywindow.document.write('<html lang="en"><head><title></title>');
+    mywindow.document.write("<meta charset='utf-8'>");
+    mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+    mywindow.document.write('</head><body >');
+    
+    mywindow.document.write("<div class='card card-body card-form text-dark'>");
+    mywindow.document.write(data);
+    mywindow.document.write("</div>");
+    mywindow.document.write('</body></html>');
+    mywindow.print();
+    mywindow.close();
+
+    });
+
+    $("#btn0").click(function(){
+  
+    var data = $("#report0").html();
+    var mywindow = window.open("", "", 'height=500,width=800');
+        
+    mywindow.document.write("<!doctype html>");
+    mywindow.document.write('<html lang="en"><head><title></title>');
+    mywindow.document.write("<meta charset='utf-8'>");
+    mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+    mywindow.document.write('</head><body >');
+    
+    mywindow.document.write("<div class='card card-body card-form'>");
+    mywindow.document.write(data);
+    mywindow.document.write("</div>");
+    mywindow.document.write('</body></html>');
+    mywindow.print();
+    mywindow.close();
+
+  });
+
+  $("#btn1").click(function(){
+  
+  var data = $("#report1").html();
+  var mywindow = window.open("", "", 'height=500,width=800');
+      
+  mywindow.document.write("<!doctype html>");
+  mywindow.document.write('<html lang="en"><head><title></title>');
+  mywindow.document.write("<meta charset='utf-8'>");
+  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+  mywindow.document.write('</head><body >');
+  
+  mywindow.document.write("<div class='card card-body card-form'>");
+  mywindow.document.write(data);
+  mywindow.document.write("</div>");
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
+
+ });
+
+ $("#btn2").click(function(){
+  
+  var data = $("#report2").html();
+  var mywindow = window.open("", "", 'height=500,width=800');
+      
+  mywindow.document.write("<!doctype html>");
+  mywindow.document.write('<html lang="en"><head><title></title>');
+  mywindow.document.write("<meta charset='utf-8'>");
+  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+  mywindow.document.write('</head><body >');
+  
+  mywindow.document.write("<div class='card card-body card-form'>");
+  mywindow.document.write(data);
+  mywindow.document.write("</div>");
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
+
+ });
+
+ $("#btn3").click(function(){
+  
+  var data = $("#report3").html();
+  var mywindow = window.open("", "", 'height=500,width=800');
+      
+  mywindow.document.write("<!doctype html>");
+  mywindow.document.write('<html lang="en"><head><title></title>');
+  mywindow.document.write("<meta charset='utf-8'>");
+  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+  mywindow.document.write('</head><body >');
+  
+  mywindow.document.write("<div class='card card-body card-form'>");
+  mywindow.document.write(data);
+  mywindow.document.write("</div>");
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
+
+ });
+
+ $("#btn4").click(function(){
+  
+  var data = $("#report4").html();
+  var mywindow = window.open("", "", 'height=500,width=800');
+      
+  mywindow.document.write("<!doctype html>");
+  mywindow.document.write('<html lang="en"><head><title></title>');
+  mywindow.document.write("<meta charset='utf-8'>");
+  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+  mywindow.document.write('</head><body >');
+  
+  mywindow.document.write("<div class='card card-body card-form'>");
+  mywindow.document.write(data);
+  mywindow.document.write("</div>");
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
+
+ });
+
+ $("#btn5").click(function(){
+  
+  var data = $("#report5").html();
+  var mywindow = window.open("", "", 'height=500,width=800');
+      
+  mywindow.document.write("<!doctype html>");
+  mywindow.document.write('<html lang="en"><head><title></title>');
+  mywindow.document.write("<meta charset='utf-8'>");
+  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
+  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+  mywindow.document.write('</head><body >');
+  
+  mywindow.document.write("<div class='card card-body card-form'>");
+  mywindow.document.write(data);
+  mywindow.document.write("</div>");
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
+
+ });
+
+});    
+</script>
 </body>
 
 </html>

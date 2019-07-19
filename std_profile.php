@@ -246,16 +246,26 @@
               <p class="p-1 mb-2 bg-dark text-white">
                 Income Group : <?php echo ucwords($rowR[24]) ; ?>
               </p>
+              <p class="p-1 mb-1 bg-dark text-white">
+                  I-Card Number : <?php echo ucwords($rowR[28]) ; ?>
+              </p>
+
             </div>
           </div>
           <div class="card">
             <div class="card-body">
-                <p class="p-1 mb-1 bg-dark text-white">
-                  Identity Number : <?php echo ucwords($rowR[27]) ; ?>
-                </p>
-                <p class="p-1 mb-1 bg-dark text-white">
-                  Aadhar Number : <?php echo $rowR[28] ; ?>
-                </p>
+              <p class="p-1 mb-1 bg-dark text-white">
+                Aadhar Number : <?php echo $rowR[29] ; ?>
+              </p>
+
+              <p class="p-1 mb-1 bg-dark text-white">
+                Admission Fee : <?php echo ucwords($rowR[20]) ; ?>
+              </p>
+                
+              <p class="p-1 mb-1 bg-dark text-white">
+                Paid Admission Fee : <?php echo $rowR[21] ; ?>
+              </p>
+
             </div>
           </div>
           <div class="card bg-info text-white text-center">
@@ -317,6 +327,13 @@
                 </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="card text-dark">
+        <div class="card-header text-center text-dark">
+          Receiving Therapuetic Services
+        </div>
+        <div class="card-body">
         </div>
       </div>
     </div>

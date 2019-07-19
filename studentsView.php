@@ -5,6 +5,34 @@
   if(!isset($_SESSION['username'])){
     header("Location: preronaHome.php");
   }
+
+  // sys month & year
+  //setting time zone
+  date_default_timezone_set('Asia/Kolkata');
+
+  //get current month
+  $month = date('F');
+
+  //get current time
+  $year = date('Y');
+
+  // fetching students id's
+  $sql = "SELECT DISTINCT(std_Id) FROM stdPaidFees WHERE feeMonth = '$month' AND feeYear = '$year'";
+
+  $result = mysqli_query($conn, $sql) or die("Error in fetching records");
+
+  $feeIdRows = mysqli_fetch_all($result);
+
+  $paidIds = array();
+
+  foreach($feeIdRows as $feeIdRow){
+    $paidIds[] = $feeIdRow[0];
+  }
+  //print_r($ids);
+    
+  if ($result === false) {
+       exit("Couldn't execute the query." . mysqli_error($conn));
+  } 
 ?>
 
 <!DOCTYPE html>
@@ -175,6 +203,7 @@
                Passed Out <span class="badge badge-light"><?php echo $totRowP; ?></span>
               </button>
             </div>
+
               <!-- special school collapse -->
             <div class="collapse" id="T1">
               <div class="card card-body">
@@ -183,6 +212,7 @@
                     <tr>
                       <th class="text-center">Name</th>
                       <th class="text-center">Admission Date</th>
+                      <th class="text-center">Monthly Fees</th>
                       <th class="text-center" colspan="2">Action</th>
                     </tr>  
                   </thead>
@@ -203,6 +233,13 @@
                     <tr>
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
                       <td class="text-center"><?php echo $row[19]; ?></td>
+                      <td class="text-center">
+                        <?php if(in_array($row[0], $paidIds)): ?>
+                          <h4><span class="badge badge-success">Paid</span></h4>
+                        <?php else: ?>
+                            <h4><span class="badge badge-danger">Due</span></h4>
+                        <?php endif; ?>
+                      </td>
                       <td class="text-center">
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
@@ -226,6 +263,7 @@
                     <tr>
                     <th class="text-center">Name</th>
                       <th class="text-center">Admission Date</th>
+                      <th class="text-center">Monthly Fees</th>
                       <th class="text-center" colspan="2">Action</th>
                     </tr>  
                   </thead>
@@ -245,6 +283,13 @@
                     <tr>
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
                       <td class="text-center"><?php echo $row[19]; ?></td>
+                      <td class="text-center">
+                        <?php if(in_array($row[0], $paidIds)): ?>
+                          <h4><span class="badge badge-success">Paid</span></h4>
+                        <?php else: ?>
+                            <h4><span class="badge badge-danger">Due</span></h4>
+                        <?php endif; ?>
+                      </td>
                       <td class="text-center">
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details

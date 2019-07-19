@@ -2,20 +2,21 @@
    session_start();
    include_once "includes/connect.php";
 
-  //  if(!isset($_SESSION['username'])){
-  //   header("Location: preronaHome.php");
-  // }
+   if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+   }
 
   if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["next"])) {
     $agency = trim($_POST['agency']);
     $address = trim($_POST['address']);
+    $year = trim($_POST['year']);
     $month = trim($_POST['month']);
     $person = trim($_POST['person']);
     $yr_quater = trim($_POST['yr_quater']);
 
     /// DO VALIDATIONS
     $sql = "INSERT INTO year(agency, address, month, total_person_benefit, cur_yr_quater, year) 
-    VALUES ('$agency', '$address', '$month', $person, '$yr_quater', YEAR(NOW()))";
+    VALUES ('$agency', '$address', '$month', $person, '$yr_quater', '$year')";
 
     if (mysqli_query($conn, $sql)) {
       // get the last inserted id
@@ -90,47 +91,58 @@
   <header id="home-section">
     <div class="dark-overlay">
       <div class="home-inner">
-        <div class="container mt-5">
+        <div class="container mt-3">
           <div class="row">
             <div class="col-sm-6 offset-sm-3">
-              <div class="card card-body text-dark card-form">
+              <div class="card card-body text-dark card-form mb-3">
+                <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                   
                   <div class="form-group">
                     <label for="agency">Name of the implementing agency</label>
                     <input type="text" name="agency" class="form-control" id="agency" placeholder="Implementing Agency">
                   </div>
+
                   <div class="form-group">
                     <label for="address">Name of DDRC and address</label>
                     <input type="text" name="address" class="form-control" id="address" placeholder="DDRC and Address">
                   </div>
+
+                  <div class="form-group">
+                    <label for="year">Annual Report For The Year</label>
+                    <input type="number" min="1900" max="2099" step="1" value="2019" name="year" class="form-control" id="year">
+                  </div>
+
                   <div class="mb-4">
                     <label for="month">Month of inception</label>
                     <select class="custom-select" name="month" id="month">
                     <option value="-1">*** Select Month ***</option>
-                    <option value="jan">January</option>
-                    <option value="feb">February</option>
-                    <option value="mar">March</option>
-                    <option value="apr">April</option>
-                    <option value="may">May</option>
-                    <option value="jun">June</option>
-                    <option value="july">July</option>
-                    <option value="aug">August</option>
-                    <option value="sept">September</option>
-                    <option value="oct">October</option>
-                    <option value="nov">November</option>
-                    <option value="dec">December</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                   </select>
                   </div>
+
                   <div class="form-group">
                     <label for="person">Total no of person benifieted up to the...</label>
                     <input type="number" name="person" class="form-control" id="person">
                   </div>
+
                   <div class="form-group">
                     <label for="yr_quater">During the current year quater...</label>
                     <input type="text" name="yr_quater" class="form-control" id="yr_quater">
                   </div>
-                  <div class="form-group">
+
+                  <div>
                     <input type="submit" name="next" class="btn btn-dark btn-block" value="Next">
                   </div>
                 </form>

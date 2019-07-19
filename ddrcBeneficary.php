@@ -89,7 +89,7 @@
           <div class="row">
             <div class="col">
               <div class="table-responsive-sm">
-                <table class="table table-striped table-bordered table-hover bg-white card-form">
+                <table class="table table-striped table-bordered table-hover bg-white">
                   <thead class="thead-dark">
                     <tr>
                       <th class="text-center">Beneficary Id</th>

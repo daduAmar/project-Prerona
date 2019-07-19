@@ -1,5 +1,4 @@
 document.querySelector('#loadImg').style.display = 'none';
-document.querySelector('#print').style.display = 'none';
 let btn = document.querySelector('#sub').disabled = true;
 
 
@@ -34,6 +33,5 @@ function calculate() {
 
   }
   document.querySelector('#loadImg').style.display = 'none';
-  document.querySelector('#print').style.display = 'block';
   let btn = document.querySelector('#sub').disabled = false;
 }

@@ -260,7 +260,7 @@
   $(document).ready(function(){
           
     $("button").click(function(){
-
+  
     var data = $("#reciept").html();
     var mywindow = window.open("", "", 'height=500,width=800');
         

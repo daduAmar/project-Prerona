@@ -3,6 +3,8 @@
   include_once "includes/connect.php";
 
   $is_checked = true;
+  $not_found = false;
+  $not_found_msg = '';
 
   if(!isset($_SESSION['username'])){
     header("Location: preronaHome.php");
@@ -139,6 +141,7 @@
       $is_checked = false;
 
       $name = $_GET["searchNm"];
+      //echo $name;
 
       $sql = "SELECT students_Info.stdName, hostelAdmission.hAdmission_Id, hostelAdmission.paidAdmissionFee,hostelAdmission.admissionDate, hostelAdmission.roomNo FROM hostelAdmission INNER JOIN students_Info ON students_Info.std_Id = hostelAdmission.std_Id WHERE students_Info.stdName LIKE '%$name%'";
 
@@ -146,11 +149,19 @@
           or die("Error in fetching records");
 
       $hstlSrRows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+      if(mysqli_num_rows($result) == 0){
+
+        $not_found = true;
+        $not_found_msg = "Result Not Found!";
+      }
      
         
       if ($result === false) {
           exit("Couldn't execute the query." . mysqli_error($conn));
-      } 
+      }
+      
+      
 
     }   
     
@@ -202,7 +213,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
-        <?php if(isset($_GET["res_succ"]) || isset($_GET["host_succ"])): ?>
+    <?php if(isset($_GET["res_succ"]) || isset($_GET["host_succ"])): ?>
       <div class="alert alert-success alert-dismissible fade show" role="alert">
 
         <?php
@@ -216,6 +227,19 @@
           }
          
         ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["search"]) && $not_found === true): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+        <?php 
+          echo isset($not_found_msg) ? $not_found_msg : "";
+        ?>
+
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

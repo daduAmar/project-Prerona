@@ -2,9 +2,9 @@
    session_start();
    include_once "includes/connect.php";
 
-  //  if(!isset($_SESSION['username'])){
-  //   header("Location: preronaHome.php");
-  // }
+   if(!isset($_SESSION['username'])){
+    header("Location: preronaHome.php");
+  }
 
   $sql = "SELECT * FROM parentCategory";
   $result = mysqli_query($conn, $sql) or die("Error in fetching records");
@@ -149,7 +149,7 @@
 
                   <?php foreach($rows as $row): ?>
                           
-                      <option value="<?php echo $row['id'] ?>"> <?php echo $row['name'] ?> </option>
+                      <option value="<?php echo $row['id']; ?>"> <?php echo $row['name']; ?> </option>
               
                   <?php endforeach; ?> 
                 </select>
@@ -162,44 +162,59 @@
 
         </div>
         <?php 
-        
-        // print_r($catRows); 
+        //  if(isset($_GET["p_id"])){
+
+        //   $id = $_GET["p_id"];
+
+        //  }
         
         ?>
         <?php if(isset($catRows)): ?> 
-          <div class="card card-body">
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-              <div class="table-responsive-sm">
-                <table class="table table-dark table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <td class="text-center">Category</td>
-                      <td class="text-center">Current Financial Year</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php for($i = 0; $i < count($catRows); $i++): ?>
-
-                      <input type="hidden" name="id<?php echo $i; ?>" value="<?php echo $catRows[$i]['id']; ?>">
-
+          <div class="card card-body text-dark">
+            <?php if($_GET["p_id"] == 2): ?>
+              <h5 class="card-title text-center my-2 font-weight-bolder">Therapeutic Service Delivered</h5>
+            <?php elseif($_GET["p_id"] == 3): ?> 
+              <h5 class="card-title text-center my-2 font-weight-bolder">AIDP Related Activities</h5>
+            <?php elseif($_GET["p_id"] == 4): ?>  
+              <h5 class="card-title text-center my-2 font-weight-bolder">Training Related Activities</h5>
+            <?php elseif($_GET["p_id"] == 5): ?>
+              <h5 class="card-title text-center my-2 font-weight-bolder">Awareness Generation</h5>
+            <?php elseif($_GET["p_id"] == 6): ?> 
+              <h5 class="card-title text-center my-2 font-weight-bolder">Employeement/Facilities Concession</h5>
+            <?php else: ?> 
+              <h5 class="card-title text-center my-2 font-weight-bolder">Broad Activities</h5> 
+            <?php endif; ?>
+              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                <div class="table-responsive-sm">
+                  <table class="table table-dark table-bordered table-hover">
+                    <thead>
                       <tr>
-                        <td class="text-center"><?php echo ucwords($catRows[$i]["name"]); ?></td>
-                      
-                        <td class="text-center">
-                          <input type="text" class="form-control text-center text-light bg-dark" name="cur<?php echo $i; ?>">
-                        </td>
+                        <td class="text-center">Category</td>
+                        <td class="text-center">Current Financial Year</td>
                       </tr>
+                    </thead>
+                    <tbody>
+                      <?php for($i = 0; $i < count($catRows); $i++): ?>
 
-                    <?php endfor; ?>
-                  </tbody>
-                </table>
+                        <input type="hidden" name="id<?php echo $i; ?>" value="<?php echo $catRows[$i]['id']; ?>">
+
+                        <tr>
+                          <td class="text-center"><?php echo ucwords($catRows[$i]["name"]); ?></td>
+                        
+                          <td class="text-center">
+                            <input type="number" class="form-control text-center text-light bg-dark" name="cur<?php echo $i; ?>">
+                          </td>
+                        </tr>
+
+                      <?php endfor; ?>
+                    </tbody>
+                  </table>
+                </div>
+              <div class="text-center">
+                <input type="submit" name="save" class="btn btn-dark btn-block" value="Save">
               </div>
-            <input type="submit" name="save" class="btn btn-dark" value="Save">
-            
-            </form>
+              </form>
              
-            
-
           </div>
 
         <?php endif; ?>
