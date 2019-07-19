@@ -136,6 +136,7 @@
 <body>
 <?php
 
+  //  fetching scheme name
   $query = "SELECT schemeName FROM scheme WHERE scheme_Id = (SELECT scheme_Id FROM students_Info WHERE std_Id= $sid)";
 
   $rslt = mysqli_query($conn, $query)
@@ -148,6 +149,19 @@
   }
 
   if ($rslt === false) {
+
+  exit("Couldn't execute the query." . mysqli_error($conn));
+
+  }
+
+  //  fetching therapy name
+  $sql = "SELECT name FROM therapy WHERE therapy_Id IN (SELECT therapy_Id FROM therapyRecipient WHERE std_Id = $sid)";
+
+  $result = mysqli_query($conn, $sql) or die("Error in fetching records");
+
+  $therapy_rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+  if ($result === false) {
 
   exit("Couldn't execute the query." . mysqli_error($conn));
 
@@ -330,10 +344,19 @@
         </div>
       </div>
       <div class="card text-dark">
-        <div class="card-header text-center text-dark">
+        <div class="card-header text-center font-weight-bolder bg-dark text-light">
           Receiving Therapuetic Services
         </div>
-        <div class="card-body">
+        <div class="card-body text-light">
+          <div class="card card-body">
+            <div class="row">
+              <?php foreach($therapy_rows as $therapy_row): ?>
+                <div class="col">
+                  <p class="p-2 bg-dark text-center"><?php echo $therapy_row['name']; ?></p>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
         </div>
       </div>
     </div>
