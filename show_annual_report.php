@@ -157,40 +157,46 @@
                 <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
                 <form>
                     <div class="row">
-                        <div class="form-group col">
+                        <div class="form-group col-sm-6 offset-sm-3 text-center">
+                            <label for="agency">Annual Performance Report For The Year</label>
+                            <input type="text" class="form-control text-center rounded-pill" id="year" value="<?php echo $yr_Row['year']; ?>">
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="form-group col text-center">
                             <label for="agency">Name of the implementing agency</label>
-                            <input type="text" class="form-control" value="<?php echo $yr_Row['agency']; ?>">
+                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['agency']; ?>">
                         </div>
 
-                        <div class="form-group col">
+                        <div class="form-group col text-center">
                             <label for="address">Name of DDRC and address</label>
-                            <input type="text" class="form-control" value="<?php echo $yr_Row['address']; ?>">
+                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['address']; ?>">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col">
+                        <div class="form-group col text-center">
                             <label for="month">Month of inception</label>
-                            <input type="text" class="form-control" value="<?php echo $yr_Row['month']; ?>">
+                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['month']; ?>">
                         </div>
 
-                        <div class="form-group col">
+                        <div class="form-group col text-center">
                             <label for="person">Total no of person benifieted up to the...</label>
-                            <input type="number" class="form-control" value="<?php echo $yr_Row['total_person_benefit']; ?>">
+                            <input type="number" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['total_person_benefit']; ?>">
                         </div>
                     </div>
-                  <div class="form-group">
+                  <div class="form-group text-center">
                     <label for="yr_quater">During the current year quater...</label>
-                    <input type="text" class="form-control" value="<?php echo $yr_Row['cur_yr_quater']; ?>">
+                    <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['cur_yr_quater']; ?>">
                   </div>
                 </form>
             </div>
             <div class="mr-4 mb-2 card-form text-center">
-                <button class="btn btn-dark mt-2" id="btn">Print</button> 
+                <button class="btn btn-secondary mt-2" id="btn">Print</button> 
             </div>
 
             <?php for($i=0; $i < sizeof($data); $i++): ?>
-                <div class="card card-body card-form" id="report<?php echo $i; ?>">
-                    <div class="card card-form">
+                <div class="card card-body card-form" >
+                    <div class="card card-form" id="report<?php echo $i; ?>">
                     <div class="card-header bg-dark text-center text-light">
                     <?php  ?>
                         <h5 class="font-weight-bolder"><?php echo ucwords($activities[$i]['name']); ?> </h5>
@@ -224,7 +230,7 @@
                     </div>
                 </div> 
                 <div class="mr-4 mb-2 text-center card-form">
-                <button class="btn btn-dark mt-2" id="btn<?php echo $i; ?>">Print</button> 
+                <button class="btn btn-secondary mt-2" id="btn<?php echo $i; ?>">Print</button> 
                 </div>
             <?php endfor; ?>    
             <?php endif; ?>
@@ -251,7 +257,7 @@
     mywindow.document.write('<html lang="en"><head><title></title>');
     mywindow.document.write("<meta charset='utf-8'>");
     mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
+    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css'>");
     mywindow.document.write('</head><body >');
     
     mywindow.document.write("<div class='card card-body card-form text-dark'>");
@@ -275,7 +281,7 @@
     mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
     mywindow.document.write('</head><body >');
     
-    mywindow.document.write("<div class='card card-body card-form'>");
+    mywindow.document.write("<div class='card card-body'>");
     mywindow.document.write(data);
     mywindow.document.write("</div>");
     mywindow.document.write('</body></html>');

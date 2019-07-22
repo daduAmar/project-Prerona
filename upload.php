@@ -8,7 +8,7 @@
 
   global $std_Id;
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 12;
+  //$std_Id = 16;
   $its_ok_photo = true;
   $its_ok_disability = true;
   $its_ok_birth = true;

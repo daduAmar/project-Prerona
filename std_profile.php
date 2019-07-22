@@ -300,7 +300,7 @@
                   District : <?php echo ucwords($rowR[13]) ; ?>
                 </p>
                 <p class="p-1 mb-1 bg-dark text-white">
-                  Zip : <?php echo $rowR[14] ; ?>
+                  Zip : <?php echo $rowR[14]; ?>
                 </p>
             </div>
           </div>

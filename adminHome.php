@@ -33,16 +33,16 @@
   }
 
   //delete scheme
-  if(isset($_GET['scheme_id'])){
+  // if(isset($_GET['scheme_id'])){
 
-    $id=$_GET['scheme_id'];
+  //   $id=$_GET['scheme_id'];
 
-    $sql="DELETE FROM scheme WHERE scheme_Id = $id";
-    mysqli_query($conn, $sql);
+  //   $sql="DELETE FROM scheme WHERE scheme_Id = $id";
+  //   mysqli_query($conn, $sql);
     
-    header("Location: adminHome.php?deleted");
+  //   header("Location: adminHome.php?deleted");
 
-  }
+  // }
 
   //add therapy
   if(isset($_POST["addTherapy"])){
@@ -200,17 +200,17 @@
       <div class="row">
         <div class="col-md-3">
           <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#addSchemeModal">
-            <i class="fas fa-plus"></i> Scheme
+          <i class="fas fa-sliders-h mr-1"></i> Scheme
           </a>
         </div>
         <div class="col-md-3">
           <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addTherapyModal">
-            <i class="fas fa-plus"></i> Therapy
+          <i class="fas fa-sliders-h mr-1"></i> Therapy
           </a>
         </div>
         <div class="col-md-3 ">
           <a href="#" class="btn bg-user btn-block" data-toggle="modal" data-target="#addMonthlyModal">
-            <i class="fas fa-plus"></i> Monthly Fee
+          <i class="fas fa-sliders-h mr-1"></i> Monthly Fee
           </a>
         </div>
       </div>
@@ -372,7 +372,7 @@
             <tr>
               <th scope="col" class="text-center">Id</th>
               <th scope="col" class="text-center">Scheme Name</th>
-              <th scope="col" class="text-center" colspan="2">Action</th>
+              <th scope="col" class="text-center" colspan="1">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -380,11 +380,11 @@
             <tr>
               <td class="text-center"><?php echo $schRow['scheme_Id']; ?></td>
               <td class="text-center"><?php echo ucwords($schRow['schemeName']); ?></td>
-              <td class="text-center">
-                <a href="adminHome.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
+              <!-- <td class="text-center">
+                <a href="adminHome.php?scheme_id=<?php //schemeId; ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete()">
                 <i class="fas fa-minus-circle"></i> Remove
                 </a>
-              </td>
+              </td> -->
               <td class="text-center">
                 <a href="modalUpdate.php?scheme_id=<?php echo $schRow['scheme_Id']; ?>" class="btn btn-info btn-sm">
                 <i class="fas fa-tools"></i> Update 

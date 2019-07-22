@@ -54,7 +54,9 @@
     <header id="main-header">
       <div class="row no-gutters">
         <div class="col-lg-3 col-sm-5">
+          <a href="<?php echo $DDRCrow['photo']; ?>" data-toggle="lightbox">
           <img src="<?php echo $DDRCrow['photo']; ?>" alt="">
+          </a>
         </div>
         <div class="col-lg-9 col-md-7">
           <div class="d-flex flex-column">
@@ -64,10 +66,28 @@
 
 
             <div class="text-white text-center p-5 collaps">
-              <div class="d-flex flex-row text-white text-right">
+              <div class="d-flex flex-row text-white">
                 <div class="port-item">
-                  <a href="#" class="btn btn-outline-light" data-toggle="collapse" data-target="#home">
-                  <i class="fas fa-angle-double-down"></i> See More
+                  <h4>
+                  <span  class="badge badge-secondary"><?php echo ucwords($DDRCrow['gender']); ?></span>
+                  </h4>
+                </div>
+
+                <div class="port-item">
+                  <h4> Age
+                  <span class="badge badge-secondary"><?php echo ucwords($DDRCrow['age']); ?></span>
+                  </h4>
+                </div>
+
+                <div class="port-item">
+                  <a href="#" class="btn btn-outline-secondary text-light" data-toggle="collapse" data-target="#home">
+                  <i class="fas fa-angle-double-down text-light pr-1"></i>More
+                  </a>
+                </div>
+
+                <div class="port-item">
+                  <a href="updateBeneficary.php?ddrc_id=<?php echo $id; ?>" class="btn btn-outline-secondary text-light">
+                  <i class="fas fa-user-edit text-light pr-1"></i> Edit
                   </a>
                 </div>
               </div>
@@ -174,7 +194,7 @@
     <footer id="main-footer" class="p-5 text-white">
       <div class="row">
         <div class="col-md-6">
-            <a href="ddrcBeneficary.php" class="btn btn-outline-dark text-dark">
+            <a href="ddrcBeneficary.php" class="btn btn-outline-secondary text-dark">
             <i class="fas fa-angle-double-left"></i> Back
             </a>
           

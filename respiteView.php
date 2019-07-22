@@ -190,7 +190,7 @@
         <div class="ml-2">
           <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="get">
             <div class="input-group">
-              <input type="text" class="form-control" name="searchNm" placeholder="Search Hosteller...">
+              <input type="text" class="form-control" name="searchNm" placeholder="Hosteller Name...">
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-success" name="search">Search</button>
                 </div> 

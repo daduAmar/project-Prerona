@@ -6,7 +6,7 @@
     header("Location: preronaHome.php");
   }
 
-  //delete scheme
+  //delete beneficary
   if(isset($_GET['ddrc_id'])){
 
     $id = $_GET['ddrc_id'];
@@ -15,6 +15,7 @@
     mysqli_query($conn, $sql);
     
     header("Location: ddrcBeneficary.php?ddrcDel");
+    exit;
 
   }
 
@@ -74,18 +75,29 @@
   <header id="home-section">
     <div class="dark-overlay">
       <div class="home-inner ml-3 mr-3 mb-4">
-        <?php if(isset($_POST["submit"]) && $check_In === true): ?>
-          <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-            <?php
-              echo isset($sizeError) ? $sizeError : "";
-              
-            ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        <?php endif; ?>
         <div class="container">
+          <?php if(isset($_GET["ddrcDel"])): ?>
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+              <?php
+                echo "Beneficary Removed!";
+                
+              ?>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <?php endif; ?>
+          <?php if(isset($_GET["Updsucs"])): ?>
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+              <?php
+                echo "Beneficary Updated Successfully!";
+                
+              ?>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <?php endif; ?>
           <div class="row">
             <div class="col">
               <div class="table-responsive-sm">
@@ -149,9 +161,16 @@
 
   <script language="javascript" type="text/javascript">
     function confirmDelete()
-      {
-        return confirm('Delete, Are you sure?');
-      }
+    {
+      return confirm('Delete, Are you sure?');
+    }
+
+    document.querySelector('.close').addEventListener('click', function (e) {
+
+      window.location = "ddrcBeneficary.php";
+
+    });
+
 
   </script>
 

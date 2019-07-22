@@ -87,6 +87,16 @@
   <!-- USERS -->
   <section id="users">
     <div class="container">
+      <?php if(isset($_GET["removed"])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <?php
+            echo "User Deleted Successfully!";
+          ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col">
           <div class="card">
@@ -123,7 +133,7 @@
                   <td class="text-center"><?php echo $row[2]; ?></td>
                   <td class="text-center"><?php echo $row[4]; ?></td>
                   <td class="text-center">
-                    <a href="delUser.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger">
+                    <a href="delUser.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger" onclick="return confirmDelete()">
                     <i class="fas fa-minus-circle"></i> Remove
                     </a>
                   </td>
@@ -145,5 +155,16 @@
   <script src="JS/bootstrapJquery.js"></script>
   <script src="JS/popper.min.js"></script>
   <script src="JS/bootstrap.min.js"></script>
+  
+  <script language="javascript" type="text/javascript">
+    function confirmDelete(){
+
+        return confirm('Remove, Are you sure?');
+    }
+
+    document.querySelector('.close').addEventListener('click', function () {
+      window.location = "users.php";
+    });
+  </script>
 </body>
 </html>

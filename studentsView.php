@@ -33,6 +33,25 @@
   if ($result === false) {
        exit("Couldn't execute the query." . mysqli_error($conn));
   } 
+
+  //search students
+  if(isset($_GET["stdSearch"]) && isset($_GET["searchSname"]) && $_GET["searchSname"] != ''){
+
+    $name = $_GET["searchSname"];
+
+    $sql = "SELECT std_Id, stdName, dateOfAdmission FROM students_Info WHERE stdName LIKE '%$name%'";
+
+    $result = mysqli_query($conn, $sql) or die("Error in fetching records");
+
+    $stdRows = mysqli_fetch_all($result);
+
+    //print_r($stdRows);
+      
+    if ($result === false) {
+        exit("Couldn't execute the query." . mysqli_error($conn));
+    } 
+
+  }
 ?>
 
 <!DOCTYPE html>
@@ -106,12 +125,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search Student...">
-            <div class="input-group-append">
-              <button class="btn btn-info">Search</button>
-            </div>
-          </div>
+          <div class="ml-2">
+            <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="get">
+              <div class="input-group">
+                <input type="text" class="form-control" name="searchSname" placeholder="Student Name...">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-info" name="stdSearch">Search</button>
+                  </div> 
+              </div>  
+            </form>     
+          </div>          
         </div>
       </div>
     </div>
@@ -150,6 +173,7 @@
 
 
   <!-- students -->
+  <!-- notifications -->
   <section id="students">
     <div class="container">
     <?php if(isset($_GET["succ"])): ?>
@@ -178,6 +202,28 @@
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?php
           echo "Student Details Updated Successfully!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["passed"])): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Has Been Passed Out From The Institute!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET["fail"])): ?>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Details Cannot Be Updated!";
         ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -331,7 +377,7 @@
                    <?php  foreach ($rows as $row): ?>
                     <tr>
                       <td class="text-center"><?php echo ucfirst($row[2]); ?></td>
-                      <td class="text-center"><?php echo $row[18]; ?></td>
+                      <td class="text-center"><?php echo $row[19]; ?></td>
                       <td class="text-center">
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
@@ -344,6 +390,44 @@
               </div>
             </div>        
           </div>
+          <?php  if(isset($_GET["stdSearch"]) && $_GET["searchSname"] != ''): ?>
+          <div class="card card-body">
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                <th class="text-center">Name</th>
+                  <th class="text-center">Admission Date</th>
+                  <th class="text-center">Monthly Fees</th>
+                  <th class="text-center" colspan="2">Action</th>
+                </tr>  
+              </thead>
+              <tbody>
+              <?php  foreach ($stdRows as $stdRow): ?>
+                <tr>
+                  <td class="text-center"><?php echo ucfirst($stdRow[1]); ?></td>
+                  <td class="text-center"><?php echo $stdRow[2]; ?></td>
+                  <td class="text-center">
+                    <?php if(in_array($row[0], $paidIds)): ?>
+                      <h4><span class="badge badge-success">Paid</span></h4>
+                    <?php else: ?>
+                        <h4><span class="badge badge-danger">Due</span></h4>
+                    <?php endif; ?>
+                  </td>
+                  <td class="text-center">
+                  <a href="std_profile.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-warning">
+                  <i class="fas fa-angle-double-right"></i> More Details
+                  </a>
+                  </td>
+                  <td class="text-center">
+                  <a href="passedOut.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-danger">
+                  <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
+                  </td>
+                </tr>
+              <?php endforeach; ?> 
+              </tbody>
+            </table>            
+          </div>
+          <?php endif; ?>   
         </div>
       </div>
     </div>

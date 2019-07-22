@@ -10,5 +10,6 @@
     mysqli_query($conn, $sql);
     
     header("Location: studentsView.php?passed");
+    exit;
   }
 ?>

@@ -4,7 +4,7 @@ require_once "includes/connect.php";
 
 if(isset($_POST['update'])){ 
 	
-  $schemeId = $_POST["scheme_Id"];
+  $schemeId = trim($_POST["scheme_Id"]);
   $sid = $_POST["sid"];
   $name = $_POST["name"];
   $bDate = $_POST["birthDate"];
@@ -40,13 +40,49 @@ if(isset($_POST['update'])){
 if (mysqli_query($conn,$sql))
 {
   header("Location: studentsView.php?sucs");
+  exit;
 }
 else
 {
-  header("Location: updateStd.php?fail");
+  header("Location: studentsView.php?fail");
+  exit;
 }
 
 }
+
+if(isset($_POST['updateDDRC'])){
+
+  $beneficaryId = trim($_POST["ddrc_id"]);
+  $beneficaryName = trim($_POST["bName"]);
+  $disabilityType = trim($_POST["disaType"]);
+  $fatherName = trim($_POST["fName"]);
+  $motherName = trim($_POST["mName"]);
+  $age = trim($_POST["age"]);
+  $gender = trim($_POST["gender"]);
+  $religion = trim($_POST["religion"]);
+  $disabilityPercent = trim($_POST["disaPer"]);
+  $appointmentDate = trim($_POST["aDate"]);
+  $address = trim($_POST["add"]);
+  $ph = trim($_POST["ph"]);
+  $service = trim($_POST["service"]);
+  $recommend = trim($_POST["recommend"]);
+  $aadhar = trim($_POST["aadhar"]);
+
+  $sql="UPDATE DDRC SET bName = '$beneficaryName', fatherName = '$fatherName', motherName = '$motherName', gender = '$gender', age = '$age', religion = '$religion', addres = '$address', phone = '$ph', disabilityType = '$disabilityType', dateOfAppointment = '$appointmentDate', aadharNo = '$aadhar', disabilityPercent = '$disabilityPercent', serviceOffered = '$service', recommendedBy = '$recommend'  WHERE ddrc_Id = '$beneficaryId'";
+
+
+  if (mysqli_query($conn,$sql))
+  {
+    header("Location: ddrcBeneficary.php?Updsucs");
+    exit;
+  }
+  else
+  {
+    header("Location: ddrcBeneficary.php?Updfail");
+    exit;
+  }
+
+ }
 
 
 ?>

@@ -5,6 +5,7 @@ document.querySelector('#msgCaste').style.display = 'none';
 document.querySelector('#msgIncome').style.display = 'none';
 document.querySelector('#msgGuard').style.display = 'none';
 document.querySelector('#msgNira').style.display = 'none';
+//document.querySelector('#nextPg').disabled = true;
 
 document.querySelector('#bth').style.display = 'none';
 document.querySelector('#dis').style.display = 'none';
@@ -157,10 +158,7 @@ function showError(msg, id) {
   msgDiv.appendChild(document.createTextNode(msg));
 }
 
-// function clearError() {
-//   document.querySelector('.alert').remove();
-// }
 
-document.querySelector('.close').addEventListener('click', function () {
-  window.location = 'upload.php';
-});
+// document.querySelector('.close').addEventListener('click', function (e) {
+//   document.querySelector('#nextPg').disabled = false;
+// });

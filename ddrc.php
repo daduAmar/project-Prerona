@@ -5,23 +5,23 @@
    if(!isset($_SESSION['username'])){
     header("Location: preronaHome.php");
   }
-
+  
    if(isset($_POST['submit'])){
 
-    $beneficaryName = $_POST["bName"];
-    $disabilityType = $_POST["disaType"];
-    $fatherName = $_POST["fName"];
-    $motherName = $_POST["mName"];
-    $age = $_POST["age"];
-    $gender = $_POST["gender"];
-    $religion = $_POST["religion"];
-    $disabilityPercent = $_POST["disaPer"];
-    $appointmentDate = $_POST["aDate"];
-    $address = $_POST["add"];
-    $ph = $_POST["ph"];
-    $service = $_POST["service"];
-    $recommend = $_POST["recommend"];
-    $aadhar = $_POST["aadhar"];
+    $beneficaryName = trim($_POST["bName"]);
+    $disabilityType = trim($_POST["disaType"]);
+    $fatherName = trim($_POST["fName"]);
+    $motherName = trim($_POST["mName"]);
+    $age = trim($_POST["age"]);
+    $gender = trim($_POST["gender"]);
+    $religion = trim($_POST["religion"]);
+    $disabilityPercent = trim($_POST["disaPer"]);
+    $appointmentDate = trim($_POST["aDate"]);
+    $address = trim($_POST["add"]);
+    $ph = trim($_POST["ph"]);
+    $service = trim($_POST["service"]);
+    $recommend = trim($_POST["recommend"]);
+    $aadhar = trim($_POST["aadhar"]);
     $check_In = false;
     $check_Out = false;
     $sizeError = $fileError = $successMsg = $photoError = '';
@@ -91,7 +91,7 @@
 
         $Id = mysqli_insert_id($conn);
 
-        $successMsg = "<strong>Records inserted successfully</strong>";
+        $successMsg = "<strong>Record inserted successfully</strong>";
         $check_Out = true;
 
       }else{
@@ -206,16 +206,17 @@
                       <input type="text" class="form-control" name="bName" id="bName" placeholder="Beneficary Name" required value="<?php echo (isset($beneficaryName)) ? $beneficaryName: ''; ?>">
                       <div class="invalid-feedback">Name Should Be In Standard Format e.g. Amarjyoti Gautam</div>
                     </div>
+                    
                     <div class="col">
-                      <select class="custom-select custom-select" name="disaType" id="disaType">
-                        <option selected>Disability Type</option>
+                      <select class="custom-select custom-select" name="disaType" id="disability" onChange="validateDisability(this.id)">
+                        <option value="-1" selected>Disability Type</option>
                         <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
                         <option value="Mentally Handicapped">Mentally Handicapped</option>
                         <option value="Visually Handicapped">Visually Handicapped</option>
                         <option value="Hearing Handicapped">Hearing Handicapped</option>
                         <option value="Multiple Disabilities">Multiple Disabilities</option>
                       </select>
-                      <div class="invalid-feedback"></div>
+                      <div class="invalid-feedback mb-1">Select a Disability Type</div>
                     </div>
                   </div>  
 
@@ -258,16 +259,17 @@
                       <div class="invalid-feedback">Only Digits Allowed!</div>
                     </div>
                     <div class="col">
-                      <select class="custom-select custom-select" name="gender" id="gender">
-                        <option selected>Gender</option>
+                      <select class="custom-select custom-select" name="gender" id="gender" onChange="validateGender(this.id)">
+                        <option value="-1" selected>Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Others">Others</option>
                       </select>
+                      <div class="invalid-feedback mb-1">Select Gender</div>
                     </div>
                     <div class="col">
-                      <select class="custom-select custom-select" name="religion" id="religion">
-                        <option selected>Religion</option>
+                      <select class="custom-select custom-select" name="religion" id="religion" onChange="validateReligion(this.id)">
+                        <option value="-1" selected>Religion</option>
                         <option value="hindu">Hindu</option>
                         <option value="muslim">Muslim</option>
                         <option value="christain">Christain</option>
@@ -276,6 +278,7 @@
                         <option value="buddhist">Buddhist</option>
                         <option value="parsi">Parsi</option>
                       </select>
+                      <div class="invalid-feedback mb-1">Select Religion</div>
                     </div>
                   </div>
 

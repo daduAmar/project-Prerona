@@ -77,7 +77,7 @@ function validatePh() {
   }
 }
 
-function validateDisabilityPer(){
+function validateDisabilityPer() {
   const percent = document.getElementById('disaPer');
   const re = /^[\d]{2,3}$/;
 
@@ -111,7 +111,7 @@ function validateAddress() {
   }
 }
 
-function validateService(){
+function validateService() {
   const service = document.getElementById('service');
   const re = /^[A-Z][a-zA-Z0-9 ]+[^\W]$/;
 
@@ -128,7 +128,7 @@ function validateService(){
   }
 }
 
-function validateRecommend(){
+function validateRecommend() {
   const recommend = document.getElementById('recommend');
   const re = /^[A-Z][a-zA-Z0-9 ]+[^\W]$/;
 
@@ -162,7 +162,7 @@ function validateAadhar() {
   }
 }
 
-function validateAge(){
+function validateAge() {
   const age = document.getElementById('age');
   const re = /^[\d]+$/;
 
@@ -177,4 +177,61 @@ function validateAge(){
     age.classList.remove('is-invalid');
     document.getElementById('submit').disabled = false;
   }
+}
+
+function validateDisability(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#disability').classList.add('is-invalid');
+    document.querySelector('#disability').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#disability').classList.add('is-valid');
+    document.querySelector('#disability').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateGender(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#gender').classList.add('is-invalid');
+    document.querySelector('#gender').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#gender').classList.add('is-valid');
+    document.querySelector('#gender').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
+}
+
+function validateReligion(selected) {
+  let id = document.getElementById(selected);
+
+  if (id.value == '-1') {
+
+    document.querySelector('#religion').classList.add('is-invalid');
+    document.querySelector('#religion').classList.remove('is-valid');
+    document.getElementById('sub').disabled = true;
+
+  } else {
+
+    document.querySelector('#religion').classList.add('is-valid');
+    document.querySelector('#religion').classList.remove('is-invalid');
+    document.getElementById('sub').disabled = false;
+
+  }
+
 }
