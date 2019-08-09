@@ -20,18 +20,31 @@
         $sql = "SELECT * FROM parentCategory";
 
         $data = array();
+        $colTotal = array();
 
 
         if ($result = mysqli_query($conn, $sql)) {
             $activities = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             foreach ($activities as $activity) {
-                $sql = "SELECT last_year, current_year, grand_total, category.name FROM quantity, category WHERE quantity.c_id IN (select id from category WHERE p_id = $activity[id]) AND quantity.c_id = category.id AND quantity.y_id = $y_id";
+                $sql = "SELECT last_year, current_year, grand_total, category.name FROM quantity, category WHERE quantity.c_id IN (SELECT id FROM category WHERE p_id = $activity[id]) AND quantity.c_id = category.id AND quantity.y_id = $y_id";
+
+                //total col query
+                $sql1 ="SELECT SUM(last_year) AS last, SUM(current_year) AS current, SUM(grand_total) AS grand FROM quantity WHERE quantity.c_id IN (SELECT id FROM category WHERE p_id = $activity[id]) AND quantity.y_id = $y_id";
 
                 if ($result = mysqli_query($conn, $sql)) {
                     $allActivityrows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
                     $data[] = $allActivityrows;
+                }
+                else {
+                    // error
+                }
+
+                if ($results = mysqli_query($conn, $sql1)) {
+                    $colTotalRows = mysqli_fetch_all($results, MYSQLI_ASSOC);
+
+                    $colTotal[] = $colTotalRows;
                 }
                 else {
                     // error
@@ -52,7 +65,7 @@
             $_SESSION['years'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
     }
- 
+    
 ?>
 
 <!DOCTYPE html>
@@ -152,8 +165,14 @@
             }    
 
             ?>
-            <?php if(isset($allActivityrows)): ?>
+            <?php if(isset($allActivityrows) && isset($colTotalRows)): ?>
+            <?php 
+            
+            // print_r($colTotal); 
 
+            // print_r(sizeof($colTotal));
+            
+            ?>
             <div id="report-print">
                 <div class="card card-body card-form text-dark mb-3">
                     <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
@@ -218,12 +237,14 @@
                                         <td class="text-center"><?php echo $dt[$i]['grand_total']; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
+                                <?php foreach($colTotal[$i] as $ct[$i]): ?>
                                 <tr>
                                     <td class="text-center">Total</td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center"><?php echo $ct[$i]['last']; ?></td>
+                                    <td class="text-center"><?php echo $ct[$i]['current']; ?></td>
+                                    <td class="text-center"><?php echo $ct[$i]['grand']; ?></td>
                                 </tr>
+                                <?php endforeach; ?>
                             </tbody>
                             </table>
                         </div>
