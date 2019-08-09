@@ -3,7 +3,7 @@
     require_once "includes/connect.php";
     require_once "MyUtil.php";
 
-    define('ROOT_URL', 'http://localhost/prerona/');
+    define('ROOT_URL', 'http://prerona.com/');
     
 
     if(isset($_SESSION['username'])){
@@ -74,7 +74,7 @@
     date_default_timezone_set('Asia/Kolkata');
 
     //get current time
-    $createdAt = date('d-m-Y h:i:sa');
+    $createdAt = date('d-m-Y h:i:s');
 
 
     // Creates a password hash
@@ -130,7 +130,7 @@
   <link rel="stylesheet" href="CSS/bootstrap.min.css" > 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="CSS/style.css">
-  <title>Home</title>
+  <title>Index</title>
 </head>
 
 <body >

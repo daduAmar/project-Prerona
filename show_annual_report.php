@@ -67,7 +67,7 @@
   <title>Annual Report</title>
 </head>
    
-<body >
+<body>
   <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top" id="main-nav">
     <div class="container">
       <p href="#" class="navbar-brand active font-weight-bolder">DISTRICT DISABILITY REHABILATION CENTER</p>
@@ -153,89 +153,89 @@
 
             ?>
             <?php if(isset($allActivityrows)): ?>
-            <div class="card card-body card-form text-dark report">
-                <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
-                <form>
-                    <div class="row">
-                        <div class="form-group col-sm-6 offset-sm-3 text-center">
-                            <label for="agency">Annual Performance Report For The Year</label>
-                            <input type="text" class="form-control text-center rounded-pill" id="year" value="<?php echo $yr_Row['year']; ?>">
-                        </div>
-                    </div>    
-                    <div class="row">
-                        <div class="form-group col text-center">
-                            <label for="agency">Name of the implementing agency</label>
-                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['agency']; ?>">
-                        </div>
 
-                        <div class="form-group col text-center">
-                            <label for="address">Name of DDRC and address</label>
-                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['address']; ?>">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col text-center">
-                            <label for="month">Month of inception</label>
-                            <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['month']; ?>">
-                        </div>
-
-                        <div class="form-group col text-center">
-                            <label for="person">Total no of person benifieted up to the...</label>
-                            <input type="number" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['total_person_benefit']; ?>">
-                        </div>
-                    </div>
-                  <div class="form-group text-center">
-                    <label for="yr_quater">During the current year quater...</label>
-                    <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['cur_yr_quater']; ?>">
-                  </div>
-                </form>
-            </div>
-            <div class="mr-4 mb-2 card-form text-center">
-                <button class="btn btn-secondary mt-2" id="btn">Print</button> 
-            </div>
-
-            <?php for($i=0; $i < sizeof($data); $i++): ?>
-                <div class="card card-body card-form" >
-                    <div class="card card-form" id="report<?php echo $i; ?>">
-                    <div class="card-header bg-dark text-center text-light">
-                    <?php  ?>
-                        <h5 class="font-weight-bolder"><?php echo ucwords($activities[$i]['name']); ?> </h5>
-                    <?php  ?>
-                    </div>
-                        <div class="card-body ">
-                            <div class="table-responsive-sm">
-                                <table class="table table-bordered table-striped table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                    <td class="text-center">Category</td>
-                                    <td class="text-center">Upto Last Financial Year</td>
-                                    <td class="text-center">Current Financial Year</td>
-                                    <td class="text-center">Grand Total</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($data[$i] as $dt[$i]): ?>
-                                        <tr>
-                                            <td class="text-center"><?php echo $dt[$i]['name']; ?></td>
-                                            <td class="text-center"><?php echo $dt[$i]['last_year']; ?></td>
-                                            <td class="text-center"><?php echo $dt[$i]['current_year']; ?></td>
-                                            <td class="text-center"><?php echo $dt[$i]['grand_total']; ?></td>
-                                        </tr>
-
-                                    <?php endforeach; ?>
-                                </tbody>
-                                </table>
+            <div id="report-print">
+                <div class="card card-body card-form text-dark mb-3">
+                    <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>
+                    <form>
+                        <div class="row">
+                            <div class="form-group col-sm-6 offset-sm-3 text-center">
+                                <label for="agency">Annual Performance Report For The Year</label>
+                                <input type="text" class="form-control text-center rounded-pill" id="year" value="<?php echo $yr_Row['year']; ?>">
                             </div>
                         </div>    
+                        <div class="row">
+                            <div class="form-group col text-center">
+                                <label for="agency">Name of the implementing agency</label>
+                                <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['agency']; ?>">
+                            </div>
+
+                            <div class="form-group col text-center">
+                                <label for="address">Name of DDRC and address</label>
+                                <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['address']; ?>">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col text-center">
+                                <label for="month">Month of inception</label>
+                                <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['month']; ?>">
+                            </div>
+
+                            <div class="form-group col text-center">
+                                <label for="person">Total no of person benifieted up to the...</label>
+                                <input type="number" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['total_person_benefit']; ?>">
+                            </div>
+                        </div>
+                    <div class="form-group text-center">
+                        <label for="yr_quater">During the current year quater...</label>
+                        <input type="text" class="form-control text-center rounded-pill" value="<?php echo $yr_Row['cur_yr_quater']; ?>">
                     </div>
-                </div> 
-                <div class="mr-4 mb-2 text-center card-form">
-                <button class="btn btn-secondary mt-2" id="btn<?php echo $i; ?>">Print</button> 
+                    </form>
                 </div>
-            <?php endfor; ?>    
+
+                <?php for($i=0; $i < sizeof($data); $i++): ?>
+                <div class="card card-form mb-3">
+                    <div class="card-header bg-dark text-center text-light">
+                        <h5 class="font-weight-bolder"><?php echo ucwords($activities[$i]['name']); ?> </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive-sm">
+                            <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                <td class="text-center font-weight-bold">Category</td>
+                                <td class="text-center font-weight-bold">Upto Last Financial Year</td>
+                                <td class="text-center font-weight-bold">Current Financial Year</td>
+                                <td class="text-center font-weight-bold">Grand Total</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($data[$i] as $dt[$i]): ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $dt[$i]['name']; ?></td>
+                                        <td class="text-center"><?php echo $dt[$i]['last_year']; ?></td>
+                                        <td class="text-center"><?php echo $dt[$i]['current_year']; ?></td>
+                                        <td class="text-center"><?php echo $dt[$i]['grand_total']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td class="text-center">Total</td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>    
+                </div>
+
+                <?php endfor; ?>   
+            </div>     
             <?php endif; ?>
-            
-  
+            <div class="mr-4 mb-2 card-form text-right">
+                <button class="btn btn-secondary rounded-pill px-5 mt-2" id="btn">Print</button> 
+            </div>
         </div>
       </div>
     </div>
@@ -250,7 +250,7 @@
           
     $("#btn").click(function(){
   
-    var data = $(".report").html();
+    var data = $("#report-print").html();
     var mywindow = window.open("", "", 'height=500,width=800');
         
     mywindow.document.write("<!doctype html>");
@@ -268,132 +268,6 @@
     mywindow.close();
 
     });
-
-    $("#btn0").click(function(){
-  
-    var data = $("#report0").html();
-    var mywindow = window.open("", "", 'height=500,width=800');
-        
-    mywindow.document.write("<!doctype html>");
-    mywindow.document.write('<html lang="en"><head><title></title>');
-    mywindow.document.write("<meta charset='utf-8'>");
-    mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-    mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-    mywindow.document.write('</head><body >');
-    
-    mywindow.document.write("<div class='card card-body'>");
-    mywindow.document.write(data);
-    mywindow.document.write("</div>");
-    mywindow.document.write('</body></html>');
-    mywindow.print();
-    mywindow.close();
-
-  });
-
-  $("#btn1").click(function(){
-  
-  var data = $("#report1").html();
-  var mywindow = window.open("", "", 'height=500,width=800');
-      
-  mywindow.document.write("<!doctype html>");
-  mywindow.document.write('<html lang="en"><head><title></title>');
-  mywindow.document.write("<meta charset='utf-8'>");
-  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-  mywindow.document.write('</head><body >');
-  
-  mywindow.document.write("<div class='card card-body card-form'>");
-  mywindow.document.write(data);
-  mywindow.document.write("</div>");
-  mywindow.document.write('</body></html>');
-  mywindow.print();
-  mywindow.close();
-
- });
-
- $("#btn2").click(function(){
-  
-  var data = $("#report2").html();
-  var mywindow = window.open("", "", 'height=500,width=800');
-      
-  mywindow.document.write("<!doctype html>");
-  mywindow.document.write('<html lang="en"><head><title></title>');
-  mywindow.document.write("<meta charset='utf-8'>");
-  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-  mywindow.document.write('</head><body >');
-  
-  mywindow.document.write("<div class='card card-body card-form'>");
-  mywindow.document.write(data);
-  mywindow.document.write("</div>");
-  mywindow.document.write('</body></html>');
-  mywindow.print();
-  mywindow.close();
-
- });
-
- $("#btn3").click(function(){
-  
-  var data = $("#report3").html();
-  var mywindow = window.open("", "", 'height=500,width=800');
-      
-  mywindow.document.write("<!doctype html>");
-  mywindow.document.write('<html lang="en"><head><title></title>');
-  mywindow.document.write("<meta charset='utf-8'>");
-  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-  mywindow.document.write('</head><body >');
-  
-  mywindow.document.write("<div class='card card-body card-form'>");
-  mywindow.document.write(data);
-  mywindow.document.write("</div>");
-  mywindow.document.write('</body></html>');
-  mywindow.print();
-  mywindow.close();
-
- });
-
- $("#btn4").click(function(){
-  
-  var data = $("#report4").html();
-  var mywindow = window.open("", "", 'height=500,width=800');
-      
-  mywindow.document.write("<!doctype html>");
-  mywindow.document.write('<html lang="en"><head><title></title>');
-  mywindow.document.write("<meta charset='utf-8'>");
-  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-  mywindow.document.write('</head><body >');
-  
-  mywindow.document.write("<div class='card card-body card-form'>");
-  mywindow.document.write(data);
-  mywindow.document.write("</div>");
-  mywindow.document.write('</body></html>');
-  mywindow.print();
-  mywindow.close();
-
- });
-
- $("#btn5").click(function(){
-  
-  var data = $("#report5").html();
-  var mywindow = window.open("", "", 'height=500,width=800');
-      
-  mywindow.document.write("<!doctype html>");
-  mywindow.document.write('<html lang="en"><head><title></title>');
-  mywindow.document.write("<meta charset='utf-8'>");
-  mywindow.document.write("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-  mywindow.document.write("<link rel='stylesheet' href='CSS/bootstrap.min.css' >");
-  mywindow.document.write('</head><body >');
-  
-  mywindow.document.write("<div class='card card-body card-form'>");
-  mywindow.document.write(data);
-  mywindow.document.write("</div>");
-  mywindow.document.write('</body></html>');
-  mywindow.print();
-  mywindow.close();
-
- });
 
 });    
 </script>
