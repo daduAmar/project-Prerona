@@ -3,7 +3,7 @@
     include_once "includes/connect.php";
 
     if(!isset($_SESSION['username'])){
-        header("Location: preronaHome.php");
+        header("Location: index.php");
     }
 
     if (isset($_GET['search']) && isset($_SESSION['years'])) {
@@ -166,13 +166,7 @@
 
             ?>
             <?php if(isset($allActivityrows) && isset($colTotalRows)): ?>
-            <?php 
             
-            // print_r($colTotal); 
-
-            // print_r(sizeof($colTotal));
-            
-            ?>
             <div id="report-print">
                 <div class="card card-body card-form text-dark mb-3">
                     <h5 class="card-title text-center mb-4 bg-dark p-2 text-light font-weight-bolder">ANNUAL PERFORMANCE REPORT</h5>

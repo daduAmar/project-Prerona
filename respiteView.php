@@ -7,7 +7,7 @@
   $not_found_msg = '';
 
   if(!isset($_SESSION['username'])){
-    header("Location: preronaHome.php");
+    header("Location: index.php");
   }
 
   //delete hosteller
@@ -33,36 +33,6 @@
   header("Location: respiteView.php?Resdeleted");
 
 }
-
- //add respite
-//  if(isset($_POST["addRespite"])){
-
-//   $admissionFee = $_POST["admissionFee"];
-//   $monthlyFee = $_POST["monFee"];
-//   $capacity = $_POST["capacity"];
-//   $warden = $_POST["warden"];
-
-//   // Prepare an insert statement
-//   $sql = "INSERT INTO respite (admissionFee, monthlyFee, capacity, warden) VALUES (?, ?, ?, ?)";
-
-
-//   if($stmt = mysqli_prepare($conn, $sql)){
-        
-//     // Bind variables to the prepared statement as parameters
-//     mysqli_stmt_bind_param($stmt, "iiis", $admissionFee, $monthlyFee, $capacity, $warden);
-    
-//     mysqli_stmt_execute($stmt);
-
-//     echo "success!";
-
-//     } 
-//     else {
-
-//       echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
-
-//     }
-// }
-
 
 
 ?>

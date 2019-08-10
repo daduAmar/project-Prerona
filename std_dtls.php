@@ -3,7 +3,7 @@
     include_once "includes/connect.php";
 
     if(!isset($_SESSION['username'])){
-      header("Location: preronaHome.php");
+      header("Location: index.php");
     }
 
     $sql="SELECT * FROM scheme";
@@ -118,7 +118,7 @@
             <a href="ddrc.php" class="nav-link">DDRC</a>
           </li>
           <li class="nav-item px-2">
-          <a href="studentsView.php" class="nav-link">Students Details</a>
+          <a href="studentsView.php" class="nav-link">Student Details</a>
           </li>
         </ul>
 

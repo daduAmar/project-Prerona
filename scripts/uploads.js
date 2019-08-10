@@ -157,8 +157,3 @@ function showError(msg, id) {
   msgDiv.className = 'alert alert-danger alert-dismissible fade show';
   msgDiv.appendChild(document.createTextNode(msg));
 }
-
-
-// document.querySelector('.close').addEventListener('click', function (e) {
-//   document.querySelector('#nextPg').disabled = false;
-// });

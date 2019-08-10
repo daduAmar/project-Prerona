@@ -3,7 +3,7 @@
    include_once "includes/connect.php";
 
    if(!isset($_SESSION['username'])){
-    header("Location: preronaHome.php");
+    header("Location: index.php");
    }
 
   if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["next"])) {

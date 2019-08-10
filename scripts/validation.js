@@ -192,7 +192,7 @@ document.querySelector('#cpassword').addEventListener('keyup', function () {
 });
 
 document.querySelector('.close').addEventListener('click', function () {
-  window.location = 'preronaHome.php';
+  window.location = 'index.php';
 });
 
 

@@ -14,6 +14,6 @@ if(isset($_SESSION['username'])){
 }
 
 
-header("Location: preronaHome.php?loggedout");
+header("Location: index.php?loggedout");
 exit;
 ?>
