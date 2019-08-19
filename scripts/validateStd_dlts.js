@@ -289,7 +289,7 @@ function validateState() {
 
 function validateDist() {
   const dist = document.getElementById('dist');
-  const re = /^[A-Z][a-zA-Z]{4,}$/;
+  const re = /^[A-Z][a-zA-Z]{2,}$/;
 
   if (!re.test(dist.value)) {
 

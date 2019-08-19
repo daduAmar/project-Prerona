@@ -30,15 +30,18 @@
       $disability = trim($_POST["disabilityType"]);
       $admissionDate = trim($_POST["admissionDate"]);
       $hostel = trim($_POST["hostel"]);
-      $transpotation = trim($_POST["transpotation"]);
       $incomeGroup = trim($_POST["incomeGroup"]);
       $iCard = trim($_POST["iCard"]);
       $aadharNo = trim($_POST["aadhar"]);
-      $bankAcNo = trim($_POST["bankDtls"]);
+      $bankAcNo = trim($_POST["bankDtls"]); 
       $bankIFSC = trim($_POST["ifsc"]);
       $bankBranch = trim($_POST["bankBranch"]);
       $is_empty =false;
       $empty_msg = '';
+
+      if(isset($_POST["transpotation"])){
+        $transpotation = trim($_POST["transpotation"]);
+      }
   
       //echo $stdAge;
       // Prepare an insert statement
@@ -46,7 +49,7 @@
       
       if($stmt = mysqli_prepare($conn, $sql)){
 
-        if(empty($name) || empty($stdAge) || empty($bPlace) || empty($fatherName) || empty($motherName) ||empty($address) || empty($state) || empty($district) || empty($zip) || empty($phone) || empty($class) || empty($iCard) || empty($aadharNo) || empty($bankAcNo) || empty($bankIFSC) || empty($bankBranch) || $schemeId == -1 || $gender == -1 || $religion == -1 || $caste == -1 || $disability == -1 || $hostel == -1 || $transpotation == -1 || $incomeGroup == -1){
+        if(empty($name) || empty($stdAge) || empty($bPlace) || empty($fatherName) || empty($motherName) ||empty($address) || empty($state) || empty($district) || empty($zip) || empty($phone) || empty($class) || empty($iCard) || empty($aadharNo) || empty($bankAcNo) || empty($bankIFSC) || empty($bankBranch) || $schemeId == -1 || $gender == -1 || $religion == -1 || $caste == -1 || $disability == -1 || $hostel == -1 || $transpotation == -1 || $transpotation == '' || $incomeGroup == -1){
 
           $is_empty =true;
           $empty_msg = "Please fill all the fields..!";
