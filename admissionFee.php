@@ -7,7 +7,7 @@
   }
 
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 12;
+  //$std_Id = 18;
   $executed = false;
 
   if(isset($_POST["submit"])){
@@ -98,6 +98,8 @@ $rslts = mysqli_query($conn, $query)
   or die("Error in fetching records");
 
   $fetchrows = mysqli_fetch_all($rslts);
+
+  //print_r($fetchrows);
  
   if ($rslts === false) {
 
@@ -118,10 +120,12 @@ $rslts = mysqli_query($conn, $query)
    <!-- hostel fee input hide -->
   
   <?php foreach ($fetchrows as $fRow):  ?>
-  <?php if ($fRow[1] == 'No'):  ?>
+  <?php if ($fRow[2] == 'No'):  ?>
+
   <style>
     #hAdmFeeDiv, #hPayFeeDiv{display : none;}
   </style>
+  
   <?php endif; ?>
   <?php endforeach;  ?> 
 

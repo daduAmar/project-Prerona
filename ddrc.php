@@ -211,6 +211,7 @@
                       <select class="custom-select custom-select" name="disaType" id="disability" onChange="validateDisability(this.id)">
                         <option value="-1" selected>Disability Type</option>
                         <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
+                        <option value="Cerebral Palsy">Cerebral Palsy</option>
                         <option value="Mentally Handicapped">Mentally Handicapped</option>
                         <option value="Visually Handicapped">Visually Handicapped</option>
                         <option value="Hearing Handicapped">Hearing Handicapped</option>

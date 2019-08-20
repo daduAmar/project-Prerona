@@ -335,26 +335,6 @@
             <?php endforeach; ?> 
           </tbody>
         </table>
-
-          <!-- <form action="<?php  ?>" method="post">
-            <div class="form-group">
-              <label for="admissionfee" class="text-success">Admission Fee</label>
-              <input type="text" class="form-control" name="admissionFee" id="admissionFee" placeholder="Fee Amount">
-            </div>
-            <div class="form-group">
-              <label for="admissionfee" class="text-success">Monthly Fee</label>
-              <input type="text" class="form-control" name="monFee" id="monFee" placeholder="Fee Amount">
-            </div>
-            <div class="form-group">
-              <label for="admissionfee" class="text-success">Capacity</label>
-              <input type="text" class="form-control" name="capacity" id="capacity" placeholder="Total Capacity">
-            </div>
-            <div class="form-group">
-              <label for="admissionfee" class="text-success">Warden</label>
-              <input type="text" class="form-control" name="warden" id="warden" placeholder="Warden Name">
-            </div>
-            <input type="submit" class="btn btn-outline-success btn-block" value="Add Scheme" name="addRespite">
-          </form> -->
         </div>
         <div class="modal-footer">
         <button class="btn btn-success" data-dismiss="modal">Close</button>

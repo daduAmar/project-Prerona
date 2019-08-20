@@ -198,7 +198,7 @@
            
           </select>
           </div>
-
+ 
           <div class="row">
             <div class="mb-4 col">
               <label for="religion">Religion</label>
@@ -333,6 +333,12 @@
               <option value="Orthopedically Handicapped" selected>Orthopedically Handicapped</option>
             <?php else: ?>
               <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
+            <?php endif; ?>
+
+            <?php if($rowR[17] == 'Cerebral Palsy'): ?>
+              <option value="Cerebral Palsy" selected>Cerebral Palsy</option>
+            <?php else: ?>
+              <option value="Cerebral Palsy">Cerebral Palsy</option>
             <?php endif; ?>
 
             <?php if($rowR[17] == 'Mentally Handicapped'): ?>

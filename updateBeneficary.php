@@ -116,6 +116,12 @@
               <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
             <?php endif; ?>
 
+            <?php if($DDRCrow["disabilityType"] == 'Cerebral Palsy'): ?>
+              <option value="Cerebral Palsy" selected>Cerebral Palsy</option>
+            <?php else: ?>
+              <option value="Cerebral Palsy">Cerebral Palsy</option>
+            <?php endif; ?>
+
             <?php if($DDRCrow["disabilityType"] == 'Mentally Handicapped'): ?>
               <option value="Mentally Handicapped" selected>Mentally Handicapped</option>
             <?php else: ?>

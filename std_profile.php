@@ -119,7 +119,7 @@
 <?php endforeach;  ?>
 
 <?php foreach ($rqdRows as $rRow):  ?>
-<?php if ($rRow[1] == ''):  ?>
+<?php if ($rRow[1] == '' || $rRow[1] == 'No'):  ?>
 <style>
   #mfee #transport{display : none;}
 </style>

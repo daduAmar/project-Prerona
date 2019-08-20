@@ -8,7 +8,6 @@
 
   global $std_Id;
   $std_Id = $_SESSION['std_id'];
-  //$std_Id = 16;
   $its_ok_photo = true;
   $its_ok_disability = true;
   $its_ok_birth = true;
@@ -361,7 +360,7 @@ function insertFun($conn, $std_Id, $photoDestination, $birthDestination, $disabi
       <?php if(isset($_GET["enroll"])): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <?php
-            echo "Student Is Successfully Enrolled Into Respite!"; 
+            echo "Student Successfully Enrolled Into Respite!"; 
           ?>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

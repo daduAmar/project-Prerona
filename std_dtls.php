@@ -36,38 +36,43 @@
       $bankAcNo = trim($_POST["bankDtls"]); 
       $bankIFSC = trim($_POST["ifsc"]);
       $bankBranch = trim($_POST["bankBranch"]);
-      $is_empty =false;
+      $transpotation = '';
+      $is_empty = false;
+      $inserted = false;
       $empty_msg = '';
 
       if(isset($_POST["transpotation"])){
         $transpotation = trim($_POST["transpotation"]);
       }
   
-      //echo $stdAge;
       // Prepare an insert statement
       $sql = "INSERT INTO students_Info (scheme_id, stdName, dob, placeOfBirth, fatherName, motherName, gender, age, religion, caste, addres, statee, district, zip, phone, class, disabilityType, dateOfAdmission, hostel, transpotation, incomeGroup, bankAcNo, ifsc, bankBranch, iCard,  aadharNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       
       if($stmt = mysqli_prepare($conn, $sql)){
 
-        if(empty($name) || empty($stdAge) || empty($bPlace) || empty($fatherName) || empty($motherName) ||empty($address) || empty($state) || empty($district) || empty($zip) || empty($phone) || empty($class) || empty($iCard) || empty($aadharNo) || empty($bankAcNo) || empty($bankIFSC) || empty($bankBranch) || $schemeId == -1 || $gender == -1 || $religion == -1 || $caste == -1 || $disability == -1 || $hostel == -1 || $transpotation == -1 || $transpotation == '' || $incomeGroup == -1){
+        if(empty($name) || empty($stdAge) || empty($bPlace) || empty($fatherName) || empty($motherName) ||empty($address) || empty($state) || empty($district) || empty($zip) || empty($phone) || empty($class) || $schemeId == -1 || $gender == -1 || $religion == -1 || $caste == -1 || $disability == -1 || $hostel == -1 || $incomeGroup == -1){
 
           $is_empty =true;
-          $empty_msg = "Please fill all the fields..!";
+          $empty_msg = "Please fill all the mandatory fields..!";
 
         } else{
 
           // Bind variables to the prepared statement as parameters
           mysqli_stmt_bind_param($stmt, "issssssisssssssssssssisssi", $schemeId, $name, $bDate, $bPlace, $fatherName, $motherName, $gender, $stdAge, $religion, $caste, $address, $state, $district, $zip,  $phone, $class, $disability, $admissionDate, $hostel, $transpotation, $incomeGroup, $bankAcNo, $bankIFSC, $bankBranch, $iCard, $aadharNo);
+
+          if(mysqli_stmt_execute($stmt)){
+
+            $s_Id = mysqli_insert_id($conn);
+
+            $_SESSION['std_id'] = $s_Id;
+            
+            echo "Records inserted successfully.";
+
+            $inserted = true;
+          }
         
-          mysqli_stmt_execute($stmt);
-
-          $s_Id = mysqli_insert_id($conn);
-
-          $_SESSION['std_id'] = $s_Id;
           
-          echo "Records inserted successfully.";
-
-          if($hostel == 'Yes'){
+          if($hostel == 'Yes' && $inserted == true){
 
             header("Location: hostelAdmission.php");
             exit;
@@ -160,9 +165,12 @@
     </div>
   </header>
 
-  <section id="search" class="p-4 bg-light">
-    <div class="">
-      <p class="font-italic text-muted">Please Provide The Following Details To Register... </p>
+  <section id="search" class="p-3 bg-light">
+
+    <p class="font-italic text-muted ml-2">Please Provide The Following Details To Register... </p>
+
+    <div class="d-flex flex-row-reverse">
+      <p class="text-danger font-italic mr-2">*Mandatory</p>
     </div>
   </section>
 
@@ -188,6 +196,7 @@
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="form">
 
               <div class="mb-4 text-center">
+                <span class="text-danger">*</span>
                 <label for="scheme">Select Scheme</label>
                 <select class="custom-select" id="scheme" name="scheme_Id"  onChange="validate(this.id)">
                     <option value="-1" selected>Select a scheme</option>
@@ -205,6 +214,7 @@
               </div>
 
               <div class="form-group" >
+                <span class="text-danger">*</span>
                 <label>Student Name</label>
                 <input type="text" class="form-control" id="stdName" name="name" placeholder="Enter name" value="<?php echo (isset($name)) ? $name: '';?>" require>
                 <div class="invalid-feedback">
@@ -214,11 +224,13 @@
 
               <div class="row">  
                 <div class="form-group col" >
+                  <span class="text-danger">*</span>
                   <label for="dob">Date Of Birth</label>
                   <input type="date" class="form-control" name="birthDate" id="dob" value="<?php echo (isset($bDate)) ? $bDate: '';?>" require>
                 </div>
 
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label class="text-center">Age</label>
                   <input type="number" readonly class="form-control" name="stdAge" value="<?php echo (isset($stdAge)) ? $stdAge: '';?>" id="age" require>
                   <small class="text-muted">Age will be automatically calculated from DOB</small>
@@ -226,6 +238,7 @@
               </div>  
 
               <div class="form-group" id="bPlace" >
+                <span class="text-danger">*</span>
                 <label for="pob">Place Of Birth</label>
                 <input type="text" class="form-control" name="birthPlace" id="pob" placeholder="Enter place of birth" value="<?php echo (isset($bPlace)) ? $bPlace : '';?>" require>
                 <div class="invalid-feedback">
@@ -235,6 +248,7 @@
 
               <div class="row">  
                 <div class="form-group col" >
+                  <span class="text-danger">*</span>
                   <label for="fname">Father Name</label>
                   <input type="text" class="form-control" name="fatherName" id="fname" placeholder="Father Name" value="<?php echo (isset($fatherName)) ? $fatherName : '';?>" require>
                   <div class="invalid-feedback">
@@ -243,6 +257,7 @@
                 </div>
 
                 <div class="form-group col" >
+                  <span class="text-danger">*</span>
                   <label for="mname">Mother Name</label>
                   <input type="text" class="form-control" name="motherName" id="mname" placeholder="Mother Name" value="<?php echo (isset($motherName)) ? $motherName : '';?>" require>
                   <div class="invalid-feedback">
@@ -252,37 +267,40 @@
               </div>  
 
               <div class="mb-4">
-              <label for="gender">Gender</label>
-              <select class="custom-select custom-select-sm" name="gender" id="gender" onChange="validateGender(this.id)">
-                <option value="-1" selected>Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="others">Others</option>
-              </select>
-              <div class="invalid-feedback">
-                Select a Gender!
-              </div>
+                <span class="text-danger">*</span>
+                <label for="gender">Gender</label>
+                <select class="custom-select custom-select-sm" name="gender" id="gender" onChange="validateGender(this.id)">
+                  <option value="-1" selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+                <div class="invalid-feedback">
+                  Select a Gender!
+                </div>
               </div>
 
               <div class="row">
                 <div class="mb-4 col">
-                <label for="religion">Religion</label>
-                <select class="custom-select custom-select-sm" name="religion" id="religion" onChange="validateReligion(this.id)">
-                  <option value="-1" selected>Select religion</option>
-                  <option value="hindu">Hindu</option>
-                  <option value="muslim">Muslim</option>
-                  <option value="christain">Christain</option>
-                  <option value="sikh">Sikh</option>
-                  <option value="jain">Jain</option>
-                  <option value="buddhist">Buddhist</option>
-                  <option value="parsi">Parsi</option>
-                </select>
-                <div class="invalid-feedback">
-                Select a Religion!
-                </div>
+                  <span class="text-danger">*</span>
+                  <label for="religion">Religion</label>
+                  <select class="custom-select custom-select-sm" name="religion" id="religion" onChange="validateReligion(this.id)">
+                    <option value="-1" selected>Select religion</option>
+                    <option value="hindu">Hindu</option>
+                    <option value="muslim">Muslim</option>
+                    <option value="christain">Christain</option>
+                    <option value="sikh">Sikh</option>
+                    <option value="jain">Jain</option>
+                    <option value="buddhist">Buddhist</option>
+                    <option value="parsi">Parsi</option>
+                  </select>
+                  <div class="invalid-feedback">
+                  Select a Religion!
+                  </div>
                 </div>
 
                 <div class="mb-4 col">
+                  <span class="text-danger">*</span>
                   <label for="hostel">Caste</label>
                   <select class="custom-select custom-select-sm" name="caste" id="caste" onChange="validateCaste(this.id)">
                     <option value="-1" selected>Select Caste</option>
@@ -299,6 +317,7 @@
               </div>  
 
               <div class="form-group">
+                <span class="text-danger">*</span>
                 <label for="address">Address</label>
                 <textarea class="form-control" name="address" id="address" placeholder="Enter applicant's address" require><?php echo (isset($address)) ? $address : '';?></textarea>
                 <div class="invalid-feedback">
@@ -308,6 +327,7 @@
 
               <div class="row">
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label for="class">State</label>
                   <input type="text" class="form-control" name="state" id="state" placeholder="State" value="<?php echo (isset($state)) ? $state : '';?>" require>
                   <div class="invalid-feedback">
@@ -316,6 +336,7 @@
                 </div>
 
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label for="class">District</label>
                   <input type="text" class="form-control" name="dist" id="dist" placeholder="District" value="<?php echo (isset($district)) ? $district : '';?>" require>
 
@@ -325,6 +346,7 @@
                 </div>
 
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label for="class">Zip Code</label>
                   <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip Code" value="<?php echo (isset($zip)) ? $zip : '';?>" require>
                   <div class="invalid-feedback">
@@ -333,7 +355,8 @@
                 </div>
               </div>  
 
-              <div class="form-group" >
+              <div class="form-group">
+                <span class="text-danger">*</span>
                 <label for="class">Class</label>
                 <input type="text" class="form-control" name="class" id="class" placeholder="Class" value="<?php echo (isset($class)) ? $class : '';?>" require>
                 <div class="invalid-feedback">
@@ -342,10 +365,12 @@
               </div>
 
               <div class="mb-4">
+                <span class="text-danger">*</span>
                 <label for="hostel">Disability Type</label>
                 <select class="custom-select custom-select-sm" name="disabilityType" id="disability" onChange="validateDisability(this.id)">
                   <option value="-1" selected>Select Applicant's Disability</option>
                   <option value="Orthopedically Handicapped">Orthopedically Handicapped</option>
+                  <option value="Cerebral Palsy">Cerebral Palsy</option>
                   <option value="Mentally Handicapped">Mentally Handicapped</option>
                   <option value="Visually Handicapped">Visually Handicapped</option>
                   <option value="Hearing Handicapped">Hearing Handicapped</option>
@@ -358,6 +383,7 @@
 
               <div class="row">
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label for="admissionDate">Admission Date</label>
                   <input type="date" class="form-control" name="admissionDate" id="admissionDate" value="<?php echo (isset($admissionDate)) ? $admissionDate : '';?>" require>
                   <div class="invalid-feedback">
@@ -366,6 +392,7 @@
                 </div>
 
                 <div class="form-group col">
+                  <span class="text-danger">*</span>
                   <label for="admissionDate">Phone</label>
                   <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="<?php echo (isset($phone)) ? $phone : '';?>" require>
                   <div class="invalid-feedback">
@@ -377,6 +404,7 @@
 
               <div class="row">  
                 <div class="mb-4 col">
+                <span class="text-danger">*</span>
                 <label for="hostel">Respite</label>
                 <select class="custom-select custom-select-sm" name="hostel" id="hostel" onChange="validateRespite(this.id)">
                   <option value="-1" selected>Choose..</option>
@@ -389,6 +417,7 @@
                 </div>
 
                 <div class="mb-4 col">
+                <span class="text-danger">*</span>
                 <label for="transpotation">Transpotation</label>
                 <select class="custom-select custom-select-sm" name="transpotation" id="transpotation" onChange="validateTranspotation(this.id)">
                   <option value="-1" selected>Choose..</option>
@@ -401,6 +430,7 @@
                 </div>
 
                 <div class="mb-4 col">
+                  <span class="text-danger">*</span>
                   <label for="bpl">Income Group</label>
                   <select class="custom-select custom-select-sm" name="incomeGroup" id="incomeGroup" onChange="validateIncome(this.id)">
                     <option value="-1" selected>Select a group</option>
@@ -416,7 +446,7 @@
 
               <div class="form-group" >
                 <label for="iCard">I-Card Number</label>
-                <input type="text" class="form-control" name="iCard" id="iCard" placeholder="Provide applicant's school I-Card number" value="<?php echo (isset($iCard)) ? $iCard : '';?>">
+                <input type="text" class="form-control" name="iCard" id="iCard" placeholder="Provide applicant's school I-Card number,if any..." value="<?php echo (isset($iCard)) ? $iCard : '';?>">
                 <div class="invalid-feedback">
                 
                 </div>
@@ -433,7 +463,7 @@
               <div class="row">
                 <div class="form-group col" >
                   <label for="bankDtls">Bank A/c Number</label>
-                  <input type="text" class="form-control" name="bankDtls" id="ac" placeholder="A/c No. " value="<?php echo (isset($bankAcNo)) ? $bankAcNo : '';?>">
+                  <input type="text" class="form-control" name="bankDtls" id="ac" placeholder="A/c No. if any... " value="<?php echo (isset($bankAcNo)) ? $bankAcNo : '';?>">
                   <div class="invalid-feedback">
                   Only Digits Allowed!
                   </div>
@@ -441,7 +471,7 @@
 
                 <div class="form-group col" >
                   <label for="ifsc">IFSC Code</label>
-                  <input type="text" class="form-control" name="ifsc" id="ifsc" placeholder="IFSC Code" value="<?php echo (isset($bankIFSC)) ? $bankIFSC : '';?>">
+                  <input type="text" class="form-control" name="ifsc" id="ifsc" placeholder="IFSC Code,if any..." value="<?php echo (isset($bankIFSC)) ? $bankIFSC : '';?>">
                   <div class="invalid-feedback">
                   Only Alpha-numerics Allowed!
                   </div>
@@ -449,7 +479,7 @@
 
                 <div class="form-group col" >
                   <label for="bankBranch">Branch Name</label>
-                  <input type="text" class="form-control" name="bankBranch" id="branch" placeholder="Branch Name">
+                  <input type="text" class="form-control" name="bankBranch" id="branch" placeholder="Branch,if any...">
                   <div class="invalid-feedback" value="<?php echo (isset($bankBranch)) ? $bankBranch : '';?>">
                   Branch Name Should Start With An Uppercase Letter & Only Letters Allowed!
                   </div>
@@ -473,7 +503,7 @@
   <script src="scripts/age.js"></script>
   <script src="scripts/validateStd_dlts.js"></script>
   <script src="JS/bootstrapJquery.js"></script>
-<script src="JS/popper.min.js"></script>
-<script src="JS/bootstrap.min.js"></script>
+  <script src="JS/popper.min.js"></script>
+  <script src="JS/bootstrap.min.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@
   }
 
   // sys month & year
+  
   //setting time zone
   date_default_timezone_set('Asia/Kolkata');
 
@@ -28,7 +29,6 @@
   foreach($feeIdRows as $feeIdRow){
     $paidIds[] = $feeIdRow[0];
   }
-  //print_r($ids);
     
   if ($result === false) {
        exit("Couldn't execute the query." . mysqli_error($conn));
@@ -45,12 +45,24 @@
 
     $stdRows = mysqli_fetch_all($result);
 
-    //print_r($stdRows);
       
     if ($result === false) {
         exit("Couldn't execute the query." . mysqli_error($conn));
     } 
 
+  }
+
+  if(isset($_GET['s_id'])){
+
+    $std_id = $_GET['s_id'];
+    
+    $sql="DELETE FROM students_Info WHERE std_Id = $std_id";
+    if(mysqli_query($conn, $sql)){
+
+      $deleted = true;
+
+    }
+    
   }
 ?>
 
@@ -231,6 +243,17 @@
       </div>
     <?php endif; ?>
 
+    <?php if(isset($deleted)): ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php
+          echo "Student Record Deleted Successfully!";
+        ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
 
       <div class="row">
         <div class="col">
@@ -259,7 +282,7 @@
                       <th class="text-center">Name</th>
                       <th class="text-center">Admission Date</th>
                       <th class="text-center">Monthly Fees</th>
-                      <th class="text-center" colspan="2">Action</th>
+                      <th class="text-center" colspan="3">Action</th>
                     </tr>  
                   </thead>
                   <tbody>
@@ -287,13 +310,17 @@
                         <?php endif; ?>
                       </td>
                       <td class="text-center">
-                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-info">
                       <i class="fas fa-angle-double-right"></i> More Details
                       </a>
                       </td>
                       <td class="text-center">
-                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger">
+                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
+                      </td>
+                      <td class="text-center">
+                      <a href="studentsView.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger" onclick="return confirmDelete()">
+                      <i class="fas fa-minus-circle"></i> Remove</a>
                       </td>
                     </tr>
                   <?php endforeach; ?> 
@@ -310,7 +337,7 @@
                     <th class="text-center">Name</th>
                       <th class="text-center">Admission Date</th>
                       <th class="text-center">Monthly Fees</th>
-                      <th class="text-center" colspan="2">Action</th>
+                      <th class="text-center" colspan="3">Action</th>
                     </tr>  
                   </thead>
                   <tbody>
@@ -337,13 +364,17 @@
                         <?php endif; ?>
                       </td>
                       <td class="text-center">
-                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
+                      <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-info">
                       <i class="fas fa-angle-double-right"></i> More Details
                       </a>
                       </td>
                       <td class="text-center">
-                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger">
+                      <a href="passedOut.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
+                      </td>
+                      <td class="text-center">
+                      <a href="studentsView.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger" onclick="return confirmDelete()">
+                      <i class="fas fa-minus-circle"></i> Remove</a>
                       </td>
                     </tr>
                   <?php endforeach; ?> 
@@ -382,6 +413,10 @@
                       <a href="std_profile.php?s_id=<?php echo $row[0]; ?>" class="btn btn-warning">
                       <i class="fas fa-angle-double-right"></i> More Details
                       </a>
+                      </td>
+                      <td class="text-center">
+                      <a href="studentsView.php?s_id=<?php echo $row[0]; ?>" class="btn btn-danger" onclick="return confirmDelete()">
+                      <i class="fas fa-minus-circle"></i> Remove</a>
                       </td>
                     </tr>
                   <?php endforeach; ?> 
@@ -441,5 +476,11 @@
 <script src="JS/bootstrapJquery.js"></script>
 <script src="JS/popper.min.js"></script>
 <script src="JS/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+    function confirmDelete(){
+
+        return confirm('Remove, Are you sure?');
+    }
+  </script>
 </body>
 </html>
