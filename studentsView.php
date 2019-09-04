@@ -433,7 +433,7 @@
                 <th class="text-center">Name</th>
                   <th class="text-center">Admission Date</th>
                   <th class="text-center">Monthly Fees</th>
-                  <th class="text-center" colspan="2">Action</th>
+                  <th class="text-center" colspan="3">Action</th>
                 </tr>  
               </thead>
               <tbody>
@@ -449,13 +449,17 @@
                     <?php endif; ?>
                   </td>
                   <td class="text-center">
-                  <a href="std_profile.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-warning">
+                  <a href="std_profile.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-info">
                   <i class="fas fa-angle-double-right"></i> More Details
                   </a>
                   </td>
                   <td class="text-center">
-                  <a href="passedOut.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-danger">
+                  <a href="passedOut.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-warning">
                   <i class="far fa-paper-plane mr-1"></i> Passed Out</a>
+                  </td>
+                  <td class="text-center">
+                      <a href="studentsView.php?s_id=<?php echo $stdRow[0]; ?>" class="btn btn-danger" onclick="return confirmDelete()">
+                      <i class="fas fa-minus-circle"></i> Remove</a>
                   </td>
                 </tr>
               <?php endforeach; ?> 
